@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Light blue-gray for a mild background */
+            background-color: #f0f4f8;
             color: #333;
             line-height: 1.6;
         }
@@ -26,20 +26,20 @@
         }
 
         .bg-gradient-soft-blue {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* Very light blue gradient */
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
         }
         .bg-gradient-light-pink {
-            background: linear-gradient(135deg, #fce4ec, #f8bbd0); /* Light pink gradient */
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
         }
         .bg-gradient-light-purple {
-            background: linear-gradient(135deg, #ede7f6, #d1c4e9); /* Light purple gradient */
+            background: linear-gradient(135deg, #ede7f6, #d1c4e9);
         }
         .bg-gradient-light-green {
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* Light green gradient */
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
         }
 
         .card-shadow-soft {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Softer, slightly larger shadow */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
         .btn-shadow-soft {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -47,13 +47,13 @@
 
         /* Hero Section Styling */
         .hero-section {
-            background: linear-gradient(135deg, #a7d9ff, #60a5fa); /* Main hero gradient */
+            background: linear-gradient(135deg, #a7d9ff, #60a5fa);
             color: white;
             padding: 6rem 0;
             text-align: center;
             position: relative;
             overflow: hidden;
-            border-radius: 0 0 40px 40px; /* Rounded bottom corners */
+            border-radius: 0 0 40px 40px;
         }
         .hero-section::before {
             content: '';
@@ -89,58 +89,255 @@
         /* Search Section */
         .search-container {
             position: relative;
-            z-index: 10; /* Ensure it floats above other elements */
-            margin-top: -80px; /* Pull it up into the hero section */
+            z-index: 10;
+            margin-top: -80px;
         }
 
         /* Search Questions (Quiz) */
         .search-questions {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
             margin-top: 1.5rem;
             overflow: hidden;
             transform-origin: top;
-            transition: all 0.5s ease-out;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             max-height: 0;
             opacity: 0;
             visibility: hidden;
+            position: relative;
+            z-index: 5;
+            border: 1px solid rgba(203, 213, 225, 0.5);
         }
+
         .search-questions.active {
-            max-height: 500px; /* Sufficient height for content */
+            max-height: 600px;
             opacity: 1;
             visibility: visible;
         }
+
         .question-item {
             display: none;
+            padding: 2rem;
+            border-radius: 16px;
+            background: white;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(203, 213, 225, 0.3);
         }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
         .question-item.active {
             display: block;
-            animation: fadeInScale 0.5s ease-out forwards;
+            animation: fadeIn 0.6s ease-out forwards, float 6s ease-in-out infinite;
         }
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: translateY(10px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Colorful Gradient Backgrounds */
+        .question-item[data-index="0"] {
+            background: linear-gradient(135deg, rgba(255, 241, 242, 0.8), rgba(255, 255, 255, 0.9));
+            border: 1px solid rgba(252, 165, 165, 0.3);
+            --accent-color: #f87171;
+            --accent-color-dark: #ef4444;
+            --accent-rgb: 248, 113, 113;
+        }
+
+        .question-item[data-index="1"] {
+            background: linear-gradient(135deg, rgba(237, 233, 254, 0.8), rgba(255, 255, 255, 0.9));
+            border: 1px solid rgba(196, 181, 253, 0.3);
+            --accent-color: #8b5cf6;
+            --accent-color-dark: #7c3aed;
+            --accent-rgb: 139, 92, 246;
+        }
+
+        .question-item[data-index="2"] {
+            background: linear-gradient(135deg, rgba(220, 252, 231, 0.8), rgba(255, 255, 255, 0.9));
+            border: 1px solid rgba(110, 231, 183, 0.3);
+            --accent-color: #10b981;
+            --accent-color-dark: #059669;
+            --accent-rgb: 16, 185, 129;
+        }
+
+        /* Typing Animation Styles */
+        .typing-container {
+            position: relative;
+            min-height: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+      .typing-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.5;
+    padding-left: 2rem;
+    position: relative;
+    white-space: pre-wrap;
+    overflow: hidden;
+    display: inline-block;
+    border-right: none; /* Start with no cursor */
+}
+
+        .typing-text::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+       @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--accent-color); }
+}
+
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Input Styling */
         .question-input {
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
             font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            font-weight: 500;
+            color: #334155;
         }
+
         .question-input:focus {
-            border-color: #60a5fa;
+            border-color: var(--accent-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+            box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+            background: white;
         }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        #prevBtn {
+            background: #f1f5f9;
+            color: #64748b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        #prevBtn:hover:not(:disabled) {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        #nextBtn {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
+            color: white;
+            box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.3);
+        }
+
+        #nextBtn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.4);
+            animation: buttonShine 1.5s infinite;
+        }
+
+        @keyframes buttonShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Bubbles */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(var(--accent-rgb), 0.1);
+            animation: floatBubble 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0.5; }
+        }
+
+        /* Error Message Styling */
         .error-message {
             color: #ef4444;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
             display: none;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .error-message::before {
+            content: '⚠';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-questions {
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+            
+            .question-item {
+                padding: 1.5rem;
+            }
+            
+           
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
         }
 
         /* Continent Cards */
@@ -155,14 +352,14 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 380px; /* Ensure consistent card height */
+            min-height: 380px;
         }
         .continent-card:hover {
             transform: translateY(-8px) scale(1.01);
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
         }
         .continent-card h3 {
-            font-size: 1.75rem; /* Larger and more prominent */
+            font-size: 1.75rem;
             font-weight: 700;
             color: #2c3e50;
             margin-bottom: 0.75rem;
@@ -171,7 +368,7 @@
         }
         .continent-card h3 svg {
             margin-right: 0.75rem;
-            color: #60a5fa; /* Blue icon color */
+            color: #60a5fa;
             width: 1.75rem;
             height: 1.75rem;
         }
@@ -188,7 +385,7 @@
             margin-top: 0.75rem;
         }
         .country-tag {
-            background-color: #e0f2fe; /* Light blue tag */
+            background-color: #e0f2fe;
             color: #2563eb;
             padding: 0.4rem 0.9rem;
             border-radius: 9999px;
@@ -208,7 +405,7 @@
             position: absolute;
             top: 1.25rem;
             right: 0;
-            background: #ef4444; /* Red for featured */
+            background: #ef4444;
             color: white;
             padding: 0.3rem 1.2rem;
             font-weight: 600;
@@ -225,33 +422,33 @@
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             padding-bottom: 1.5rem;
             padding-left: 1rem;
             padding-right: 1rem;
             margin-top: 2rem;
         }
         .destination-carousel-container::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+            display: none;
         }
 
         .destination-card-wrapper {
             flex: 0 0 auto;
-            width: 90%; /* Adjust for mobile */
+            width: 90%;
             margin-right: 1.5rem;
             scroll-snap-align: start;
-            height: 320px; /* Fixed height for consistent cards */
+            height: 320px;
             position: relative;
         }
         @media (min-width: 640px) {
             .destination-card-wrapper {
-                width: 45%; /* Two cards on small desktops */
+                width: 45%;
             }
         }
         @media (min-width: 1024px) {
             .destination-card-wrapper {
-                width: 30%; /* Three cards on larger desktops */
+                width: 30%;
             }
         }
         .destination-card {
@@ -297,7 +494,7 @@
 
         /* At Every Step Carousel */
         .step-carousel-wrapper {
-            background-color: #f7f9fc; /* Match body background */
+            background-color: #f7f9fc;
             padding: 4rem 0;
         }
         .step-content-left {
@@ -333,10 +530,10 @@
         }
         .step-card-item {
             flex: 0 0 auto;
-            width: 80%; /* Adjust for mobile */
+            width: 80%;
             margin-right: 1.5rem;
             scroll-snap-align: start;
-            height: 280px; /* Fixed height */
+            height: 280px;
             background-color: white;
             border-radius: 1.5rem;
             padding: 1.5rem;
@@ -354,7 +551,7 @@
         }
         @media (min-width: 1024px) {
             .step-card-item {
-                width: 30%; /* Three cards on larger desktops */
+                width: 30%;
             }
         }
         .step-card-item img {
@@ -477,7 +674,7 @@
     </style>
 </head>
 <body>
-    <!-- Header/Navigation Placeholder (as per app.html context, not provided in home.html) -->
+    <!-- Header/Navigation -->
     <header class="bg-white shadow-sm py-4 z-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <!-- Logo -->
@@ -542,15 +739,23 @@
                 
                 <div class="search-questions mt-4" id="searchQuestions">
                     <div class="question-item active" data-index="0">
-                        <div class="question text-lg font-semibold text-gray-700 mb-4 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">What is your estimated budget for studying abroad? (in INR)</div>
+                        <div class="bubble" style="width: 80px; height: 80px; top: -20px; left: -20px; animation-delay: 0s;"></div>
+                        <div class="bubble" style="width: 60px; height: 60px; bottom: -30px; right: -10px; animation-delay: 2s;"></div>
+                        <div class="typing-container">
+                            <div class="typing-text" id="question-0"></div>
+                        </div>
                         <div class="answer-input">
-                            <input type="number" id="budgetAmount" placeholder="Enter amount in Indian Rupees" class="question-input">
+                            <input type="number" id="budgetAmount" placeholder="e.g. 500000" class="question-input">
                             <div class="error-message">Please enter a valid budget amount (minimum ₹200,000)</div>
                         </div>
                     </div>
                     
                     <div class="question-item" data-index="1">
-                        <div class="question text-lg font-semibold text-gray-700 mb-4 bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">What is your current education level?</div>
+                        <div class="bubble" style="width: 70px; height: 70px; top: -15px; right: -15px; animation-delay: 1s;"></div>
+                        <div class="bubble" style="width: 90px; height: 90px; bottom: -40px; left: -30px; animation-delay: 3s;"></div>
+                        <div class="typing-container">
+                            <div class="typing-text" id="question-1"></div>
+                        </div>
                         <div class="answer-input">
                             <select id="educationLevel" class="question-input">
                                 <option value="">Select your education level</option>
@@ -563,15 +768,19 @@
                     </div>
                     
                     <div class="question-item" data-index="2">
-                        <div class="question text-lg font-semibold text-gray-700 mb-4 bg-green-50 p-4 rounded-lg border-l-4 border-green-400">Do you have any preferred universities or colleges?</div>
+                        <div class="bubble" style="width: 100px; height: 100px; top: -40px; left: -10px; animation-delay: 2s;"></div>
+                        <div class="bubble" style="width: 50px; height: 50px; bottom: -20px; right: -20px; animation-delay: 4s;"></div>
+                        <div class="typing-container">
+                            <div class="typing-text" id="question-2"></div>
+                        </div>
                         <div class="answer-input">
-                            <input type="text" id="collegeName" placeholder="Enter names of preferred institutions" class="question-input">
+                            <input type="text" id="collegeName" placeholder="e.g. Harvard, Stanford" class="question-input">
                         </div>
                     </div>
                     
-                    <div class="nav-buttons flex justify-between mt-6">
-                        <button class="nav-btn bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium transition duration-300 hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed" id="prevBtn" disabled><i class="fas fa-arrow-left mr-2"></i> Previous</button>
-                        <button class="nav-btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition duration-300 btn-shadow-soft" id="nextBtn">Next <i class="fas fa-arrow-right ml-2"></i></button>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                        <button class="nav-btn" id="nextBtn">Next <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
             </div>
@@ -688,7 +897,7 @@
             </div>
         </section>
 
-        <!-- Continents Section (Refined from original) -->
+        <!-- Continents Section -->
         <section class="w-full py-16 bg-f0f4f8">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-12 animate-on-scroll" data-animation-delay="0">Explore Study Abroad by Region</h2>
@@ -850,10 +1059,9 @@
                 </div>
             </div>
         </section>
-
     </div>
 
-    <!-- Footer Section (Copied from app.html, adjusted for new styles) -->
+    <!-- Footer Section -->
     <footer class="bg-gray-800 text-white py-12 animate-fade-in" data-animation-delay="0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- About Us -->
@@ -904,13 +1112,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Questions data
+            const questions = [
+                "What is your estimated budget for studying abroad? (in INR)",
+                "What is your current education level?",
+                "Do you have any preferred universities or colleges?"
+            ];
+
             // --- Generic Intersection Observer for scroll animations ---
             const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll, .animate-scale-in, .animate-fade-in');
 
             const animationObserverOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.1 // When 10% of the element is visible
+                threshold: 0.1
             };
 
             const animationObserver = new IntersectionObserver((entries, observer) => {
@@ -919,12 +1134,12 @@
                         const delay = parseInt(entry.target.dataset.animationDelay || '0', 10);
                         const animationType = entry.target.classList.contains('animate-scale-in') ? 'scale-in' :
                                               entry.target.classList.contains('animate-fade-in') ? 'fade-in' :
-                                              'on-scroll'; // Default is on-scroll (translateY)
+                                              'on-scroll';
 
                         setTimeout(() => {
-                            entry.target.classList.add('in-view'); // Trigger CSS animation
+                            entry.target.classList.add('in-view');
                         }, delay);
-                        observer.unobserve(entry.target); // Animate only once
+                        observer.unobserve(entry.target);
                     }
                 });
             }, animationObserverOptions);
@@ -932,7 +1147,33 @@
             animateOnScrollElements.forEach(element => {
                 animationObserver.observe(element);
             });
+let currentTypingInterval = null;
+            // Typing animation function
+            function typeQuestion(element, text, speed = 100) {
+                if (currentTypingInterval) {
+        clearInterval(currentTypingInterval);
+    }
+    
+    element.textContent = '';
+    element.style.animation = 'none'; // Disable CSS animation temporarily
+    
+    let i = 0;
+    currentTypingInterval = setInterval(() => {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(currentTypingInterval);
+            currentTypingInterval = null;
+            // Add blinking cursor effect after typing completes
+            element.style.borderRight = `2px solid ${getComputedStyle(element.parentElement.parentElement).getPropertyValue('--accent-color')}`;
+            element.style.animation = 'blink-caret .75s step-end infinite';
+        }
+    }, speed);
+            }
 
+            // Initialize first question
+            typeQuestion(document.getElementById('question-0'), questions[0]);
 
             // --- Search & Quiz Logic ---
             const searchInput = document.getElementById('countrySearch');
@@ -944,6 +1185,13 @@
             const budgetError = document.querySelector('.error-message');
             
             let currentQuestionIndex = 0;
+            let typingIntervals = [];
+            
+            // Function to stop all typing animations
+            function stopAllTypingAnimations() {
+                typingIntervals.forEach(interval => clearInterval(interval));
+                typingIntervals = [];
+            }
             
             searchInput.addEventListener('focus', function() {
                 searchQuestions.classList.add('active');
@@ -953,33 +1201,46 @@
             // Show questions when typing in specific terms
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
-                const relevantTerms = ['germany', 'canada', 'usa', 'australia', 'uk', 'japan', 'france', 'india']; // Add more as needed
+                const relevantTerms = ['germany', 'canada', 'usa', 'australia', 'uk', 'japan', 'france', 'india'];
                 const isRelevant = relevantTerms.some(term => searchTerm.includes(term));
 
                 if (isRelevant) {
                     searchQuestions.classList.add('active');
                     showQuestion(currentQuestionIndex);
-                } else {
-                    // Hide if no relevant terms, but only if not currently focused
-                    // This prevents hiding the quiz while the user is still interacting with it
-                    if (document.activeElement !== searchInput && !searchQuestions.contains(document.activeElement)) {
-                         searchQuestions.classList.remove('active');
-                    }
+                } else if (document.activeElement !== searchInput && !searchQuestions.contains(document.activeElement)) {
+                    searchQuestions.classList.remove('active');
                 }
             });
 
             // Function to show a specific question
             function showQuestion(index) {
-                questionItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-                if (questionItems[index]) {
-                    questionItems[index].classList.add('active');
-                }
-                
-                // Update navigation buttons state
-                prevBtn.disabled = index === 0;
-                nextBtn.textContent = index === questionItems.length - 1 ? 'Finish' : 'Next';
+                if (currentTypingInterval) {
+        clearInterval(currentTypingInterval);
+        currentTypingInterval = null;
+    }
+    
+    questionItems.forEach(item => item.classList.remove('active'));
+    
+    if (questionItems[index]) {
+        questionItems[index].classList.add('active');
+        const questionElement = questionItems[index].querySelector('.typing-text');
+        questionElement.style.borderRight = 'none'; // Reset cursor
+        
+        // Start typing animation
+        typeQuestion(questionElement, questions[index]);
+        
+        // Update button colors
+        const accentColor = getComputedStyle(questionItems[index]).getPropertyValue('--accent-color');
+        const accentColorDark = getComputedStyle(questionItems[index]).getPropertyValue('--accent-color-dark');
+        const accentRgb = getComputedStyle(questionItems[index]).getPropertyValue('--accent-rgb');
+        
+        nextBtn.style.setProperty('--accent-color', accentColor);
+        nextBtn.style.setProperty('--accent-color-dark', accentColorDark);
+        nextBtn.style.setProperty('--accent-rgb', accentRgb);
+    }
+    
+    prevBtn.disabled = index === 0;
+    nextBtn.textContent = index === questionItems.length - 1 ? 'Get Recommendations' : 'Next';
             }
             
             // Validate budget amount for the first question
@@ -996,20 +1257,17 @@
             // Navigation for quiz
             nextBtn.addEventListener('click', function() {
                 if (currentQuestionIndex === 0 && !validateBudget()) {
-                    return; // Stop if budget is not valid
+                    return;
                 }
                 
                 if (currentQuestionIndex < questionItems.length - 1) {
                     currentQuestionIndex++;
                     showQuestion(currentQuestionIndex);
                 } else {
-                    // Quiz finished
                     alert('Thank you for your answers! We will help you find the perfect study destination.');
-                    searchQuestions.classList.remove('active'); // Hide quiz
-                    currentQuestionIndex = 0; // Reset for next time
-                    searchInput.value = ''; // Clear search input
-                    
-                    // Reset form fields
+                    searchQuestions.classList.remove('active');
+                    currentQuestionIndex = 0;
+                    searchInput.value = '';
                     budgetAmount.value = '';
                     document.getElementById('educationLevel').value = '';
                     document.getElementById('collegeName').value = '';
@@ -1022,7 +1280,7 @@
                     showQuestion(currentQuestionIndex);
                 }
             });
-            
+
             // Hide questions when clicking outside the search container
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.search-container') && !e.target.classList.contains('search-btn') && !searchQuestions.contains(e.target)) {
@@ -1034,7 +1292,6 @@
             const destinationCarousel = document.querySelector('.destination-carousel-container');
             if (destinationCarousel) {
                 // No explicit prev/next buttons for this one, relies on scroll-snap and user scroll
-                // Could add if needed, similar to app.html's trending carousel
             }
 
             // --- Carousel Navigation for At Every Step of Your Journey ---
@@ -1047,10 +1304,9 @@
             const callbackForm = document.querySelector('.callback-form-container form');
             if (callbackForm) {
                 callbackForm.addEventListener('submit', function(e) {
-                    e.preventDefault(); // Prevent default form submission
-                    // Here you would typically send form data to a server
+                    e.preventDefault();
                     alert('Thank you for your request! We will call you back shortly.');
-                    callbackForm.reset(); // Clear the form
+                    callbackForm.reset();
                 });
             }
         });
