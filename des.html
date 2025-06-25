@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study in Germany - Your Global Education Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc; /* Very light blue-gray for a calm feel */
+            color: #333;
+        }
+        .text-gradient-blue {
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Custom shadows for a softer look */
+        .card-shadow-soft {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        .btn-shadow-soft {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link-active {
+            position: relative;
+            color: #2563eb;
+        }
+        .nav-link-active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -8px;
+            height: 2px;
+            background-color: #2563eb;
+            border-radius: 9999px;
+        }
+        .bg-custom-gradient {
+            background: linear-gradient(135deg, #e0f2fe, #bbdefb); /* Light blue gradient */
+        }
+        .bg-visa-light-green {
+            background-color: #e6ffe6;
+        }
+        .bg-visa-light-purple {
+            background-color: #f3e5f5;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Hero Section Wave Divider - adjusted for the new hero layout */
+        .hero-section-divider {
+            position: absolute;
+            bottom: -1px; /* Adjust to ensure it sits perfectly below */
+            left: 0;
+            width: 100%;
+            height: 100px; /* Increased height for prominence */
+            overflow: hidden;
+            z-index: 10; /* Ensure it's above other elements */
+        }
+        .hero-section-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: scaleY(-1); /* Flip to make it a top curve */
+            transform-origin: bottom;
+        }
+        .hero-section-divider .shape-fill {
+            fill: #f7f9fc; /* Match body background */
+        }
+
+        /* Cost of Living Card Unique Styling */
+        .cost-item-card {
+            background: linear-gradient(145deg, #f0f9ff, #e0f2fe); /* Subtle blue gradient */
+            border-radius: 1.5rem; /* More rounded */
+            padding: 1.75rem; /* Increased padding */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #dbeafe; /* Light blue border */
+        }
+        .cost-item-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #e0f2fe, #bbdefb); /* Stronger blue gradient on hover */
+        }
+        .cost-item-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px; /* Height of the indicator */
+            background-color: #93c5fd; /* Light blue base */
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+        .cost-item-card.rent::before { background-color: #60a5fa; width: 85%; } /* Example width for visual proportion */
+        .cost-item-card.food::before { background-color: #3b82f6; width: 60%; }
+        .cost-item-card.transport::before { background-color: #2563eb; width: 35%; }
+        .cost-item-card.misc::before { background-color: #1d4ed8; width: 50%; }
+
+        /* FAQ specific styles for accordion effect */
+        .faq-item input[type="checkbox"] {
+            display: none;
+        }
+        .faq-item label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.75rem; /* More padding */
+            background-color: #e0f7fa; /* Very light cyan for a fresh feel */
+            border-radius: 1rem; /* More rounded */
+            cursor: pointer;
+            font-weight: 600;
+            color: #00796b; /* Darker teal for contrast */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .faq-item label:hover {
+            background-color: #b2ebf2; /* Lighter cyan on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        .faq-item label::after {
+            content: '+';
+            font-size: 1.8rem; /* Larger icon */
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+        .faq-item input[type="checkbox"]:checked + label::after {
+            content: '−'; /* Unicode minus sign for better visual */
+            transform: rotate(0deg);
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth transition */
+            background-color: #ffffff;
+            padding: 0 1.75rem; /* Match label padding */
+            border-radius: 0 0 1rem 1rem; /* Rounded only at bottom */
+            margin-top: 0; /* Remove top margin from previous */
+            color: #4a5568;
+            border-top: 1px solid #e2e8f0; /* Subtle separator */
+        }
+        .faq-item input[type="checkbox"]:checked ~ .faq-content {
+            max-height: 300px; /* Increased height for longer content */
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+        }
+
+        /* Blob animation for "Why Study" section and Cost of Living */
+        @keyframes blob {
+            0% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+        }
+        .animate-blob {
+            animation: blob 7s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-1000 {
+            animation-delay: 1s;
+        }
+        .animation-delay-3000 {
+            animation-delay: 3s;
+        }
+
+        /* New Hero specific styles */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        @media (min-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 2fr 1.2fr; /* Adjusted ratio for image prominence */
+            }
+        }
+        .hero-text-content {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.9); /* Slightly opaque white for text block */
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            color: #333;
+            text-align: left;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        @media (min-width: 768px) {
+            .hero-text-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 2.5rem;
+            }
+        }
+        .hero-image-container {
+            position: relative;
+            min-height: 250px;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+            display: flex; /* Ensure flex for image layering */
+            justify-content: center;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .hero-image-container {
+                margin-bottom: 0;
+            }
+        }
+        /* Styles for hero carousel images */
+        .hero-carousel-images {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Smooth fade transition */
+            border-radius: 1.5rem; /* Match container radius */
+        }
+        .hero-carousel-image.active {
+            opacity: 1;
+        }
+
+        .hero-location-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .hero-location-tags {
+                justify-content: flex-start;
+            }
+        }
+        .hero-location-tag {
+            background-color: #e0f2fe; /* Light blue */
+            color: #2563eb; /* Darker blue */
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Statistics section specific styles */
+        .stats-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem; /* Adjusted padding */
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+
+            /* Initial state for staggered animation */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .stats-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .stats-icon-container {
+            width: 60px; /* Larger icon container */
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem; /* Space between icon and text */
+            /* Using background-image for custom icons to easily swap */
+        }
+        /* Specific icon colors, now as fills for SVGs */
+        .stats-icon-capital { fill: #4a90e2; }
+        .stats-icon-population { fill: #f5a623; }
+        .stats-icon-language { fill: #50e3c2; }
+        .stats-icon-students { fill: #bd10e0; }
+        .stats-icon-gdp { fill: #7ed321; }
+        .stats-icon-dialing { fill: #9013fe; }
+        .stats-icon-currency { fill: #4a4a4a; }
+        .stats-icon-universities { fill: #d0021b; }
+
+
+        .stats-number {
+            font-size: 1.25rem; /* Smaller, matches screenshot */
+            font-weight: 700; /* Bold */
+            color: #333; /* Darker text */
+            margin-bottom: 0.25rem; /* Reduced margin */
+        }
+        .stats-description {
+            font-size: 0.9rem; /* Slightly smaller for description */
+            color: #6b7280; /* Gray text */
+            line-height: 1.3;
+        }
+        /* Remove specific border-bottom styles as per new screenshot */
+        .stats-card.blue-border, .stats-card.green-border, .stats-card.purple-border, .stats-card.orange-border { border-color: transparent; }
+
+        /* New Step Section Styles */
+        #steps-section {
+            min-height: 200vh; /* Adjusted to fit the tighter step card spacing */
+            background-color: #f7f9fc; /* Ensure consistent background */
+        }
+
+        #steps-section .max-w-7xl {
+            display: flex;
+            flex-direction: column; /* Default for mobile */
+            gap: 3rem; /* Space between columns */
+            height: 100%; /* Important for inner sticky positioning */
+        }
+
+        @media (min-width: 768px) {
+            #steps-section .max-w-7xl {
+                flex-direction: row; /* Side-by-side on desktop */
+                justify-content: center; /* Center content horizontally */
+                align-items: flex-start; /* Align items to the top */
+            }
+        }
+
+        /* Left Column: Step Cards Container */
+        #steps-section .md\:w-1\/2:first-child {
+            position: relative; /* For sticky children */
+            display: flex;
+            flex-direction: column;
+            width: 100%; /* Takes full width on mobile */
+        }
+        @media (min-width: 768px) {
+            #steps-section .md\:w-1\/2:first-child {
+                width: 50%; /* Takes half width on desktop */
+            }
+        }
+
+        .sticky-title {
+            position: sticky;
+            top: 0; /* Sticks to the top of the viewport */
+            background-color: #f7f9fc; /* Match body background to cover scrolling content */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            z-index: 50; /* Ensure it stays on top */
+            width: 100%; /* Important for sticky to work correctly with flex/grid parents */
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .sticky-title {
+                text-align: left;
+            }
+        }
+
+        .sticky-step-card-wrapper {
+            position: sticky;
+            top: 100px; /* Cards will stick here, adjust based on header/title height */
+            min-height: 35vh; /* Reduced significantly for tighter spacing */
+            display: flex; /* To center the step-card within its sticky wrapper */
+            align-items: center; /* Vertically center the card */
+            justify-content: center; /* Horizontally center the card */
+            box-sizing: border-box; /* Include padding in height calculation */
+        }
+
+        /* The actual card content styling */
+        .step-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out; /* Smooth animation */
+            width: 100%; /* Take full width of its sticky wrapper */
+            max-width: 500px; /* Constrain max width for design */
+            margin: auto; /* Center the card if max-width is applied */
+            margin-bottom: 10px; /* Explicit 10px space between cards */
+        }
+        .sticky-step-card-wrapper:last-child .step-card {
+            margin-bottom: 0; /* No margin-bottom for the last card */
+        }
+
+
+        /* Initial state for animation */
+        .step-card.opacity-0 {
+            opacity: 0;
+            transform: translateX(10%); /* Start slightly off-screen to the right */
+        }
+
+        /* End state for animation */
+        .step-card.animate-on-scroll {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6; /* Blue for step number */
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+        .step-title {
+            font-size: 1.5rem; /* Reduced font size to make "Visa Processing" fit */
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .step-description {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Right Column: Image container */
+        #steps-section .md\:w-1\/2:last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ensure it's tall enough to contain the sticky image */
+        }
+        @media (min-width: 768px) {
+            #steps-section .md\:w-1\/2:last-child {
+                position: sticky; /* Make the right column sticky */
+                top: 20px; /* Sticks to the top, adjusted to avoid being hidden by header and title */
+                align-self: flex-start; /* Important for sticky in flex containers */
+                width: 50%; /* Takes half width on desktop */
+                height: calc(100vh - 20px); /* Adjust height to account for top offset, keeping it within viewport */
+            }
+        }
+        /* Adjust images within the sticky right column */
+        .step-image-container {
+            display: flex; /* Changed from column to flex for single image centering */
+            flex-direction: row; /* Ensure it's a row for single image centering */
+            align-items: center;
+            justify-content: center;
+            gap: 1rem; /* Space between images (will be 0 for single image) */
+            width: 100%;
+            height: auto;
+            max-width: 800px; /* Max width for the container of both images */
+            margin: auto;
+        }
+       
+
+        .step-image-container img {
+            width: 100%;
+            height: auto;
+            max-width: 400px; /* Increased max-width for single image */
+            display: block;
+            border-radius: 1.5rem; /* Match card radius */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Match hero image shadow */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth transition for image change */
+            /* Initial state for animation */
+            opacity: 0;
+            transform: translateY(20px); /* Start slightly below */
+        }
+        /* Styles for when the image should be visible and animated */
+        .step-image-container img.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        /* Ensure the secondary image starts hidden */
+        #step-dynamic-image-2 {
+            opacity: 0;
+            display: none; /* Hide it completely when not in use */
+            pointer-events: none; /* Make it unclickable when hidden */
+        }
+        
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+            margin-bottom: 0.75rem;
+        }
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .step-description {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Carousel specific styles based on screenshot */
+        .carousel-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            margin-top: 2rem;
+            padding-bottom: 1rem; /* Space for shadow */
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .carousel-card-wrapper {
+            flex: 0 0 auto; /* Do not grow, do not shrink, base size is auto */
+            width: 85%; /* Adjust card width relative to container */
+            margin-right: 1.5rem; /* Space between cards */
+            scroll-snap-align: center; /* Snap to center of card */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .carousel-card-wrapper {
+                width: 45%; /* Two cards visible on medium screens */
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-card-wrapper {
+                width: 30%; /* Three cards visible on large screens */
+            }
+        }
+        /* Ensure the last card has no right margin */
+        .carousel-card-wrapper:last-child {
+            margin-right: 0;
+        }
+
+
+        .trending-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%; /* Take full width of its wrapper */
+            padding: 1.5rem; /* Reduced padding for more content space */
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0; /* Subtle border */
+            min-height: 450px; /* Fixed height for consistency */
+        }
+
+        .trending-card-image-container {
+            position: relative;
+            width: 100%;
+            height: 180px; /* Fixed height for image */
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .trending-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .play-button svg {
+            fill: white;
+            width: 28px;
+            height: 28px;
+        }
+
+        .trending-card-content {
+            flex-grow: 1; /* Allows content to take available space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes profile info to bottom */
+        }
+
+        .trending-card-title {
+            font-weight: 600;
+            font-size: 1.25rem; /* Smaller title for multi-line */
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .trending-card-description {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 1rem; /* Space before profile */
+        }
+
+        .trending-card-profile {
+            display: flex;
+            align-items: center;
+            margin-top: auto; /* Pushes it to the bottom */
+            padding-top: 1rem; /* Space from description */
+            border-top: 1px solid #edf2f7; /* Subtle line above profile */
+        }
+
+        .trending-card-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.75rem;
+            border: 2px solid #a7d9ff; /* Blue border */
+        }
+
+        .trending-card-profile-text p {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .trending-card-profile-text p:first-child {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .carousel-nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-nav-button {
+            background-color: #3b82f6; /* Blue background */
+            color: white;
+            border-radius: 9999px; /* Fully rounded */
+            width: 48px; /* Fixed size */
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Soft shadow */
+        }
+
+        .carousel-nav-button:hover {
+            background-color: #2563eb; /* Darker blue on hover */
+            transform: translateY(-2px);
+        }
+
+        .carousel-nav-button svg {
+            width: 24px;
+            height: 24px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem; /* Adjust as needed */
+            font-weight: 700;
+            color: #1a202c; /* Dark gray */
+            position: relative;
+            padding-bottom: 0.5rem; /* Space for underline */
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px; /* Length of underline */
+            height: 4px;
+            background-color: #ef4444; /* Red color from screenshot */
+            border-radius: 9999px; /* Rounded ends */
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+            z-index: 1010;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Styles for the new "Post Admission Experience" cards */
+        .admission-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+            min-height: 480px; /* Increased fixed height for consistency */
+        }
+
+        .admission-card-image-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .admission-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .admission-card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .admission-card-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .admission-card-description {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .weather-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .weather-table th, .weather-table td {
+            padding: 0.75rem 0;
+            text-align: left;
+        }
+        .weather-table thead th {
+            font-weight: 600;
+            color: #2563eb;
+            border-bottom: 2px solid #bfdbfe;
+        }
+        .weather-table tbody tr {
+            border-bottom: 1px solid #e0f2fe;
+        }
+        .weather-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .weather-table td:nth-child(2), .weather-table td:nth-child(3) {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Our Services Section Styles - Modified for Card Flip */
+        .services-carousel-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            margin-top: 2rem;
+            padding-bottom: 1rem; /* Space for shadow */
+            padding-left: 1rem; /* Add padding for left edge of first card */
+            padding-right: 1rem; /* Add padding for right edge of last card */
+        }
+        .services-carousel-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .service-card-wrapper {
+            flex: 0 0 auto; /* Do not grow, do not shrink, base size is auto */
+            width: 85%; /* Adjust card width relative to container on mobile */
+            margin-right: 1.5rem; /* Space between cards */
+            scroll-snap-align: start; /* Snap to start of card */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px; /* Fixed height for flip container */
+            max-width: 350px; /* Max width for each card */
+        }
+
+        @media (min-width: 768px) {
+            .service-card-wrapper {
+                width: calc(50% - 0.75rem); /* Two cards visible with spacing */
+            }
+        }
+        @media (min-width: 1024px) {
+            .service-card-wrapper {
+                width: calc(33.33% - 1rem); /* Three cards visible with spacing */
+            }
+        }
+        /* Ensure the last card has no right margin */
+        .services-carousel-container .service-card-wrapper:last-child {
+            margin-right: 0;
+        }
+
+
+        /* Card Flip Styles */
+        .service-card-flip-container {
+            width: 100%;
+            height: 100%;
+            perspective: 1000px; /* For 3D effect */
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s; /* Overall flip transition */
+            border-radius: 1.5rem; /* Match card styling */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Consistent shadow */
+        }
+
+        .service-card-flip-container:hover {
+            transform: rotateY(180deg);
+        }
+
+        .service-card-front,
+        .service-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hide the back side during flip */
+            border-radius: 1.5rem;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box; /* Include padding in dimensions */
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+
+        .service-card-back {
+            transform: rotateY(180deg); /* Initially rotated to hide */
+            text-align: left; /* Align text left on the back of the card */
+            justify-content: flex-start; /* Align content to the top */
+        }
+
+        /* Front Card Elements */
+        .service-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #e0f2fe, #bbdefb); /* Light blue gradient for icons */
+            transition: background 0.3s ease;
+        }
+
+        .service-card-flip-container:hover .service-icon-wrapper {
+            background: linear-gradient(45deg, #a7d9ff, #60a5fa); /* Darker gradient on hover (though not visible during flip) */
+        }
+
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            fill: #2563eb; /* Default blue for icons */
+            transition: fill 0.3s ease;
+        }
+        
+        /* Back Card Elements */
+        .service-card-back .service-title {
+            margin-top: 0; /* Remove default margin */
+            font-size: 1.3rem; /* Keep consistent font size */
+            margin-bottom: 1rem; /* Space below title */
+        }
+
+        .service-detailed-content-text {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            text-align: center; /* Center align text on back of card */
+        }
+
+        .service-card-back a {
+            color: #3b82f6;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: auto; /* Push to bottom if content is short */
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .service-card-back a:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        /* New Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.8s ease-out forwards;
+        }
+
+        /* Initial hidden state for elements that will animate in */
+        .hide-on-load {
+            opacity: 0;
+        }
+        .hide-on-load.translate-y {
+            transform: translateY(20px);
+        }
+        .hide-on-load.scale {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm py-4 z-20 relative hide-on-load animate-fadeIn">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="https://ik.imagekit.io/acxf74gnv/logos/profile/limage-1363-345-photo.png" alt="pepeleads" class="h-8 mr-3">
+            </div>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">About Us</a>
+                <a href="#" class="text-blue-500 nav-link-active transition-colors duration-200">Destinations</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">Community</a>
+                <a href="#faqs-section" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">FAQS</a>
+            </nav>
+
+            <!-- Search and Profile Icons -->
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </button>
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- New Hero Section -->
+    <section class="relative bg-[#E0F2FE] min-h-[550px] md:min-h-[600px] flex items-center justify-center pt-20 pb-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hero-grid">
+            <!-- Text Content -->
+            <div class="hero-text-content" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    Study in Germany: Your Gateway to <span class="text-gradient-blue font-bold">World-Class Education</span> & Global Careers
+                </h1>
+                <p class="text-lg sm:text-xl text-gray-700 mb-6 font-medium">Unlock unparalleled opportunities in a hub of innovation and academic excellence.</p>
+                <div class="hero-location-tags mb-8" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <span class="hero-location-tag">Germany</span>
+                    <span class="hero-location-tag">Europe</span>
+                    <span class="hero-location-tag">Global</span>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 btn-shadow-soft" data-animate-on-scroll data-animation-delay="500" data-animation-type="fadeInUp">
+                    Connect with an Expert Today!
+                </button>
+            </div>
+
+            <!-- Image Carousel Container -->
+            <div class="hero-image-container flex justify-center items-center h-full" data-animate-on-scroll data-animation-delay="200" data-animation-type="scaleIn">
+                <div id="hero-carousel-images" class="hero-carousel-images">
+                    <img src="https://placehold.co/400x300/a7d9ff/000000?text=Hero+Image+1" alt="Student studying in Germany" class="hero-carousel-image active">
+                    <img src="https://placehold.co/400x300/c0e7ff/000000?text=Hero+Image+2" alt="German university campus" class="hero-carousel-image">
+                    <img src="https://placehold.co/400x300/d9f1ff/000000?text=Hero+Image+3" alt="Students collaborating in Germany" class="hero-carousel-image">
+                </div>
+            </div>
+        </div>
+        <!-- Abstract shape divider for a unique transition -->
+        <div class="hero-section-divider">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Our Services Section -->
+    <section id="our-services" class="py-16 bg-f7f9fc">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="section-header justify-center mb-10" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                <h2 class="section-title">Our Comprehensive Services</h2>
+            </div>
+
+            <div class="services-carousel-container">
+                <!-- Service Card 1: Career Counseling -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.93 0 3.5 1.57 3.5 3.5S13.93 12 12 12s-3.5-1.57-3.5-3.5S10.07 5 12 5zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                    <path d="M17.5 14.2c-.73-.83-1.68-1.51-2.73-1.99-.07-.04-.15-.07-.22-.1.08-.03.17-.06.26-.09.34-.11.69-.2.95-.31.25-.1.4-.23.4-.37.01-.15-.17-.29-.42-.39-.24-.1-.5-.14-.7-.14-.23 0-.46.04-.68.12-.22.08-.43.19-.62.3-.2-.16-.4-.32-.59-.47-.19-.15-.38-.28-.58-.4L12 9.5l-1.63 1.63c-.1.1-.2.21-.3.33-.09.11-.18.23-.27.35-.37-.15-.76-.25-1.15-.3-.39-.05-.78-.06-1.16-.03-.39 0-.77.06-1.13.19-.36.13-.7.3-1.02.5-.28-.2-.56-.37-.84-.53C6.71 14.2 4.5 15.48 2 17.42V19h20v-1.58c-1.29-1.94-3.5-3.22-6-3.22z" fill="#FFC107" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Career Counseling</h3>
+                            <p class="service-short-description">Guiding your academic and professional future with personalized insights.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Career Counseling</h3>
+                            <p class="service-detailed-content-text">Our expert counselors provide tailored advice, helping you identify your strengths and passions to choose the perfect academic path and career trajectory in Germany.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 2: Course Selection -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM5 4h14v14H5V4zm5 11l-3-3 1.41-1.41L10 12.17l4.59-4.59L16 9l-6 6z"/>
+                                    <path d="M19 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM5 4h14v14H5V4zm5 11l-3-3 1.41-1.41L10 12.17l4.59-4.59L16 9l-6 6z" fill="#4CAF50" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Course Selection</h3>
+                            <p class="service-short-description">Find the ideal program tailored to your ambitions and academic background.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Course Selection</h3>
+                            <p class="service-detailed-content-text">Navigating countless programs can be daunting. We simplify the process by matching your profile with the best courses and universities in Germany, ensuring a perfect fit for your goals.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 3: Admission Guidance -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm0 16v-7h7.5L14 18z"/>
+                                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm0 16v-7h7.5L14 18z" fill="#9C27B0" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Admission Guidance</h3>
+                            <p class="service-short-description">Expert assistance to navigate the complex university application process.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Admission Guidance</h3>
+                            <p class="service-detailed-content-text">From document preparation to application submission, our team provides end-to-end guidance to ensure your applications are flawless and stand out to German universities.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 4: Exam & Coaching -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 5h14v14H5V5zm2 5h8v2H7v-2zm0 4h8v2H7v-2z"/>
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 5h14v14H5V5zm2 5h8v2H7v-2zm0 4h8v2H7v-2z" fill="#FF5722" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Exam & Coaching</h3>
+                            <p class="service-short-description">Ace your language proficiency and entrance exams with our specialized coaching.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Exam & Coaching</h3>
+                            <p class="service-detailed-content-text">Our experienced tutors provide comprehensive coaching for IELTS, TOEFL, GRE, GMAT, and other entrance exams, equipped with strategies to help you achieve your target scores.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 5: Scholarship Guidance -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="400" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h-2V7h4v4h2v6z"/>
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h-2V7h4v4h2v6z" fill="#2196F3" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Scholarship Guidance</h3>
+                            <p class="service-short-description">Discover and apply for scholarships to make your German education affordable.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Scholarship Guidance</h3>
+                            <p class="service-detailed-content-text">We help you identify relevant scholarships, prepare strong applications, and navigate the funding landscape to ensure financial support for your studies in Germany.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 6: Visa Assistance -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="500" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zM20 19H4V8h16v11zM9 10h6v2H9v-2zm0 4h6v2H9v-2z"/>
+                                    <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zM20 19H4V8h16v11zM9 10h6v2H9v-2zm0 4h6v2H9v-2z" fill="#673AB7" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Visa Assistance</h3>
+                            <p class="service-short-description">Seamless visa application support for a stress-free journey to Germany.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Visa Assistance</h3>
+                            <p class="service-detailed-content-text">Our visa experts guide you through every step of the German student visa application, from documentation to interview preparation, ensuring a high success rate.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 7: Education Loan -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="600" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 13H11c-.55 0-1-.45-1-1v-1h4c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v1h2v1h-4v1c0 .55.45 1 1 1h4c.55 0 1 .45 1 1V15h-2v2h2zm-2.5-3V8h-1V7H9.5V8h-1v1h4.5v1z"/>
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 13H11c-.55 0-1-.45-1-1v-1h4c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v1h2v1h-4v1c0 .55.45 1 1 1h4c.55 0 1 .45 1 1V15h-2v2h2zm-2.5-3V8h-1V7H9.5V8h-1v1h4.5v1z" fill="#03A9F4" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Education Loan</h3>
+                            <p class="service-short-description">Expert guidance on securing the best education loans for your studies.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Education Loan</h3>
+                            <p class="service-detailed-content-text">We connect you with financial institutions and guide you through the education loan application process, ensuring you receive the necessary funds for your German education.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 8: Forex & Travel Assistance -->
+                <div class="service-card-wrapper" data-animate-on-scroll data-animation-delay="700" data-animation-type="fadeInUp">
+                    <div class="service-card-flip-container">
+                        <div class="service-card-front">
+                            <div class="service-icon-wrapper">
+                                <svg class="service-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2V9h-2V7H9v2c0 1.1.9 2 2 2h2v1H9v2h2v2h2v-2h-2zm-2-4h4v2h-4V7zm0 4h4v2h-4v-2z"/>
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2V9h-2V7H9v2c0 1.1.9 2 2 2h2v1H9v2h2v2h2v-2h-2zm-2-4h4v2h-4V7zm0 4h4v2h-4v-2z" fill="#FFEB3B" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Forex & Travel Assistance</h3>
+                            <p class="service-short-description">Smooth currency exchange and travel planning for your journey abroad.</p>
+                        </div>
+                        <div class="service-card-back">
+                            <h3 class="service-title">Forex & Travel Assistance</h3>
+                            <p class="service-detailed-content-text">We assist with foreign exchange, travel bookings, and accommodation arrangements, ensuring a comfortable and well-prepared journey to your study destination in Germany.</p>
+                            <a href="#">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- New 4 Steps To Your Dream Destination Section -->
+    <section id="steps-section" class="py-16 bg-f7f9fc relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-12">
+            <!-- Left Column: Sticky Elements -->
+            <div class="md:w-1/2 relative md:flex md:flex-col">
+                <h2 class="sticky-title text-3xl sm:text-4xl font-bold mb-4 text-gray-800 text-center md:text-left">
+                    4 Steps To Your <span class="text-gradient-blue">Dream Destination</span>
+                </h2>
+
+                <div class="steps-stack-container">
+                    <!-- Each step wrapped in a sticky container -->
+                    <div class="sticky-step-card-wrapper z-40">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="0" data-image="https://placehold.co/400x300/a7d9ff/000000?text=Step+1+Counseling">
+                            <p class="step-number">1</p>
+                            <h3 class="step-title">Education Counseling</h3>
+                            <p class="step-description text-gray-700">One on One counseling with our country specialist. Shortlist your ideal destination, institution and program with their expert guidance.</p>
+                            <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Free Expert Consultation</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-step-card-wrapper z-30">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="200" data-image="https://placehold.co/400x300/c0e7ff/000000?text=Step+2+Applications">
+                            <p class="step-number">2</p>
+                            <h3 class="step-title">University Applications</h3>
+                            <p class="step-description text-gray-700">Apply to your dream university. Our team will guide you through the application process.</p>
+                             <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Apply Now</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-step-card-wrapper z-20">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="400" 
+                            data-image="https://placehold.co/400x300/d9f1ff/000000?text=Loans+and+Scholarships">
+                            <p class="step-number">3</p>
+                            <h3 class="step-title">Loans & Scholarships</h3>
+                            <p class="step-description text-gray-700">Explore financial options with our loan and scholarship expertise, making your dream education affordable.</p>
+                             <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Explore Options</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-step-card-wrapper z-10">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="600" 
+                            data-image="https://placehold.co/400x300/f0f8ff/000000?text=Visa+Processing">
+                            <p class="step-number">4</p>
+                            <h3 class="step-title">Visa Processing</h3>
+                            <p class="step-description text-gray-700">Apply for your visa with the help of our Visa experts. Our team has a 99% visa success rate.</p>
+                             <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Get Visa Help</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Image container -->
+            <div class="md:w-1/2 flex justify-center items-center relative md:sticky md:top-20 md:self-start">
+                <div class="step-image-container">
+                    <img id="step-dynamic-image-1" src="https://placehold.co/400x300/a7d9ff/000000?text=Step+1+Counseling" alt="Dynamic Step Image 1" class="visible">
+                    <!-- Removed step-dynamic-image-2 for now to avoid layout issues -->
+                </div>
+                <!-- Abstract lines for visual effect, similar to screenshot -->
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50 C150 20, 250 80, 300 50 S350 20, 380 50" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                    <path d="M120 350 C180 380, 280 320, 340 350 S370 380, 390 350" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                    <path d="M50 100 C20 150, 80 250, 50 300 S20 350, 50 380" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                    <path d="M350 100 C380 150, 320 250, 350 300 S380 350, 350 380" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Why Study in Germany Section -->
+    <section class="py-16 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10">
+            <div class="md:w-2/3 order-2 md:order-1 relative z-10 p-6 md:p-0">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-gray-800" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Why Germany? Your Launchpad to Global Success!</h2>
+                <p class="text-gray-600 leading-relaxed mb-6" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                    Dreaming of a future where your skills are globally recognized and your career soars? Germany, a powerhouse of innovation and economy, offers precisely that. With over **2 million+ job openings** and a robust economic landscape, it's not just an education destination; it's a career launchpad. As the **fourth largest economy worldwide**, Germany provides an incredibly stable and supportive environment for both academic excellence and professional growth.
+                </p>
+                <div id="additional-paragraph" class="hidden" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        German universities are renowned for their **high-quality, research-oriented education**, meticulously designed to equip students with the practical skills and theoretical knowledge needed to thrive in a competitive global job market. Imagine graduating with a degree that opens doors to incredible opportunities, including **competitive minimum salary packages starting from INR 40 lakh!** Embrace a future where your education is truly an investment in boundless possibilities.
+                    </p>
+                </div>
+                <button id="discover-more-button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    Discover More
+                </button>
+            </div>
+            <div class="md:w-1/3 order-1 md:order-2 flex justify-center md:justify-end relative">
+                <div class="absolute -top-10 -right-10 w-48 h-48 bg-blue-100 rounded-full mix-blend-multiply opacity-50 filter blur-xl animate-blob"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-100 rounded-full mix-blend-multiply opacity-50 filter blur-xl animate-blob animation-delay-2000"></div>
+                <img src="https://i.pinimg.com/736x/76/70/d2/7670d2ab99f3ce75a71cfcdc20468d40.jpg" alt="Student Success Stories" class="rounded-3xl shadow-2xl relative z-10 w-full h-auto max-w-sm card-shadow-soft" data-animate-on-scroll data-animation-delay="100" data-animation-type="scaleIn">
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending in Germany Section (Updated to Carousel) -->
+    <section class="py-16 bg-gray-50 relative overflow-hidden">
+         <div class="absolute inset-0 w-full h-full bg-no-repeat bg-center opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSIjREREREREIi8+PC9zdmc+'); background-size: 20px 20px;"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="section-header" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                <h2 class="section-title">Germany's Dynamic Trends</h2>
+                <div class="carousel-nav-buttons">
+                    <button id="carousel-prev" class="carousel-nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="carousel-next" class="carousel-nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="trending-carousel" class="carousel-container" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                <!-- Trending Card 1 -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/3762804/pexels-photo-3762804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student studying with laptop">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Pioneering Tech & Engineering Hub</h3>
+                                <p class="trending-card-description">Be at the forefront of innovation! Germany is a global leader in engineering, automotive, and renewable energy, offering unparalleled opportunities for cutting-edge research and development.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/cbd5e1/4a5568?text=SM" alt="Student Profile 1">
+                                <div class="trending-card-profile-text">
+                                    <p>Sarah Miller</p>
+                                    <p>TU Munich, Germany</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 2 -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/17696412/pexels-photo-17696412/free-photo-of-man-walking-in-berlin.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student in city">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Immerse in Germany's Rich Culture & Vibrant Student Life</h3>
+                                <p class="trending-card-description">Beyond academics, discover historic cities, diverse communities, and a lively social scene. Festivals, art, music – Germany offers a rich tapestry of experiences for every student.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/d1d5db/374151?text=JP" alt="Student Profile 2">
+                                <div class="trending-card-profile-text">
+                                    <p>Jan Pauer</p>
+                                    <p>Humboldt University Berlin</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 3 -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/4050318/pexels-photo-4050318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student in laboratory">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Unlock Your Potential: World-Class Research Opportunities</h3>
+                                <p class="trending-card-description">Collaborate with leading minds in state-of-the-art facilities. Germany provides an ideal environment for aspiring researchers to contribute to significant global advancements.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/e5e7eb/6b7280?text=AM" alt="Student Profile 3">
+                                <div class="trending-card-profile-text">
+                                    <p>Anna Müller</p>
+                                    <p>University of Heidelberg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 4 (Added for more content to scroll) -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/3771077/pexels-photo-3771077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Networking event">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Thriving Startup Ecosystem & Job Market</h3>
+                                <p class="trending-card-description">Germany's booming startup scene and robust economy offer ample post-graduation job prospects. Network with innovators and build a successful career.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/d1d5db/374151?text=KL" alt="Student Profile 4">
+                                <div class="trending-card-profile-text">
+                                    <p>Kim Lee</p>
+                                    <p>WHU - Otto Beisheim</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 5 (Added for more content to scroll) -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/4144926/pexels-photo-4144926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student in library">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="class="trending-card-title">Diverse Academic Programs & Specializations</h3>
+                                <p class="trending-card-description">From cutting-edge STEM fields to humanities and arts, German universities offer a vast array of programs, ensuring you find the perfect fit for your academic interests.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/f3e5f5/8e24aa?text=RM" alt="Student Profile 5">
+                                <div class="trending-card-profile-text">
+                                    <p>Rahul Mehta</p>
+                                    <p>University of Freiburg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Universities Section -->
+    <section class="py-16 bg-gradient-to-tr from-white to-blue-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-12 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Your Academic Journey Starts Here: Top German Universities</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- University Card 1 -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border-t-4 border-blue-400 transform hover:scale-102 transition-transform duration-300 card-shadow-soft" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                    <img src="https://i.pinimg.com/736x/c4/7a/eb/c47aeb25aa59be58f5988586b1d34e24.jpg" alt="Technical University of Munich Logo" class="mb-4 rounded-full h-24 w-24 object-contain p-2 bg-blue-50">
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">Technical University of Munich - CiB</h3>
+                    <p class="text-gray-600 mb-4">Munich, Germany</p>
+                    <div class="flex flex-col items-center text-gray-700 mb-4 space-y-2 text-sm">
+                        <div class="flex items-center">
+                            <span class="mr-2 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6zm2 4a1 1 0 00-1 1v2a1 1 0 102 0V9a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0V9a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <span>6.5 Minimum IELTS Required</span>
+                        </div>
+                        <div class="flex flex-center">
+                            <span class="mr-2 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <span>Public University</span>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105">
+                        Apply Now
+                    </button>
+                </div>
+                <!-- University Card 2 -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border-t-4 border-purple-400 transform hover:scale-102 transition-transform duration-300 card-shadow-soft" data-animate-on-scroll data-animation-delay="150" data-animation-type="fadeInUp">
+                    <img src="https://i.pinimg.com/736x/96/2d/6c/962d6ce1ec81b23d99f048652dcff8d4.jpg" alt="IU University Logo" class="mb-4 rounded-full h-24 w-24 object-contain p-2 bg-purple-50">
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">IU University of Applied Sciences</h3>
+                    <p class="text-gray-600 mb-4">Bad Honnef, Germany</p>
+                    <div class="flex flex-col items-center text-gray-700 mb-4 space-y-2 text-sm">
+                        <div class="flex items-center">
+                            <span class="mr-2 text-purple-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6zm2 4a1 1 0 00-1 1v2a1 1 0 102 0V9a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0V9a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <span>5.5 Minimum IELTS Required</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="mr-2 text-purple-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <span>Private University</span>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105">
+                        Apply Now
+                    </button>
+                </div>
+                <!-- University Card 3 -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border-t-4 border-green-400 transform hover:scale-102 transition-transform duration-300 card-shadow-soft" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <img src="https://placehold.co/80x80/dbeafe/1e40af?text=UE" alt="University of Europe Logo" class="mb-4 rounded-full h-24 w-24 object-contain p-2 bg-green-50">
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">University of Europe For Applied Sciences</h3>
+                    <p class="text-gray-600 mb-4">Berlin, Germany</p>
+                    <div class="flex flex-col items-center text-gray-700 mb-4 space-y-2 text-sm">
+                        <div class="flex items-center">
+                            <span class="mr-2 text-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6zm2 4a1 1 0 00-1 1v2a1 1 0 102 0V9a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0V9a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <span>5.5 Minimum IELTS Required</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="mr-2 text-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <span>Private University</span>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105">
+                        Apply Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PTE/IELTS Demo Section -->
+    <section class="py-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white relative overflow-hidden" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeIn">
+        <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cG9seWdvbiBwb2ludHM9IjAgMTAgMTAgMCAyMCAxMCAxMCAyMCIgZmlsbD0iI0ZGRkZGRiIvPjwvc3ZnPg=='); background-size: 15px 15px; transform: rotate(45deg);"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between text-center md:text-left relative z-10">
+            <div class="mb-6 md:mb-0">
+                <p class="text-xl font-medium mb-2">Aiming for a Top Score?</p>
+                <p class="text-3xl font-bold">Master PTE or IELTS with Our Expert Tutors!</p>
+            </div>
+            <button class="bg-white text-teal-700 font-semibold py-3 px-8 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105 flex items-center justify-center hover:bg-teal-50" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeIn">
+                Book Your Free Demo Class
+                <svg class="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Post Admission Experience Section -->
+    <section class="py-16 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Navigating Your Journey: Post-Admission Experience</h2>
+
+            <div id="admission-carousel" class="carousel-container" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                <!-- Visa for Germany Card 1 -->
+                <div class="carousel-card-wrapper">
+                    <div class="admission-card">
+                        <div class="admission-card-image-container">
+                            <img src="https://images.pexels.com/photos/339620/pexels-photo-339620.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="German Language Course">
+                        </div>
+                        <div class="admission-card-content">
+                            <div>
+                                <h3 class="admission-card-title text-green-700">German Language Course Visa</h3>
+                                <p class="admission-card-description">Estimated Cost: <span class="font-medium text-green-800">€52</span></p>
+                                <p class="admission-card-description">Purpose: Intensive Language Study</p>
+                                <p class="text-gray-700 text-md leading-relaxed">
+                                    Embark on your linguistic journey! This visa is perfect for students planning to enhance their German language skills through an intensive course (3-12 months) before diving into their academic degree.
+                                </p>
+                            </div>
+                            <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm mt-4">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visa for Germany Card 2 -->
+                <div class="carousel-card-wrapper">
+                    <div class="admission-card">
+                        <div class="admission-card-image-container">
+                            <img src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="German Student Visa">
+                        </div>
+                        <div class="admission-card-content">
+                            <div>
+                                <h3 class="admission-card-title text-purple-700">German Student Visa</h3>
+                                <p class="admission-card-description">Estimated Cost: <span class="font-medium text-purple-800">€65</span></p>
+                                <p class="admission-card-description">Purpose: University Study</p>
+                                <p class="text-gray-700 text-md leading-relaxed">
+                                    Your academic adventure awaits! This is the primary visa for international students who have secured an acceptance letter from a recognized German university.
+                                </p>
+                            </div>
+                            <button class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm mt-4">
+                                Apply for Visa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- City Weather Overview Card -->
+                <div class="carousel-card-wrapper">
+                    <div class="admission-card">
+                        <div class="admission-card-image-container">
+                            <img src="https://images.pexels.com/photos/110874/pexels-photo-110874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Weather in Germany">
+                        </div>
+                        <div class="admission-card-content">
+                            <div>
+                                <h3 class="admission-card-title text-blue-700">Embrace Germany's Climate: City Weather</h3>
+                                <table class="weather-table">
+                                    <thead>
+                                        <tr>
+                                            <th>City</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>°C / °F</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Berlin</td>
+                                            <td>12°</td>
+                                            <td>22°</td>
+                                            <td>°C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Munich</td>
+                                            <td>11°</td>
+                                            <td>22°</td>
+                                            <td>°C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Heidelberg</td>
+                                            <td>13°</td>
+                                            <td>23°</td>
+                                            <td>°C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cologne</td>
+                                            <td>12°</td>
+                                            <td>20°</td>
+                                            <td>°C</td>
+                                        </tr>
+                                         <tr>
+                                            <td>Frankfurt</td>
+                                            <td>14°</td>
+                                            <td>24°</td>
+                                            <td>°C</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm mt-4">
+                                View All Climates
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Navigation Buttons for Admission Section -->
+            <div class="carousel-nav-buttons mt-8">
+                <button id="admission-carousel-prev" class="carousel-nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="admission-carousel-next" class="carousel-nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Expense Estimate Call to Action -->
+            <div class="bg-blue-100 bg-opacity-80 rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between text-center md:text-left shadow-lg mt-12 btn-shadow-soft" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeIn">
+                <p class="text-2xl font-bold text-blue-800 mb-4 md:mb-0">
+                    Curious about your personal budget? <br class="hidden md:block">
+                    <a href="#" class="text-blue-600 hover:underline font-semibold">Get a Personalised Monthly Expense Estimate</a>
+                </p>
+                <button class="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                    Talk to an Expert
+                    <svg class="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Part-time Careers and Work Opportunities Section -->
+    <section class="py-16 bg-gray-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Build Your Career: Work Opportunities in Germany</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Part-Time Work Opportunities Card -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 card-shadow-soft border-t-4 border-yellow-400" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Earn While You Learn: Flexible Part-Time Opportunities</h3>
+                    <p class="text-gray-600 leading-relaxed text-md">
+                        International students from non-EEA countries have excellent opportunities to gain work experience. You're permitted to work for either **140 full full working days or 280 half working days per year**. This count excludes holidays and sick days, giving you ample flexibility. Alternatively, you can work up to **20 hours per week** during academic terms, allowing you to manage your studies and finances effectively.
+                    </p>
+                </div>
+                <!-- Post Study Work VISA Card -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 card-shadow-soft border-t-4 border-red-400" data-animate-on-scroll data-animation-delay="150" data-animation-type="fadeInUp">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Your Future in Germany: Post-Study Work Visa Pathways</h3>
+                    <p class="text-gray-600 leading-relaxed text-md">
+                        After successfully completing your studies, Germany welcomes you to stay and contribute! Students are eligible for an **18-month Job Seeking Visa** (often referred to as a post-study work visa). We highly recommend starting your job hunt during your final semester, as this crucial extended work period begins immediately after you receive your final exam results. Pave your way to a thriving career in Germany!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faqs-section" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-12 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Frequently Asked Questions (FAQs)</h2>
+
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq1">
+                    <label for="faq1">
+                        Is tuition free in public universities in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            Yes, generally, public universities in Germany do not charge tuition fees for undergraduate and most master's programs for all students, including international students. Students only need to pay a semester contribution, which covers administrative costs and public transport.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq2">
+                    <label for="faq2">
+                        Do I need to learn German to study in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            While many programs, especially at the Master's level, are taught entirely in English, learning German is highly recommended. It will greatly enhance your daily life, integration, and job prospects in Germany. Many universities offer German language courses.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq3">
+                    <label for="faq3">
+                        What is the average cost of living for a student in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            The average cost of living for students in Germany is approximately €850-€1,200 per month. This includes rent, food, transport, health insurance, and other personal expenses. Costs can vary depending on the city and individual lifestyle.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq4">
+                    <label for="faq4">
+                        Can international students work part-time in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            Yes, international students are permitted to work up to 140 full days or 280 half days per year. This allows students to gain valuable work experience and help cover their living expenses.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="400" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq5">
+                    <label for="faq5">
+                        What are the popular courses to study in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            Germany is particularly strong in Engineering (Mechanical, Automotive, Electrical, Civil), Computer Science, Business Administration, Natural Sciences, and Social Sciences. Many universities also offer excellent programs in arts and humanities.
+                        </p>
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- About Us -->
+            <div data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                <h3 class="text-lg font-semibold mb-4">About Us</h3>
+                <p class="text-gray-400 text-sm">
+                    Leverage Edu is India's most trusted study abroad platform. We help students achieve their dreams of global education with expert guidance and support.
+                </p>
+            </div>
+            <!-- Quick Links -->
+            <div data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Destinations</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Universities</a></li>
+                    <li><a href="#" class="text-400 hover:text-white transition-colors duration-200">Courses</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Scholarships</a></li>
+                </ul>
+            </div>
+            <!-- Contact Us -->
+            <div data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-400 text-sm mb-2">Email: info@leverageedu.com</p>
+                <p class="text-400 text-sm mb-2">Phone: +91-12345-67890</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.007 3.792.051 1.05.044 1.749.213 2.156.368.424.153.722.384.99.664.269.28.491.577.644-.418.15-1.116.319-2.167-.363-1.009.043-1.346.051-3.792.051s-.008-2.784-.052-3.792c-.044-1.05-.213-1.749-.368-2.156-.153-.424-.384-.722-.664-.99-.28-.269-.577-.491-1.009-.644-.418-.15-1.116-.319-2.167-.363C9.557 2.007 9.894 2 12.315 2zM8.536 12a3.464 3.464 0 116.928 0 3.464 3.464 0 01-6.928 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M.057 24L0 16.547 4.717 12.045 0 7.545.057 0h23.886L24 7.545 19.283 12.045 24 16.547l-.057 7.453H.057z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-sm mt-8" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeIn">
+            &copy; 2025 Leverage Edu. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" id="closeModal">&times;</button>
+            <div class="video-container">
+                <iframe id="modalVideoFrame" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero Image Carousel Logic
+            const heroImagesContainer = document.getElementById('hero-carousel-images');
+            const heroImages = heroImagesContainer ? Array.from(heroImagesContainer.querySelectorAll('.hero-carousel-image')) : [];
+            let currentHeroImageIndex = 0;
+
+            function showNextHeroImage() {
+                if (heroImages.length === 0) return;
+
+                // Remove 'active' class from current image
+                heroImages[currentHeroImageIndex].classList.remove('active');
+
+                // Increment index, loop back to 0 if at the end
+                currentHeroImageIndex = (currentHeroImageIndex + 1) % heroImages.length;
+
+                // Add 'active' class to the next image
+                heroImages[currentHeroImageIndex].classList.add('active');
+            }
+
+            // Start hero image carousel on page load
+            if (heroImages.length > 1) {
+                setInterval(showNextHeroImage, 3500); // Change image every 3.5 seconds
+            }
+
+            // Generic Intersection Observer for all on-scroll animations
+            const animateOnScrollElements = document.querySelectorAll('[data-animate-on-scroll]');
+
+            const animationObserverOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // When 10% of the element is visible
+            };
+
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.animationDelay || '0', 10);
+                        const animationType = entry.target.dataset.animationType || 'fadeInUp'; // Default animation
+                        
+                        // Add initial hidden state classes if they are not already there
+                        if (!entry.target.classList.contains('hide-on-load')) {
+                             entry.target.classList.add('hide-on-load');
+                             if (animationType === 'fadeInUp') {
+                                entry.target.classList.add('translate-y');
+                            } else if (animationType === 'scaleIn') {
+                                entry.target.classList.add('scale');
+                            }
+                        }
+
+                        setTimeout(() => {
+                            entry.target.classList.remove('hide-on-load', 'translate-y', 'scale');
+                            if (animationType === 'fadeInUp') {
+                                entry.target.classList.add('animate-fadeInUp');
+                            } else if (animationType === 'fadeIn') {
+                                entry.target.classList.add('animate-fadeIn');
+                            } else if (animationType === 'scaleIn') {
+                                entry.target.classList.add('animate-scaleIn');
+                            }
+                        }, delay);
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, animationObserverOptions);
+
+            animateOnScrollElements.forEach(element => {
+                // Apply initial hide-on-load state for all elements managed by this observer
+                // unless it's the header, which animates immediately on page load
+                if (!element.closest('header')) {
+                    element.classList.add('hide-on-load');
+                    if (element.dataset.animationType === 'fadeInUp') {
+                        element.classList.add('translate-y');
+                    } else if (element.dataset.animationType === 'scaleIn') {
+                        element.classList.add('scale');
+                    }
+                }
+                animationObserver.observe(element);
+            });
+
+
+            // Step Cards specific animation (keeping separate due to unique logic)
+            const stepCards = document.querySelectorAll('.step-card');
+            const stepDynamicImage1 = document.getElementById('step-dynamic-image-1');
+
+            const stepCardObserverOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.5 // Trigger when 50% of the target is visible
+            };
+
+            const stepCardObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.dataset.delay;
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-on-scroll');
+                        }, delay);
+                        // Also update the dynamic image for steps
+                        const newImageSrc1 = entry.target.dataset.image;
+                        if (stepDynamicImage1 && newImageSrc1) {
+                            stepDynamicImage1.classList.remove('visible'); // Start fade out
+                            setTimeout(() => {
+                                stepDynamicImage1.src = newImageSrc1;
+                                stepDynamicImage1.classList.add('visible'); // Fade in
+                            }, 300);
+                        }
+                    } else {
+                        // Optional: remove the animation class if you want them to animate in every time
+                        // entry.target.classList.remove('animate-on-scroll');
+                    }
+                });
+            }, stepCardObserverOptions);
+
+            stepCards.forEach(card => {
+                stepCardObserver.observe(card);
+            });
+
+
+            // New script for Trending Carousel
+            const carousel = document.getElementById('trending-carousel');
+            const prevButton = document.getElementById('carousel-prev');
+            const nextButton = document.getElementById('carousel-next');
+
+            if (carousel && prevButton && nextButton) {
+                const scrollAmount = 350; // Adjust this value to control scroll distance
+
+                prevButton.addEventListener('click', () => {
+                    carousel.scrollBy({
+                        left: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+
+                nextButton.addEventListener('click', () => {
+                    carousel.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+
+                 // Optional: Add keyboard navigation (arrow keys)
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowLeft') {
+                        carousel.scrollBy({
+                            left: -scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    } else if (event.key === 'ArrowRight') {
+                        carousel.scrollBy({
+                            left: scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+
+            // Script for Video Modal
+            const videoModal = document.getElementById('videoModal');
+            const closeModalButton = document.getElementById('closeModal');
+            const modalVideoFrame = document.getElementById('modalVideoFrame');
+            const playButtons = document.querySelectorAll('.trending-card .play-button');
+
+            // Default video URL (YouTube Embed format)
+            const defaultVideoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'; // Example video
+
+            // Function to open the modal
+            function openModal() {
+                videoModal.classList.add('open');
+                // Set the video source and autoplay
+                modalVideoFrame.src = defaultVideoUrl;
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                videoModal.classList.remove('open');
+                // Stop the video when closing the modal by clearing the src
+                modalVideoFrame.src = '';
+            }
+
+            // Add event listeners to all play buttons
+            playButtons.forEach(button => {
+                button.addEventListener('click', openModal);
+            });
+
+            // Add event listener to the close button
+            closeModalButton.addEventListener('click', closeModal);
+
+            // Close modal when clicking outside the content
+            videoModal.addEventListener('click', (event) => {
+                if (event.target === videoModal) {
+                    closeModal();
+                }
+            });
+
+            // Handle "Discover More" button for "Why Study in Germany" section
+            const discoverMoreButton = document.getElementById('discover-more-button');
+            const additionalParagraph = document.getElementById('additional-paragraph');
+
+            if (discoverMoreButton && additionalParagraph) {
+                discoverMoreButton.addEventListener('click', () => {
+                    // Toggle the 'hidden' class to show/hide the paragraph
+                    additionalParagraph.classList.toggle('hidden');
+
+                    // Optional: Change button text based on visibility
+                    if (additionalParagraph.classList.contains('hidden')) {
+                        discoverMoreButton.textContent = 'Discover More';
+                    } else {
+                        discoverMoreButton.textContent = 'Show Less';
+                    }
+                });
+            }
+
+            // New script for Admission Carousel
+            const admissionCarousel = document.getElementById('admission-carousel');
+            const admissionPrevButton = document.getElementById('admission-carousel-prev');
+            const admissionNextButton = document.getElementById('admission-carousel-next');
+
+            if (admissionCarousel && admissionPrevButton && admissionNextButton) {
+                const scrollAmountAdmission = 350; // Adjust this value
+
+                admissionPrevButton.addEventListener('click', () => {
+                    admissionCarousel.scrollBy({
+                        left: -scrollAmountAdmission,
+                        behavior: 'smooth'
+                    });
+                });
+
+                admissionNextButton.addEventListener('click', () => {
+                    admissionCarousel.scrollBy({
+                        left: scrollAmountAdmission,
+                        behavior: 'smooth'
+                    });
+                });
+
+                // Optional: Add keyboard navigation (arrow keys)
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowLeft') {
+                        admissionCarousel.scrollBy({
+                            left: -scrollAmountAdmission,
+                            behavior: 'smooth'
+                        });
+                    } else if (event.key === 'ArrowRight') {
+                        admissionCarousel.scrollBy({
+                            left: scrollAmountAdmission,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

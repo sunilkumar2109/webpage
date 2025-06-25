@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Destinations Worldwide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* General styling for body, container, header, and titles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif; /* Changed font to Inter */
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%; /* Ensure container is fluid */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #3498db, #1a2a6c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+
+        /* Search input and button styling */
+        .search-container {
+            position: relative;
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .search-box {
+            display: flex;
+            padding: 5px;
+        }
+
+        #countrySearch {
+            flex: 1;
+            padding: 18px 20px;
+            border: none;
+            font-size: 18px;
+            outline: none;
+            background: #f8f9fa;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .search-btn {
+            padding: 18px 30px;
+            background: linear-gradient(to right, #3498db, #1a2a6c);
+            color: white;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(to right, #2980b9, #0d1b4c);
+            transform: translateY(-2px);
+        }
+
+        /* Question section styling (improved UX) */
+        .search-questions {
+            padding: 25px;
+            border-top: 1px solid #eee;
+            display: none;
+            overflow: hidden; /* For smooth animation */
+            transition: height 0.5s ease-out; /* Smooth height transition */
+        }
+
+        .question-item {
+            margin-bottom: 25px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            position: absolute; /* Position questions absolutely for smooth transitions */
+            width: calc(100% - 50px); /* Account for padding */
+            left: 25px; /* Center with padding */
+            top: 25px; /* Adjust top position for the active question */
+        }
+
+        .question-item.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            position: relative; /* Active question takes up space */
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: linear-gradient(to right, #e3f2fd, #f0f8ff);
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #2c3e50;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Added subtle shadow */
+        }
+
+        .answer-input input,
+        .answer-input select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .answer-input input:focus,
+        .answer-input select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25); /* Stronger focus shadow */
+        }
+
+        .error-message {
+            color: #e53935;
+            font-size: 15px;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+            animation: shake 0.5s; /* Error shake animation */
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to right, #3498db, #1a2a6c);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: linear-gradient(to right, #2980b9, #0d1b4c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Continent sections */
+        .continents {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .continent {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid #e9ecef;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .continent:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .continent h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .continent h3 i {
+            margin-right: 12px;
+            color: #3498db;
+        }
+
+        .continent p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .country-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .country-tag {
+            background: #3498db;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .featured {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 35px;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-style: italic;
+            font-size: 16px;
+        }
+
+        /* Custom Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-content h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-close-btn {
+            padding: 10px 20px;
+            background: linear-gradient(to right, #3498db, #1a2a6c);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: linear-gradient(to right, #2980b9, #0d1b4c);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .continents {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .search-box {
+                flex-direction: column; /* Stack search input and button */
+            }
+
+            #countrySearch, .search-btn {
+                border-radius: 10px; /* Rounded corners for both */
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .search-btn {
+                padding: 15px 20px;
+            }
+
+            .search-questions {
+                padding: 15px;
+            }
+
+            .question-item {
+                width: calc(100% - 30px); /* Adjust for smaller padding */
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-graduation-cap"></i> Study Destinations Worldwide</h1>
+            <p class="subtitle">Discover the perfect study destination for your academic journey. Explore universities across the globe and find programs that match your aspirations.</p>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="countrySearch" placeholder="Search for a country (e.g. Germany, Canada, Japan)..." autocomplete="off">
+                <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="search-questions" id="searchQuestions">
+                <!-- Questions will be dynamically managed -->
+                <div class="question-item active" data-index="0">
+                    <div class="question">What is your estimated budget for studying abroad? (in INR)</div>
+                    <div class="answer-input">
+                        <input type="number" id="budgetAmount" placeholder="Enter amount in Indian Rupees">
+                        <div class="error-message">Please enter a valid budget amount (minimum ₹200,000)</div>
+                    </div>
+                </div>
+
+                <div class="question-item" data-index="1">
+                    <div class="question">What is your current education level?</div>
+                    <div class="answer-input">
+                        <select id="educationLevel">
+                            <option value="">Select your education level</option>
+                            <option value="undergraduate">Undergraduate</option>
+                            <option value="graduate">Graduate/Master's</option>
+                            <option value="phd">PhD/Doctorate</option>
+                            <option value="diploma">Diploma/Certificate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="question-item" data-index="2">
+                    <div class="question">Do you have any preferred universities or colleges?</div>
+                    <div class="answer-input">
+                        <input type="text" id="collegeName" placeholder="Enter names of preferred institutions (optional)">
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="nav-btn" id="nextBtn">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="continents">
+            <div class="continent">
+                <h3><i class="fas fa-landmark"></i> Europe</h3>
+                <p>Renowned for historic universities and diverse cultures. Many countries offer low or no tuition fees.</p>
+                <div class="country-list">
+                    <span class="country-tag">Germany</span>
+                    <span class="country-tag">UK</span>
+                    <span class="country-tag">France</span>
+                    <span class="country-tag">Netherlands</span>
+                    <span class="country-tag">Sweden</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">1200+</div>
+                        <div class="stat-label">Universities</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">₹5-15L</div>
+                        <div class="stat-label">Annual Cost</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">90%</div>
+                        <div class="stat-label">Employability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="continent">
+                <div class="featured">MOST POPULAR</div>
+                <h3><i class="fas fa-university"></i> North America</h3>
+                <p>Home to world-class institutions with cutting-edge research facilities and diverse programs.</p>
+                <div class="country-list">
+                    <span class="country-tag">USA</span>
+                    <span class="country-tag">Canada</span>
+                    <span class="country-tag">Mexico</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">4000+</div>
+                        <div class="stat-label">Universities</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">₹15-40L</div>
+                        <div class="stat-label">Annual Cost</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">95%</div>
+                        <div class="stat-label">Employability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="continent">
+                <h3><i class="fas fa-archway"></i> Asia</h3>
+                <p>Rapidly growing education hubs with innovative programs and affordable living costs.</p>
+                <div class="country-list">
+                    <span class="country-tag">Japan</span>
+                    <span class="country-tag">China</span>
+                    <span class="country-tag">South Korea</span>
+                    <span class="country-tag">Singapore</span>
+                    <span class="country-tag">Malaysia</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">2500+</div>
+                        <div class="stat-label">Universities</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">₹3-10L</div>
+                        <div class="stat-label">Annual Cost</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">88%</div>
+                        <div class="stat-label">Employability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="continent">
+                <h3><i class="fas fa-globe-asia"></i> Oceania</h3>
+                <p>High-quality education in beautiful environments with strong post-study work opportunities.</p>
+                <div class="country-list">
+                    <span class="country-tag">Australia</span>
+                    <span class="country-tag">New Zealand</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">150+</div>
+                        <div class="stat-label">Universities</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">₹12-25L</div>
+                        <div class="stat-label">Annual Cost</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Employability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="info-text">Over 5 million international students find their perfect study destination each year</p>
+    </div>
+
+    <!-- Custom Modal Structure -->
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+            <button class="modal-close-btn" id="modalCloseBtn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('countrySearch');
+            const searchQuestions = document.getElementById('searchQuestions');
+            const questionItems = document.querySelectorAll('.question-item');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const budgetAmount = document.getElementById('budgetAmount');
+            const budgetError = document.querySelector('.error-message');
+            const educationLevel = document.getElementById('educationLevel');
+            const collegeName = document.getElementById('collegeName');
+
+            const customModal = document.getElementById('customModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            
+            let currentQuestionIndex = 0;
+            let questionsVisible = false; // Track if questions are visible
+
+            // Function to show custom modal instead of alert
+            function showModal(title, message) {
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                customModal.classList.add('show');
+            }
+
+            // Close modal functionality
+            modalCloseBtn.addEventListener('click', function() {
+                customModal.classList.remove('show');
+            });
+
+            customModal.addEventListener('click', function(e) {
+                if (e.target === customModal) {
+                    customModal.classList.remove('show');
+                }
+            });
+
+            // Function to adjust height of searchQuestions container dynamically
+            function adjustSearchQuestionsHeight() {
+                if (questionsVisible) {
+                    const activeQuestion = questionItems[currentQuestionIndex];
+                    if (activeQuestion) {
+                        const contentHeight = activeQuestion.offsetHeight + prevBtn.parentElement.offsetHeight + 50; // Question height + nav buttons height + some padding
+                        searchQuestions.style.height = ${contentHeight}px;
+                    }
+                } else {
+                    searchQuestions.style.height = '0px';
+                }
+            }
+            
+            // Show questions when typing specific keywords
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const keywords = ['germany', 'canada', 'usa', 'australia', 'japan', 'uk', 'france', 'netherlands', 'sweden', 'mexico', 'china', 'south korea', 'singapore', 'malaysia', 'new zealand'];
+                
+                if (keywords.some(keyword => searchTerm.includes(keyword))) {
+                    if (!questionsVisible) {
+                        searchQuestions.style.display = 'block';
+                        questionsVisible = true;
+                        setTimeout(() => adjustSearchQuestionsHeight(), 10); // Small delay for display block to take effect
+                    }
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    if (questionsVisible) {
+                        questionsVisible = false;
+                        searchQuestions.style.height = '0px';
+                        setTimeout(() => searchQuestions.style.display = 'none', 500); // Hide after transition
+                    }
+                }
+            });
+            
+            // Show specific question and manage active class
+            function showQuestion(index) {
+                questionItems.forEach((item, i) => {
+                    if (i === index) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+                
+                // Update navigation buttons
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questionItems.length - 1 ? 'Finish' : 'Next';
+                nextBtn.classList.toggle('finish-btn', index === questionItems.length - 1); // Add class for styling finish btn
+                
+                // Adjust height after question content is visible
+                setTimeout(adjustSearchQuestionsHeight, 100); 
+            }
+            
+            // Validate budget amount input
+            function validateBudget() {
+                const budget = parseInt(budgetAmount.value);
+                if (isNaN(budget) || budget < 200000) {
+                    budgetError.style.display = 'block';
+                    return false;
+                }
+                budgetError.style.display = 'none';
+                return true;
+            }
+
+            // Validate education level input
+            function validateEducationLevel() {
+                const level = educationLevel.value;
+                const educationLevelError = educationLevel.parentElement.querySelector('.error-message');
+                if (!level) {
+                    if (!educationLevelError) { // Create error message if it doesn't exist
+                        const errorDiv = document.createElement('div');
+                        errorDiv.classList.add('error-message');
+                        errorDiv.textContent = 'Please select your education level';
+                        educationLevel.parentElement.appendChild(errorDiv);
+                    } else {
+                        educationLevelError.style.display = 'block';
+                    }
+                    return false;
+                }
+                if (educationLevelError) educationLevelError.style.display = 'none';
+                return true;
+            }
+            
+            // Navigation buttons logic
+            nextBtn.addEventListener('click', function() {
+                let isValid = true;
+                if (currentQuestionIndex === 0) {
+                    isValid = validateBudget();
+                } else if (currentQuestionIndex === 1) {
+                    isValid = validateEducationLevel();
+                }
+
+                if (!isValid) {
+                    return; // Stop if validation fails
+                }
+                
+                if (currentQuestionIndex < questionItems.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    // Finish clicked
+                    showModal('Thank You!', 'Your preferences have been recorded. We will help you find the perfect study destination!');
+                    
+                    // Reset form and hide questions
+                    setTimeout(() => {
+                        searchQuestions.style.height = '0px';
+                        questionsVisible = false;
+                        setTimeout(() => searchQuestions.style.display = 'none', 500);
+                        currentQuestionIndex = 0;
+                        showQuestion(currentQuestionIndex); // Reset to first question for next interaction
+                        searchInput.value = '';
+                        
+                        // Reset form fields
+                        budgetAmount.value = '';
+                        educationLevel.value = '';
+                        collegeName.value = '';
+                    }, 300); // Allow modal to show briefly before hiding questions
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+            
+            // Hide questions when clicking elsewhere (except search container)
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container') && !e.target.classList.contains('modal-overlay') && !e.target.classList.contains('modal-close-btn')) {
+                    if (questionsVisible) {
+                        questionsVisible = false;
+                        searchQuestions.style.height = '0px';
+                        setTimeout(() => searchQuestions.style.display = 'none', 500); // Hide after transition
+                    }
+                }
+            });
+
+            // Initial height adjustment in case questions are shown on load (e.g., if input has initial value)
+            adjustSearchQuestionsHeight();
+
+            // Continent hover effects
+            const continents = document.querySelectorAll('.continent');
+            continents.forEach(continent => {
+                continent.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                continent.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Ensure budget and education level errors are hidden on input
+            budgetAmount.addEventListener('input', () => {
+                budgetError.style.display = 'none';
+            });
+
+            educationLevel.addEventListener('change', () => {
+                const educationLevelError = educationLevel.parentElement.querySelector('.error-message');
+                if (educationLevelError) {
+                    educationLevelError.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

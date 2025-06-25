@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Destinations Worldwide</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray for a mild background */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Custom Gradients and Shadows */
+        .text-gradient-blue {
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gradient-soft-blue {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* Very light blue gradient */
+        }
+        .bg-gradient-light-pink {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0); /* Light pink gradient */
+        }
+        .bg-gradient-light-purple {
+            background: linear-gradient(135deg, #ede7f6, #d1c4e9); /* Light purple gradient */
+        }
+        .bg-gradient-light-green {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* Light green gradient */
+        }
+
+        .card-shadow-soft {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Softer, slightly larger shadow */
+        }
+        .btn-shadow-soft {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section Styling */
+        .hero-section {
+            background: linear-gradient(135deg, #a7d9ff, #60a5fa); /* Main hero gradient */
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 40px 40px; /* Rounded bottom corners */
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: moveCircle1 10s infinite alternate;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: moveCircle2 12s infinite alternate;
+        }
+        @keyframes moveCircle1 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        @keyframes moveCircle2 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+
+        /* Search Section */
+        .search-container {
+            position: relative;
+            z-index: 10; /* Ensure it floats above other elements */
+            margin-top: -80px; /* Pull it up into the hero section */
+        }
+
+        /* Search Questions (Quiz) */
+        .search-questions {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            transform-origin: top;
+            transition: all 0.5s ease-out;
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .search-questions.active {
+            max-height: 500px; /* Sufficient height for content */
+            opacity: 1;
+            visibility: visible;
+        }
+        .question-item {
+            display: none;
+        }
+        .question-item.active {
+            display: block;
+            animation: fadeInScale 0.5s ease-out forwards;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .question-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .question-input:focus {
+            border-color: #60a5fa;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* Continent Cards */
+        .continent-card {
+            background-color: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 380px; /* Ensure consistent card height */
+        }
+        .continent-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        .continent-card h3 {
+            font-size: 1.75rem; /* Larger and more prominent */
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        .continent-card h3 svg {
+            margin-right: 0.75rem;
+            color: #60a5fa; /* Blue icon color */
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+        .continent-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .country-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .country-tag {
+            background-color: #e0f2fe; /* Light blue tag */
+            color: #2563eb;
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .stat-item .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        .stat-item .stat-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        .featured-badge {
+            position: absolute;
+            top: 1.25rem;
+            right: 0;
+            background: #ef4444; /* Red for featured */
+            color: white;
+            padding: 0.3rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border-radius: 0.5rem 0 0 0.5rem;
+            transform: translateX(10px);
+            box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Top Study Destinations Carousel */
+        .destination-carousel-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            padding-bottom: 1.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin-top: 2rem;
+        }
+        .destination-carousel-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+        }
+
+        .destination-card-wrapper {
+            flex: 0 0 auto;
+            width: 90%; /* Adjust for mobile */
+            margin-right: 1.5rem;
+            scroll-snap-align: start;
+            height: 320px; /* Fixed height for consistent cards */
+            position: relative;
+        }
+        @media (min-width: 640px) {
+            .destination-card-wrapper {
+                width: 45%; /* Two cards on small desktops */
+            }
+        }
+        @media (min-width: 1024px) {
+            .destination-card-wrapper {
+                width: 30%; /* Three cards on larger desktops */
+            }
+        }
+        .destination-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .destination-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .destination-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .destination-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+            padding: 1.5rem 1rem;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .destination-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .destination-subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* At Every Step Carousel */
+        .step-carousel-wrapper {
+            background-color: #f7f9fc; /* Match body background */
+            padding: 4rem 0;
+        }
+        .step-content-left {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        .step-content-left h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        .step-content-left p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        .step-carousel-right {
+            flex: 2;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1.5rem;
+        }
+        .step-carousel-right::-webkit-scrollbar {
+            display: none;
+        }
+        .step-card-item {
+            flex: 0 0 auto;
+            width: 80%; /* Adjust for mobile */
+            margin-right: 1.5rem;
+            scroll-snap-align: start;
+            height: 280px; /* Fixed height */
+            background-color: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        @media (min-width: 640px) {
+            .step-card-item {
+                width: 40%;
+            }
+        }
+        @media (min-width: 1024px) {
+            .step-card-item {
+                width: 30%; /* Three cards on larger desktops */
+            }
+        }
+        .step-card-item img {
+            max-height: 100px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .step-card-item h3 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        .step-card-item a {
+            color: #3b82f6;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .step-card-item a:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        /* Call Back Request Section */
+        .callback-section {
+            background-color: white;
+            padding: 4rem 0;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: 4rem;
+        }
+        .callback-image-container {
+            position: relative;
+            padding-right: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .callback-image-container img {
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+        }
+        .callback-form-container {
+            padding: 2rem;
+        }
+        .callback-form-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        .callback-form-container h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: #f8f9fa;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+        .submit-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Generic Animations for Scroll Reveal */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .animate-scale-in {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-scale-in.in-view {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .animate-fade-in {
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+        }
+        .animate-fade-in.in-view {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation Placeholder (as per app.html context, not provided in home.html) -->
+    <header class="bg-white shadow-sm py-4 z-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="https://ik.imagekit.io/acxf74gnv/logos/profile/limage-1363-345-photo.png" alt="pepeleads" class="h-8 mr-3">
+            </div>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">About Us</a>
+                <a href="#" class="text-blue-500 nav-link-active transition-colors duration-200">Destinations</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">Community</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">FAQS</a>
+            </nav>
+
+            <!-- Search and Profile Icons -->
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </button>
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="min-h-screen flex flex-col items-center">
+        <!-- Hero Section -->
+        <section class="hero-section w-full">
+            <div class="container mx-auto px-4 py-8 relative z-10 animate-fade-in" data-animation-delay="0">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 animate-on-scroll in-view" data-animation-delay="100">
+                    <i class="fas fa-graduation-cap mr-4"></i>
+                    Study Destinations <span class="text-gradient-blue font-extrabold">Worldwide</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-8 animate-on-scroll in-view" data-animation-delay="200">
+                    Discover the perfect study destination for your academic journey. Explore universities across the globe and find programs that match your aspirations.
+                </p>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-4 -mt-20 z-10 w-full max-w-4xl">
+            <!-- Search & Quiz Section -->
+            <div class="search-container bg-white rounded-2xl shadow-xl overflow-hidden p-4 sm:p-6 lg:p-8 animate-scale-in" data-animation-delay="300">
+                <div class="flex items-center">
+                    <input type="text" id="countrySearch" placeholder="Search for a country (e.g. Germany, Canada, Japan)..." autocomplete="off"
+                        class="flex-1 p-3 md:p-4 border-none text-base md:text-lg outline-none rounded-l-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-300 transition duration-300">
+                    <button class="search-btn bg-blue-600 hover:bg-blue-700 text-white p-3 md:p-4 rounded-r-xl font-semibold text-base md:text-lg transition duration-300 btn-shadow-soft">
+                        <i class="fas fa-search"></i> <span class="hidden sm:inline">Search</span>
+                    </button>
+                </div>
+                
+                <div class="search-questions mt-4" id="searchQuestions">
+                    <div class="question-item active" data-index="0">
+                        <div class="question text-lg font-semibold text-gray-700 mb-4 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">What is your estimated budget for studying abroad? (in INR)</div>
+                        <div class="answer-input">
+                            <input type="number" id="budgetAmount" placeholder="Enter amount in Indian Rupees" class="question-input">
+                            <div class="error-message">Please enter a valid budget amount (minimum ₹200,000)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="question-item" data-index="1">
+                        <div class="question text-lg font-semibold text-gray-700 mb-4 bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">What is your current education level?</div>
+                        <div class="answer-input">
+                            <select id="educationLevel" class="question-input">
+                                <option value="">Select your education level</option>
+                                <option value="undergraduate">Undergraduate</option>
+                                <option value="graduate">Graduate/Master's</option>
+                                <option value="phd">PhD/Doctorate</option>
+                                <option value="diploma">Diploma/Certificate</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="question-item" data-index="2">
+                        <div class="question text-lg font-semibold text-gray-700 mb-4 bg-green-50 p-4 rounded-lg border-l-4 border-green-400">Do you have any preferred universities or colleges?</div>
+                        <div class="answer-input">
+                            <input type="text" id="collegeName" placeholder="Enter names of preferred institutions" class="question-input">
+                        </div>
+                    </div>
+                    
+                    <div class="nav-buttons flex justify-between mt-6">
+                        <button class="nav-btn bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium transition duration-300 hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed" id="prevBtn" disabled><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                        <button class="nav-btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition duration-300 btn-shadow-soft" id="nextBtn">Next <i class="fas fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Study Destinations Section -->
+        <section class="w-full py-16 bg-f0f4f8">
+            <div class="container mx-auto px-4 animate-fade-in" data-animation-delay="0">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-4 animate-on-scroll" data-animation-delay="0">Top Study Destinations</h2>
+                <p class="text-lg text-center text-gray-600 mb-10 animate-on-scroll" data-animation-delay="100">There is a world out there full of possibilities!</p>
+                
+                <div class="destination-carousel-container">
+                    <!-- Destination Card 1 (USA) -->
+                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="0">
+                        <div class="destination-card">
+                            <img src="https://images.pexels.com/photos/10168390/pexels-photo-10168390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Statue of Liberty, USA">
+                            <div class="destination-overlay">
+                                <p class="destination-subtitle">Study Abroad In</p>
+                                <p class="destination-title">USA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination Card 2 (UK) -->
+                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="100">
+                        <div class="destination-card">
+                            <img src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="London, UK">
+                            <div class="destination-overlay">
+                                <p class="destination-subtitle">Study Abroad In</p>
+                                <p class="destination-title">UK</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination Card 3 (Canada) -->
+                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="200">
+                        <div class="destination-card">
+                            <img src="https://images.pexels.com/photos/2260175/pexels-photo-2260175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Toronto, Canada">
+                            <div class="destination-overlay">
+                                <p class="destination-subtitle">Study Abroad In</p>
+                                <p class="destination-title">Canada</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Destination Card 4 (Australia) -->
+                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="300">
+                        <div class="destination-card">
+                            <img src="https://images.pexels.com/photos/2361661/pexels-photo-2361661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Sydney Opera House, Australia">
+                            <div class="destination-overlay">
+                                <p class="destination-subtitle">Study Abroad In</p>
+                                <p class="destination-title">Australia</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination Card 5 (New Zealand) -->
+                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="400">
+                        <div class="destination-card">
+                            <img src="https://images.pexels.com/photos/2375997/pexels-photo-2375997.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Sky Tower, New Zealand">
+                            <div class="destination-overlay">
+                                <p class="destination-subtitle">Study Abroad In</p>
+                                <p class="destination-title">New Zealand</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Destination Card 6 (Germany) -->
+                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="500">
+                        <div class="destination-card">
+                            <img src="https://images.pexels.com/photos/567674/pexels-photo-567674.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Cologne Cathedral, Germany">
+                            <div class="destination-overlay">
+                                <p class="destination-subtitle">Study Abroad In</p>
+                                <p class="destination-title">Germany</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- At Every Step of Your Journey Section -->
+        <section class="step-carousel-wrapper w-full">
+            <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-8 py-12">
+                <div class="step-content-left text-center lg:text-left mb-8 lg:mb-0 animate-on-scroll" data-animation-delay="0">
+                    <h2>With you at every step of your study abroad journey</h2>
+                    <p class="max-w-md mx-auto lg:mx-0">Get personalised, friendly, honest guidance for free</p>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full btn-shadow-soft transition-transform duration-300 transform hover:scale-105">
+                        Book a free consultation <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <div class="step-carousel-right flex-1 w-full lg:w-auto">
+                    <!-- Step Card Item 1 (Application Prep) -->
+                    <div class="step-card-item bg-gradient-soft-blue animate-on-scroll" data-animation-delay="0">
+                        <img src="https://placehold.co/100x100/e3f2fd/2563eb?text=📋" alt="Application Preparation Icon">
+                        <h3>Application Preparation</h3>
+                        <a href="#">Know more &rarr;</a>
+                    </div>
+                    <!-- Step Card Item 2 (Refer & Earn) -->
+                    <div class="step-card-item bg-gradient-light-pink animate-on-scroll" data-animation-delay="100">
+                        <img src="https://placehold.co/100x100/fce4ec/a32b5e?text=🤝" alt="Refer & Earn Icon">
+                        <h3>Refer & Earn</h3>
+                        <a href="#">Know more &rarr;</a>
+                    </div>
+                    <!-- Step Card Item 3 (Scholarships) -->
+                    <div class="step-card-item bg-gradient-light-purple animate-on-scroll" data-animation-delay="200">
+                        <img src="https://placehold.co/100x100/ede7f6/5e35b1?text=💰" alt="Scholarships Icon">
+                        <h3>Enroll for scholarships</h3>
+                        <a href="#">Know more &rarr;</a>
+                    </div>
+                     <!-- Step Card Item 4 (Visa Guidance) -->
+                    <div class="step-card-item bg-gradient-light-green animate-on-scroll" data-animation-delay="300">
+                        <img src="https://placehold.co/100x100/e8f5e9/2e7d32?text=✈️" alt="Visa Guidance Icon">
+                        <h3>Visa Guidance</h3>
+                        <a href="#">Know more &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Continents Section (Refined from original) -->
+        <section class="w-full py-16 bg-f0f4f8">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-12 animate-on-scroll" data-animation-delay="0">Explore Study Abroad by Region</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="0">
+                        <h3>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
+                            </svg>
+                            Europe
+                        </h3>
+                        <p>Renowned for historic universities and diverse cultures. Many countries offer low or no tuition fees.</p>
+                        <div class="country-tag-list">
+                            <span class="country-tag">Germany</span>
+                            <span class="country-tag">UK</span>
+                            <span class="country-tag">France</span>
+                            <span class="country-tag">Netherlands</span>
+                            <span class="country-tag">Sweden</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                            <div class="stat-item">
+                                <div class="stat-value">1200+</div>
+                                <div class="stat-label">Universities</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">₹5-15L</div>
+                                <div class="stat-label">Annual Cost</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">90%</div>
+                                <div class="stat-label">Employability</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="100">
+                        <div class="featured-badge">MOST POPULAR</div>
+                        <h3>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
+                            </svg>
+                            North America
+                        </h3>
+                        <p>Home to world-class institutions with cutting-edge research facilities and diverse programs.</p>
+                        <div class="country-tag-list">
+                            <span class="country-tag">USA</span>
+                            <span class="country-tag">Canada</span>
+                            <span class="country-tag">Mexico</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                            <div class="stat-item">
+                                <div class="stat-value">4000+</div>
+                                <div class="stat-label">Universities</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">₹15-40L</div>
+                                <div class="stat-label">Annual Cost</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">95%</div>
+                                <div class="stat-label">Employability</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="200">
+                        <h3>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
+                            </svg>
+                            Asia
+                        </h3>
+                        <p>Rapidly growing education hubs with innovative programs and affordable living costs.</p>
+                        <div class="country-tag-list">
+                            <span class="country-tag">Japan</span>
+                            <span class="country-tag">China</span>
+                            <span class="country-tag">South Korea</span>
+                            <span class="country-tag">Singapore</span>
+                            <span class="country-tag">Malaysia</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                            <div class="stat-item">
+                                <div class="stat-value">2500+</div>
+                                <div class="stat-label">Universities</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">₹3-10L</div>
+                                <div class="stat-label">Annual Cost</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">88%</div>
+                                <div class="stat-label">Employability</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="300">
+                        <h3>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
+                            </svg>
+                            Oceania
+                        </h3>
+                        <p>High-quality education in beautiful environments with strong post-study work opportunities.</p>
+                        <div class="country-tag-list">
+                            <span class="country-tag">Australia</span>
+                            <span class="country-tag">New Zealand</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                            <div class="stat-item">
+                                <div class="stat-value">150+</div>
+                                <div class="stat-label">Universities</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">₹12-25L</div>
+                                <div class="stat-label">Annual Cost</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">92%</div>
+                                <div class="stat-label">Employability</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-center text-gray-600 italic text-base mt-12 animate-fade-in" data-animation-delay="400">Over 5 million international students find their perfect study destination each year</p>
+            </div>
+        </section>
+
+        <!-- Request A Call Back Section -->
+        <section class="callback-section w-full max-w-5xl mx-auto px-4 py-12 mb-16 animate-on-scroll" data-animation-delay="0">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="callback-image-container">
+                    <img src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Woman on call with laptop">
+                </div>
+                <div class="callback-form-container">
+                    <h3 class="text-blue-600">HAVE ANY QUESTIONS</h3>
+                    <h2>Request A Call Back.</h2>
+                    <form>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <input type="text" id="callbackName" placeholder="Name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="callbackEmail" placeholder="E-mail" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="callbackSubject" placeholder="Subject" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="callbackPhone" placeholder="Phone Number" class="form-input" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn mt-6 w-full sm:w-auto">
+                            Request Call Back
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Section (Copied from app.html, adjusted for new styles) -->
+    <footer class="bg-gray-800 text-white py-12 animate-fade-in" data-animation-delay="0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- About Us -->
+            <div class="animate-on-scroll" data-animation-delay="0">
+                <h3 class="text-lg font-semibold mb-4">About Us</h3>
+                <p class="text-gray-400 text-sm">
+                    Leverage Edu is India's most trusted study abroad platform. We help students achieve their dreams of global education with expert guidance and support.
+                </p>
+            </div>
+            <!-- Quick Links -->
+            <div class="animate-on-scroll" data-animation-delay="100">
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Destinations</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Universities</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Courses</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Scholarships</a></li>
+                </ul>
+            </div>
+            <!-- Contact Us -->
+            <div class="animate-on-scroll" data-animation-delay="200">
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-400 text-sm mb-2">Email: info@leverageedu.com</p>
+                <p class="text-gray-400 text-sm mb-2">Phone: +91-12345-67890</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.007 3.792.051 1.05.044 1.749.213 2.156.368.424.153.722.384.99.664.269.28.491.577.644-.418.15-1.116.319-2.167-.363-1.009.043-1.346.051-3.792.051s-.008-2.784-.052-3.792c-.044-1.05-.213-1.749-.368-2.156-.153-.424-.384-.722-.664-.99-.28-.269-.577-.491-1.009-.644-.418-.15-1.116-.319-2.167-.363C9.557 2.007 9.894 2 12.315 2zM8.536 12a3.464 3.464 0 116.928 0 3.464 3.464 0 01-6.928 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M.057 24L0 16.547 4.717 12.045 0 7.545.057 0h23.886L24 7.545 19.283 12.045 24 16.547l-.057 7.453H.057z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-sm mt-8 animate-fade-in" data-animation-delay="300">
+            &copy; 2025 Leverage Edu. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Generic Intersection Observer for scroll animations ---
+            const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll, .animate-scale-in, .animate-fade-in');
+
+            const animationObserverOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // When 10% of the element is visible
+            };
+
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.animationDelay || '0', 10);
+                        const animationType = entry.target.classList.contains('animate-scale-in') ? 'scale-in' :
+                                              entry.target.classList.contains('animate-fade-in') ? 'fade-in' :
+                                              'on-scroll'; // Default is on-scroll (translateY)
+
+                        setTimeout(() => {
+                            entry.target.classList.add('in-view'); // Trigger CSS animation
+                        }, delay);
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, animationObserverOptions);
+
+            animateOnScrollElements.forEach(element => {
+                animationObserver.observe(element);
+            });
+
+
+            // --- Search & Quiz Logic ---
+            const searchInput = document.getElementById('countrySearch');
+            const searchQuestions = document.getElementById('searchQuestions');
+            const questionItems = document.querySelectorAll('.question-item');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const budgetAmount = document.getElementById('budgetAmount');
+            const budgetError = document.querySelector('.error-message');
+            
+            let currentQuestionIndex = 0;
+            
+            searchInput.addEventListener('focus', function() {
+                searchQuestions.classList.add('active');
+                showQuestion(currentQuestionIndex);
+            });
+
+            // Show questions when typing in specific terms
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const relevantTerms = ['germany', 'canada', 'usa', 'australia', 'uk', 'japan', 'france', 'india']; // Add more as needed
+                const isRelevant = relevantTerms.some(term => searchTerm.includes(term));
+
+                if (isRelevant) {
+                    searchQuestions.classList.add('active');
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    // Hide if no relevant terms, but only if not currently focused
+                    // This prevents hiding the quiz while the user is still interacting with it
+                    if (document.activeElement !== searchInput && !searchQuestions.contains(document.activeElement)) {
+                         searchQuestions.classList.remove('active');
+                    }
+                }
+            });
+
+            // Function to show a specific question
+            function showQuestion(index) {
+                questionItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                if (questionItems[index]) {
+                    questionItems[index].classList.add('active');
+                }
+                
+                // Update navigation buttons state
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questionItems.length - 1 ? 'Finish' : 'Next';
+            }
+            
+            // Validate budget amount for the first question
+            function validateBudget() {
+                const budget = parseInt(budgetAmount.value);
+                if (isNaN(budget) || budget < 200000) {
+                    budgetError.style.display = 'block';
+                    return false;
+                }
+                budgetError.style.display = 'none';
+                return true;
+            }
+            
+            // Navigation for quiz
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestionIndex === 0 && !validateBudget()) {
+                    return; // Stop if budget is not valid
+                }
+                
+                if (currentQuestionIndex < questionItems.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    // Quiz finished
+                    alert('Thank you for your answers! We will help you find the perfect study destination.');
+                    searchQuestions.classList.remove('active'); // Hide quiz
+                    currentQuestionIndex = 0; // Reset for next time
+                    searchInput.value = ''; // Clear search input
+                    
+                    // Reset form fields
+                    budgetAmount.value = '';
+                    document.getElementById('educationLevel').value = '';
+                    document.getElementById('collegeName').value = '';
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+            
+            // Hide questions when clicking outside the search container
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container') && !e.target.classList.contains('search-btn') && !searchQuestions.contains(e.target)) {
+                    searchQuestions.classList.remove('active');
+                }
+            });
+
+            // --- Carousel Navigation for Top Study Destinations ---
+            const destinationCarousel = document.querySelector('.destination-carousel-container');
+            if (destinationCarousel) {
+                // No explicit prev/next buttons for this one, relies on scroll-snap and user scroll
+                // Could add if needed, similar to app.html's trending carousel
+            }
+
+            // --- Carousel Navigation for At Every Step of Your Journey ---
+            const stepCarousel = document.querySelector('.step-carousel-right');
+            if (stepCarousel) {
+                // No explicit prev/next buttons, relies on scroll-snap and user scroll
+            }
+
+            // --- Form Submission (Request A Call Back) ---
+            const callbackForm = document.querySelector('.callback-form-container form');
+            if (callbackForm) {
+                callbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent default form submission
+                    // Here you would typically send form data to a server
+                    alert('Thank you for your request! We will call you back shortly.');
+                    callbackForm.reset(); // Clear the form
+                });
+            }
+        });
+    </script>
+</body>
+</html>
