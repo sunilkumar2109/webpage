@@ -336,6 +336,137 @@ body {
     display: block;
 }
 
+/* Unique Loading Overlay Styles */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Darker, slightly transparent background */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000; /* Ensure it's on top of everything */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    /* Increased transition duration for smoother fade */
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Airplane Flying Loading Animation */
+.loading-spinner {
+    width: 120px; /* Make it a bit larger */
+    height: 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Inner circle representing the globe */
+.loading-spinner::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3); /* Subtle globe outline */
+    border-top-color: #3b82f6; /* Blue shade for top */
+    animation: rotateGlobe 2.5s linear infinite; /* Slightly slower rotation */
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); /* Enhanced shadow */
+}
+
+/* Dashed path for the airplane to follow */
+.loading-spinner::after {
+    content: '';
+    position: absolute;
+    width: 100px; /* Larger path for the airplane */
+    height: 100px;
+    border-radius: 50%;
+    border: 3px dashed rgba(255, 255, 255, 0.4); /* Clearer dashed path */
+    border-color: transparent; /* Make default transparent */
+    border-top-color: #a78bfa; /* Purple for flight path */
+    border-left-color: #a78bfa; /* Also apply to left for more visibility */
+    animation: orbitPath 4s linear infinite; /* Match airplane's speed, 4s duration */
+    opacity: 0.8;
+}
+
+/* Airplane icon styling - it's directly in HTML now */
+.loading-spinner .fas.fa-plane {
+    position: absolute;
+    color: #fff; /* White plane */
+    font-size: 2.8rem; /* Larger plane icon */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7)); /* Glowing effect for the plane */
+    animation: flyAirplane 4s linear infinite; /* 4s duration */
+    transform-origin: 50% 50%; /* Center of its own element for rotation */
+    z-index: 10; /* Ensure plane is on top of paths */
+}
+
+@keyframes rotateGlobe {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes orbitPath {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Updated flyAirplane animation */
+@keyframes flyAirplane {
+    0% {
+        transform: rotate(-45deg) translateX(50px) rotateZ(0deg); /* Start from top-right, angled */
+        opacity: 0;
+    }
+    1% {
+        opacity: 1; /* Fade in quickly */
+    }
+    25% {
+        transform: rotate(45deg) translateX(50px) rotateZ(90deg); /* Fly to bottom-right, rotate with path */
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(135deg) translateX(50px) rotateZ(180deg); /* Fly to bottom-left, rotate with path */
+        opacity: 1;
+    }
+    75% {
+        transform: rotate(225deg) translateX(50px) rotateZ(270deg); /* Fly to top-left, rotate with path */
+        opacity: 1;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(315deg) translateX(50px) rotateZ(360deg); /* Complete circle, fade out */
+        opacity: 0;
+    }
+}
+
+
+.loading-text {
+    margin-top: 25px; /* More space from the spinner */
+    color: white;
+    font-size: 1.5rem; /* Even larger text */
+    font-weight: 700; /* Bolder text */
+    opacity: 0;
+    animation: fadeInText 1s forwards 0.5s; /* Fade in after spinner starts */
+    text-shadow: 0 3px 6px rgba(0,0,0,0.6); /* Stronger text shadow */
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: translateY(15px); } /* Fade in with a slight upward movement */
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .glass-modal {
@@ -350,5 +481,40 @@ body {
     
     .glass-btn {
         width: 100%;
+    }
+
+    .loading-spinner {
+        width: 90px;
+        height: 90px;
+    }
+
+    .loading-spinner::before {
+        width: 70px;
+        height: 70px;
+    }
+
+    .loading-spinner::after {
+        width: 80px;
+        height: 80px;
+    }
+
+    .loading-spinner .fas.fa-plane {
+        font-size: 2.2rem;
+        /* Adjust for smaller size and maintain visual consistency */
+        transform: rotate(-45deg) translateX(40px) rotateZ(0deg); 
+    }
+
+    @keyframes flyAirplane {
+        0% { transform: rotate(-45deg) translateX(40px) rotateZ(0deg); opacity: 0; }
+        1% { opacity: 1; }
+        25% { transform: rotate(45deg) translateX(40px) rotateZ(90deg); opacity: 1; }
+        50% { transform: rotate(135deg) translateX(40px) rotateZ(180deg); opacity: 1; }
+        75% { transform: rotate(225deg) translateX(40px) rotateZ(270deg); opacity: 1; }
+        99% { opacity: 1; }
+        100% { transform: rotate(315deg) translateX(40px) rotateZ(360deg); opacity: 0; }
+    }
+
+    .loading-text {
+        font-size: 1.2rem;
     }
 }

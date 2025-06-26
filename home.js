@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const typingText = document.getElementById('typingText');
     const answerBox = document.getElementById('answerBox');
     const callbackForm = document.getElementById('callbackForm');
+    const loadingOverlay = document.getElementById('loadingOverlay'); // Loading overlay element
     
     let currentQuestionIndex = 0;
     let currentTypingInterval = null;
@@ -212,20 +213,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close modal function
     function closeModalFunction() {
         glassModal.classList.remove('active');
-        document.body.style.overflow = '';
-        
         // Clear typing animation
         if (currentTypingInterval) {
             clearInterval(currentTypingInterval);
             currentTypingInterval = null;
         }
         
-        // Reset form
+        // Reset form for next time
         currentQuestionIndex = 0;
         answers = {};
         answerBox.classList.remove('active');
         typingText.innerHTML = '';
         answerBox.innerHTML = '';
+    }
+
+    // Function to show loading overlay
+    function showLoadingOverlay() {
+        loadingOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling during load
+    }
+
+    // Function to hide loading overlay (smooth fade out)
+    // This is primarily used for non-redirect cases
+    function hideLoadingOverlay() {
+        loadingOverlay.style.opacity = '0'; // Start fade out
+        // Wait for the transition to complete before setting visibility to hidden and restoring scroll
+        loadingOverlay.addEventListener('transitionend', function handler() {
+            loadingOverlay.removeEventListener('transitionend', handler);
+            loadingOverlay.classList.remove('active'); // Remove active class after fade out
+            loadingOverlay.style.opacity = ''; // Reset opacity for next time
+            document.body.style.overflow = ''; // Restore scrolling
+        });
     }
     
     // Event Listeners
@@ -245,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchTerm.length >= 3) {
             openModal();
         } else {
-            alert('Please enter at least 3 characters to search for a country.');
+            console.log('Please enter at least 3 characters to search for a country.');
         }
     });
     
@@ -262,9 +280,31 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // Final submission
             console.log('Form submitted:', { searchTerm: searchInput.value, answers });
-            alert('Thank you for your answers! We will help you find the perfect study destination based on your preferences.');
-            closeModalFunction();
-            searchInput.value = '';
+            
+            // Immediately show the full-screen loading overlay
+            showLoadingOverlay();
+
+            // Hide the quiz modal after a very short delay to allow overlay to cover
+            setTimeout(() => {
+                closeModalFunction(); // This will hide the quiz modal
+                
+                // After the desired loading animation duration (4 seconds), trigger the redirect
+                // The loading overlay will remain opaque until the new page loads.
+                if (searchInput.value.toLowerCase().includes('germany')) {
+                    setTimeout(() => {
+                        // The loading overlay is still active and opaque.
+                        // The browser will directly transition to sum.html.
+                        window.location.href = 'dess.html';
+                    }, 4000); // 4 seconds total delay before redirect
+                } else {
+                    // For other countries, smoothly hide the loading overlay after 4 seconds
+                    setTimeout(() => {
+                        hideLoadingOverlay(); // This will fade out the overlay
+                        console.log('Thank you for your answers! We will help you find the perfect study destination based on your preferences.');
+                        searchInput.value = ''; // Clear search input
+                    }, 4000); // 4 seconds total delay before hiding
+                }
+            }, 50); // Small initial delay to ensure overlay is rendered before modal hides
         }
     });
     
@@ -294,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Callback form submission
     callbackForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        alert('Thank you for your request! We will call you back shortly.');
+        console.log('Thank you for your request! We will call you back shortly.');
         callbackForm.reset();
     });
 });
