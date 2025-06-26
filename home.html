@@ -3,1313 +3,486 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Destinations Worldwide</title>
+    <title>Study Abroad Website with Glass Modal Quiz</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Custom Gradients and Shadows */
-        .text-gradient-blue {
-            background: linear-gradient(to right, #60a5fa, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .bg-gradient-soft-blue {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-        }
-        .bg-gradient-light-pink {
-            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-        }
-        .bg-gradient-light-purple {
-            background: linear-gradient(135deg, #ede7f6, #d1c4e9);
-        }
-        .bg-gradient-light-green {
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-        }
-
-        .card-shadow-soft {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        }
-        .btn-shadow-soft {
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Hero Section Styling */
-        .hero-section {
-            background: linear-gradient(135deg, #a7d9ff, #60a5fa);
-            color: white;
-            padding: 6rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-radius: 0 0 40px 40px;
-        }
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: moveCircle1 10s infinite alternate;
-        }
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            right: -50px;
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: moveCircle2 12s infinite alternate;
-        }
-        @keyframes moveCircle1 {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-        @keyframes moveCircle2 {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50px, -50px); }
-        }
-
-        /* Search Section */
-        .search-container {
-            position: relative;
-            z-index: 10;
-            margin-top: -80px;
-        }
-
-        /* Search Questions (Quiz) */
-        .search-questions {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            padding: 2.5rem;
-            margin-top: 1.5rem;
-            overflow: hidden;
-            transform-origin: top;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            max-height: 0;
-            opacity: 0;
-            visibility: hidden;
-            position: relative;
-            z-index: 5;
-            border: 1px solid rgba(203, 213, 225, 0.5);
-        }
-
-        .search-questions.active {
-            max-height: 600px;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .question-item {
-            display: none;
-            padding: 2rem;
-            border-radius: 16px;
-            background: white;
-            margin-bottom: 1.5rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            animation: float 6s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(203, 213, 225, 0.3);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .question-item.active {
-            display: block;
-            animation: fadeIn 0.6s ease-out forwards, float 6s ease-in-out infinite;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Colorful Gradient Backgrounds */
-        .question-item[data-index="0"] {
-            background: linear-gradient(135deg, rgba(255, 241, 242, 0.8), rgba(255, 255, 255, 0.9));
-            border: 1px solid rgba(252, 165, 165, 0.3);
-            --accent-color: #f87171;
-            --accent-color-dark: #ef4444;
-            --accent-rgb: 248, 113, 113;
-        }
-
-        .question-item[data-index="1"] {
-            background: linear-gradient(135deg, rgba(237, 233, 254, 0.8), rgba(255, 255, 255, 0.9));
-            border: 1px solid rgba(196, 181, 253, 0.3);
-            --accent-color: #8b5cf6;
-            --accent-color-dark: #7c3aed;
-            --accent-rgb: 139, 92, 246;
-        }
-
-        .question-item[data-index="2"] {
-            background: linear-gradient(135deg, rgba(220, 252, 231, 0.8), rgba(255, 255, 255, 0.9));
-            border: 1px solid rgba(110, 231, 183, 0.3);
-            --accent-color: #10b981;
-            --accent-color-dark: #059669;
-            --accent-rgb: 16, 185, 129;
-        }
-
-        /* Typing Animation Styles */
-        .typing-container {
-            position: relative;
-            min-height: 3.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-      .typing-text {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #1e293b;
-    line-height: 1.5;
-    padding-left: 2rem;
-    position: relative;
-    white-space: pre-wrap;
-    overflow: hidden;
-    display: inline-block;
-    border-right: none; /* Start with no cursor */
-}
-
-        .typing-text::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.5em;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-       @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--accent-color); }
-}
-
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Input Styling */
-        .question-input {
-            width: 100%;
-            padding: 1.2rem 1.5rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-            font-weight: 500;
-            color: #334155;
-        }
-
-        .question-input:focus {
-            border-color: var(--accent-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
-            background: white;
-        }
-
-        /* Navigation Buttons */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            flex: 1;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: none;
-        }
-
-        #prevBtn {
-            background: #f1f5f9;
-            color: #64748b;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        #prevBtn:hover:not(:disabled) {
-            background: #e2e8f0;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        #nextBtn {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
-            color: white;
-            box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.3);
-        }
-
-        #nextBtn:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.4);
-            animation: buttonShine 1.5s infinite;
-        }
-
-        @keyframes buttonShine {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating Bubbles */
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(var(--accent-rgb), 0.1);
-            animation: floatBubble 15s infinite linear;
-            z-index: -1;
-        }
-
-        @keyframes floatBubble {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
-            100% { transform: translateY(0) rotate(360deg); opacity: 0.5; }
-        }
-
-        /* Error Message Styling */
-        .error-message {
-            color: #ef4444;
-            font-size: 0.9rem;
-            margin-top: 0.8rem;
-            display: none;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .error-message::before {
-            content: '⚠';
-            position: absolute;
-            left: 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .search-questions {
-                padding: 1.5rem;
-                border-radius: 20px;
-            }
-            
-            .question-item {
-                padding: 1.5rem;
-            }
-            
-           
-            
-            .nav-buttons {
-                flex-direction: column;
-            }
-        }
-
-        /* Continent Cards */
-        .continent-card {
-            background-color: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 380px;
-        }
-        .continent-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-        }
-        .continent-card h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-        }
-        .continent-card h3 svg {
-            margin-right: 0.75rem;
-            color: #60a5fa;
-            width: 1.75rem;
-            height: 1.75rem;
-        }
-        .continent-card p {
-            color: #6b7280;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        .country-tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-        .country-tag {
-            background-color: #e0f2fe;
-            color: #2563eb;
-            padding: 0.4rem 0.9rem;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .stat-item .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-        .stat-item .stat-label {
-            font-size: 0.85rem;
-            color: #6b7280;
-        }
-        .featured-badge {
-            position: absolute;
-            top: 1.25rem;
-            right: 0;
-            background: #ef4444;
-            color: white;
-            padding: 0.3rem 1.2rem;
-            font-weight: 600;
-            font-size: 0.8rem;
-            border-radius: 0.5rem 0 0 0.5rem;
-            transform: translateX(10px);
-            box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Top Study Destinations Carousel */
-        .destination-carousel-container {
-            display: flex;
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding-bottom: 1.5rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            margin-top: 2rem;
-        }
-        .destination-carousel-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .destination-card-wrapper {
-            flex: 0 0 auto;
-            width: 90%;
-            margin-right: 1.5rem;
-            scroll-snap-align: start;
-            height: 320px;
-            position: relative;
-        }
-        @media (min-width: 640px) {
-            .destination-card-wrapper {
-                width: 45%;
-            }
-        }
-        @media (min-width: 1024px) {
-            .destination-card-wrapper {
-                width: 30%;
-            }
-        }
-        .destination-card {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .destination-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        .destination-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .destination-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
-            padding: 1.5rem 1rem;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
-        }
-        .destination-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .destination-subtitle {
-            font-size: 1rem;
-            font-weight: 400;
-        }
-
-        /* At Every Step Carousel */
-        .step-carousel-wrapper {
-            background-color: #f7f9fc;
-            padding: 4rem 0;
-        }
-        .step-content-left {
-            flex: 1;
-            padding-right: 2rem;
-        }
-        .step-content-left h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-        .step-content-left p {
-            font-size: 1.1rem;
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-        .step-carousel-right {
-            flex: 2;
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            display: flex;
-            align-items: center;
-            padding-bottom: 1.5rem;
-        }
-        .step-carousel-right::-webkit-scrollbar {
-            display: none;
-        }
-        .step-card-item {
-            flex: 0 0 auto;
-            width: 80%;
-            margin-right: 1.5rem;
-            scroll-snap-align: start;
-            height: 280px;
-            background-color: white;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-        @media (min-width: 640px) {
-            .step-card-item {
-                width: 40%;
-            }
-        }
-        @media (min-width: 1024px) {
-            .step-card-item {
-                width: 30%;
-            }
-        }
-        .step-card-item img {
-            max-height: 100px;
-            object-fit: contain;
-            margin-bottom: 1rem;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .step-card-item h3 {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-        .step-card-item a {
-            color: #3b82f6;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .step-card-item a:hover {
-            color: #2563eb;
-            text-decoration: underline;
-        }
-
-        /* Call Back Request Section */
-        .callback-section {
-            background-color: white;
-            padding: 4rem 0;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            margin-top: 4rem;
-        }
-        .callback-image-container {
-            position: relative;
-            padding-right: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .callback-image-container img {
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 100%;
-            height: auto;
-        }
-        .callback-form-container {
-            padding: 2rem;
-        }
-        .callback-form-container h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-        .callback-form-container h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #2c3e50;
-            margin-bottom: 2rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            background-color: #f8f9fa;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-        }
-        .submit-btn {
-            background-color: #3b82f6;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .submit-btn:hover {
-            background-color: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Generic Animations for Scroll Reveal */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .animate-on-scroll.in-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .animate-scale-in {
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .animate-scale-in.in-view {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .animate-fade-in {
-            opacity: 0;
-            transition: opacity 0.6s ease-out;
-        }
-        .animate-fade-in.in-view {
-            opacity: 1;
-        }
-    </style>
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
     <!-- Header/Navigation -->
-    <header class="bg-white shadow-sm py-4 z-20 relative">
+    <header class="bg-white shadow-sm py-4 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <!-- Logo -->
             <div class="flex items-center">
-                <img src="https://ik.imagekit.io/acxf74gnv/logos/profile/limage-1363-345-photo.png" alt="pepeleads" class="h-8 mr-3">
+                <i class="fas fa-graduation-cap text-blue-600 text-2xl mr-3"></i>
+                <span class="text-xl font-bold text-gray-900">StudyGlobal</span>
             </div>
 
             <!-- Navigation -->
             <nav class="hidden md:flex space-x-8">
-                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">About Us</a>
-                <a href="#" class="text-blue-500 nav-link-active transition-colors duration-200">Destinations</a>
-                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">Community</a>
-                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">FAQS</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors">About Us</a>
+                <a href="#" class="text-blue-500 font-medium">Destinations</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors">Community</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors">FAQs</a>
             </nav>
 
             <!-- Search and Profile Icons -->
             <div class="flex items-center space-x-4">
-                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </button>
-                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </button>
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-gray-600 hover:text-blue-500 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                <i class="fas fa-search text-gray-600 hover:text-blue-500 cursor-pointer transition-colors"></i>
+                <i class="fas fa-users text-gray-600 hover:text-blue-500 cursor-pointer transition-colors"></i>
             </div>
         </div>
     </header>
 
-    <div class="min-h-screen flex flex-col items-center">
+    <div class="min-h-screen bg-gray-50">
         <!-- Hero Section -->
-        <section class="hero-section w-full">
-            <div class="container mx-auto px-4 py-8 relative z-10 animate-fade-in" data-animation-delay="0">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 animate-on-scroll in-view" data-animation-delay="100">
-                    <i class="fas fa-graduation-cap mr-4"></i>
-                    Study Destinations <span class="text-gradient-blue font-extrabold">Worldwide</span>
+        <section class="relative bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 text-white py-24 overflow-hidden">
+            <!-- Animated background elements -->
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-32 -translate-y-32 animate-pulse"></div>
+            <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-24 translate-y-24 animate-pulse" style="animation-delay: 1s;"></div>
+            
+            <div class="relative max-w-7xl mx-auto px-4 text-center">
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+                    Study Destinations <span class="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">Worldwide</span>
                 </h1>
-                <p class="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-8 animate-on-scroll in-view" data-animation-delay="200">
+                <p class="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-12 opacity-90">
                     Discover the perfect study destination for your academic journey. Explore universities across the globe and find programs that match your aspirations.
                 </p>
             </div>
         </section>
 
-        <div class="container mx-auto px-4 -mt-20 z-10 w-full max-w-4xl">
-            <!-- Search & Quiz Section -->
-            <div class="search-container bg-white rounded-2xl shadow-xl overflow-hidden p-4 sm:p-6 lg:p-8 animate-scale-in" data-animation-delay="300">
+        <!-- Search Section -->
+        <div class="relative -mt-16 z-10 max-w-4xl mx-auto px-4">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 border border-gray-100">
                 <div class="flex items-center">
-                    <input type="text" id="countrySearch" placeholder="Search for a country (e.g. Germany, Canada, Japan)..." autocomplete="off"
-                        class="flex-1 p-3 md:p-4 border-none text-base md:text-lg outline-none rounded-l-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-300 transition duration-300">
-                    <button class="search-btn bg-blue-600 hover:bg-blue-700 text-white p-3 md:p-4 rounded-r-xl font-semibold text-base md:text-lg transition duration-300 btn-shadow-soft">
-                        <i class="fas fa-search"></i> <span class="hidden sm:inline">Search</span>
+                    <input
+                        type="text"
+                        id="countrySearch"
+                        placeholder="Search for a country (e.g. Germany, Canada, Japan)..."
+                        class="flex-1 p-4 text-lg border-none outline-none rounded-l-xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all duration-300"
+                    />
+                    <button
+                        id="searchBtn"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-r-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg flex items-center gap-2"
+                    >
+                        <i class="fas fa-search"></i>
+                        <span class="hidden sm:inline">Search</span>
                     </button>
-                </div>
-                
-                <div class="search-questions mt-4" id="searchQuestions">
-                    <div class="question-item active" data-index="0">
-                        <div class="bubble" style="width: 80px; height: 80px; top: -20px; left: -20px; animation-delay: 0s;"></div>
-                        <div class="bubble" style="width: 60px; height: 60px; bottom: -30px; right: -10px; animation-delay: 2s;"></div>
-                        <div class="typing-container">
-                            <div class="typing-text" id="question-0"></div>
-                        </div>
-                        <div class="answer-input">
-                            <input type="number" id="budgetAmount" placeholder="e.g. 500000" class="question-input">
-                            <div class="error-message">Please enter a valid budget amount (minimum ₹200,000)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-item" data-index="1">
-                        <div class="bubble" style="width: 70px; height: 70px; top: -15px; right: -15px; animation-delay: 1s;"></div>
-                        <div class="bubble" style="width: 90px; height: 90px; bottom: -40px; left: -30px; animation-delay: 3s;"></div>
-                        <div class="typing-container">
-                            <div class="typing-text" id="question-1"></div>
-                        </div>
-                        <div class="answer-input">
-                            <select id="educationLevel" class="question-input">
-                                <option value="">Select your education level</option>
-                                <option value="undergraduate">Undergraduate</option>
-                                <option value="graduate">Graduate/Master's</option>
-                                <option value="phd">PhD/Doctorate</option>
-                                <option value="diploma">Diploma/Certificate</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="question-item" data-index="2">
-                        <div class="bubble" style="width: 100px; height: 100px; top: -40px; left: -10px; animation-delay: 2s;"></div>
-                        <div class="bubble" style="width: 50px; height: 50px; bottom: -20px; right: -20px; animation-delay: 4s;"></div>
-                        <div class="typing-container">
-                            <div class="typing-text" id="question-2"></div>
-                        </div>
-                        <div class="answer-input">
-                            <input type="text" id="collegeName" placeholder="e.g. Harvard, Stanford" class="question-input">
-                        </div>
-                    </div>
-                    
-                    <div class="nav-buttons">
-                        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-arrow-left mr-2"></i> Previous</button>
-                        <button class="nav-btn" id="nextBtn">Next <i class="fas fa-arrow-right ml-2"></i></button>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Top Study Destinations Section -->
-        <section class="w-full py-16 bg-f0f4f8">
-            <div class="container mx-auto px-4 animate-fade-in" data-animation-delay="0">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-4 animate-on-scroll" data-animation-delay="0">Top Study Destinations</h2>
-                <p class="text-lg text-center text-gray-600 mb-10 animate-on-scroll" data-animation-delay="100">There is a world out there full of possibilities!</p>
+        <!-- Top Study Destinations -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Top Study Destinations</h2>
+                    <p class="text-xl text-gray-600">There is a world out there full of possibilities!</p>
+                </div>
                 
-                <div class="destination-carousel-container">
-                    <!-- Destination Card 1 (USA) -->
-                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="0">
-                        <div class="destination-card">
-                            <img src="https://images.pexels.com/photos/10168390/pexels-photo-10168390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Statue of Liberty, USA">
-                            <div class="destination-overlay">
-                                <p class="destination-subtitle">Study Abroad In</p>
-                                <p class="destination-title">USA</p>
-                            </div>
+                <div class="flex overflow-x-auto gap-6 pb-6 scrollbar-hide">
+                    <div class="flex-shrink-0 w-80 h-80 relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                        <img src="https://images.pexels.com/photos/10168390/pexels-photo-10168390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="USA" class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <p class="text-sm opacity-90 mb-1">Study Abroad In</p>
+                            <h3 class="text-2xl font-bold">USA</h3>
                         </div>
                     </div>
-                    <!-- Destination Card 2 (UK) -->
-                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="100">
-                        <div class="destination-card">
-                            <img src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="London, UK">
-                            <div class="destination-overlay">
-                                <p class="destination-subtitle">Study Abroad In</p>
-                                <p class="destination-title">UK</p>
-                            </div>
+                    
+                    <div class="flex-shrink-0 w-80 h-80 relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                        <img src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="UK" class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <p class="text-sm opacity-90 mb-1">Study Abroad In</p>
+                            <h3 class="text-2xl font-bold">UK</h3>
                         </div>
                     </div>
-                    <!-- Destination Card 3 (Canada) -->
-                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="200">
-                        <div class="destination-card">
-                            <img src="https://images.pexels.com/photos/2260175/pexels-photo-2260175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Toronto, Canada">
-                            <div class="destination-overlay">
-                                <p class="destination-subtitle">Study Abroad In</p>
-                                <p class="destination-title">Canada</p>
-                            </div>
+                    
+                    <div class="flex-shrink-0 w-80 h-80 relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                        <img src="https://images.pexels.com/photos/2260175/pexels-photo-2260175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Canada" class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <p class="text-sm opacity-90 mb-1">Study Abroad In</p>
+                            <h3 class="text-2xl font-bold">Canada</h3>
                         </div>
                     </div>
-                     <!-- Destination Card 4 (Australia) -->
-                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="300">
-                        <div class="destination-card">
-                            <img src="https://images.pexels.com/photos/2361661/pexels-photo-2361661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Sydney Opera House, Australia">
-                            <div class="destination-overlay">
-                                <p class="destination-subtitle">Study Abroad In</p>
-                                <p class="destination-title">Australia</p>
-                            </div>
+                    
+                    <div class="flex-shrink-0 w-80 h-80 relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                        <img src="https://images.pexels.com/photos/2361661/pexels-photo-2361661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Australia" class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <p class="text-sm opacity-90 mb-1">Study Abroad In</p>
+                            <h3 class="text-2xl font-bold">Australia</h3>
                         </div>
                     </div>
-                    <!-- Destination Card 5 (New Zealand) -->
-                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="400">
-                        <div class="destination-card">
-                            <img src="https://images.pexels.com/photos/2375997/pexels-photo-2375997.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Sky Tower, New Zealand">
-                            <div class="destination-overlay">
-                                <p class="destination-subtitle">Study Abroad In</p>
-                                <p class="destination-title">New Zealand</p>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Destination Card 6 (Germany) -->
-                    <div class="destination-card-wrapper animate-on-scroll" data-animation-delay="500">
-                        <div class="destination-card">
-                            <img src="https://images.pexels.com/photos/567674/pexels-photo-567674.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Cologne Cathedral, Germany">
-                            <div class="destination-overlay">
-                                <p class="destination-subtitle">Study Abroad In</p>
-                                <p class="destination-title">Germany</p>
-                            </div>
+                    
+                    <div class="flex-shrink-0 w-80 h-80 relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                        <img src="https://images.pexels.com/photos/567674/pexels-photo-567674.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Germany" class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <p class="text-sm opacity-90 mb-1">Study Abroad In</p>
+                            <h3 class="text-2xl font-bold">Germany</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- At Every Step of Your Journey Section -->
-        <section class="step-carousel-wrapper w-full">
-            <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-8 py-12">
-                <div class="step-content-left text-center lg:text-left mb-8 lg:mb-0 animate-on-scroll" data-animation-delay="0">
-                    <h2>With you at every step of your study abroad journey</h2>
-                    <p class="max-w-md mx-auto lg:mx-0">Get personalised, friendly, honest guidance for free</p>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full btn-shadow-soft transition-transform duration-300 transform hover:scale-105">
-                        Book a free consultation <i class="fas fa-arrow-right ml-2"></i>
-                    </button>
-                </div>
-                
-                <div class="step-carousel-right flex-1 w-full lg:w-auto">
-                    <!-- Step Card Item 1 (Application Prep) -->
-                    <div class="step-card-item bg-gradient-soft-blue animate-on-scroll" data-animation-delay="0">
-                        <img src="https://placehold.co/100x100/e3f2fd/2563eb?text=📋" alt="Application Preparation Icon">
-                        <h3>Application Preparation</h3>
-                        <a href="#">Know more &rarr;</a>
+        <!-- At Every Step Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+                            With you at every step of your study abroad journey
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Get personalised, friendly, honest guidance for free
+                        </p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                            Book a free consultation
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <!-- Step Card Item 2 (Refer & Earn) -->
-                    <div class="step-card-item bg-gradient-light-pink animate-on-scroll" data-animation-delay="100">
-                        <img src="https://placehold.co/100x100/fce4ec/a32b5e?text=🤝" alt="Refer & Earn Icon">
-                        <h3>Refer & Earn</h3>
-                        <a href="#">Know more &rarr;</a>
-                    </div>
-                    <!-- Step Card Item 3 (Scholarships) -->
-                    <div class="step-card-item bg-gradient-light-purple animate-on-scroll" data-animation-delay="200">
-                        <img src="https://placehold.co/100x100/ede7f6/5e35b1?text=💰" alt="Scholarships Icon">
-                        <h3>Enroll for scholarships</h3>
-                        <a href="#">Know more &rarr;</a>
-                    </div>
-                     <!-- Step Card Item 4 (Visa Guidance) -->
-                    <div class="step-card-item bg-gradient-light-green animate-on-scroll" data-animation-delay="300">
-                        <img src="https://placehold.co/100x100/e8f5e9/2e7d32?text=✈️" alt="Visa Guidance Icon">
-                        <h3>Visa Guidance</h3>
-                        <a href="#">Know more &rarr;</a>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-100 to-blue-200 p-6 rounded-2xl text-center hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <div class="text-4xl mb-4">📋</div>
+                            <h3 class="font-bold text-gray-800 mb-2">Application Preparation</h3>
+                            <a href="#" class="text-blue-600 font-medium hover:underline">Know more →</a>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-pink-100 to-pink-200 p-6 rounded-2xl text-center hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <div class="text-4xl mb-4">🤝</div>
+                            <h3 class="font-bold text-gray-800 mb-2">Refer & Earn</h3>
+                            <a href="#" class="text-blue-600 font-medium hover:underline">Know more →</a>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-purple-100 to-purple-200 p-6 rounded-2xl text-center hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <div class="text-4xl mb-4">💰</div>
+                            <h3 class="font-bold text-gray-800 mb-2">Enroll for scholarships</h3>
+                            <a href="#" class="text-blue-600 font-medium hover:underline">Know more →</a>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-100 to-green-200 p-6 rounded-2xl text-center hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <div class="text-4xl mb-4">✈️</div>
+                            <h3 class="font-bold text-gray-800 mb-2">Visa Guidance</h3>
+                            <a href="#" class="text-blue-600 font-medium hover:underline">Know more →</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Continents Section -->
-        <section class="w-full py-16 bg-f0f4f8">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-12 animate-on-scroll" data-animation-delay="0">Explore Study Abroad by Region</h2>
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-16">
+                    Explore Study Abroad by Region
+                </h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="0">
-                        <h3>
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
-                            </svg>
-                            Europe
-                        </h3>
-                        <p>Renowned for historic universities and diverse cultures. Many countries offer low or no tuition fees.</p>
-                        <div class="country-tag-list">
-                            <span class="country-tag">Germany</span>
-                            <span class="country-tag">UK</span>
-                            <span class="country-tag">France</span>
-                            <span class="country-tag">Netherlands</span>
-                            <span class="country-tag">Sweden</span>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-globe text-blue-500 text-2xl mr-3"></i>
+                            <h3 class="text-2xl font-bold text-gray-900">Europe</h3>
                         </div>
-                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
-                            <div class="stat-item">
-                                <div class="stat-value">1200+</div>
-                                <div class="stat-label">Universities</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">₹5-15L</div>
-                                <div class="stat-label">Annual Cost</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">90%</div>
-                                <div class="stat-label">Employability</div>
-                            </div>
+                        
+                        <p class="text-gray-600 mb-6 leading-relaxed">Renowned for historic universities and diverse cultures. Many countries offer low or no tuition fees.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Germany</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">UK</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">France</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Netherlands</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Sweden</span>
                         </div>
-                    </div>
-                    
-                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="100">
-                        <div class="featured-badge">MOST POPULAR</div>
-                        <h3>
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
-                            </svg>
-                            North America
-                        </h3>
-                        <p>Home to world-class institutions with cutting-edge research facilities and diverse programs.</p>
-                        <div class="country-tag-list">
-                            <span class="country-tag">USA</span>
-                            <span class="country-tag">Canada</span>
-                            <span class="country-tag">Mexico</span>
-                        </div>
-                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
-                            <div class="stat-item">
-                                <div class="stat-value">4000+</div>
-                                <div class="stat-label">Universities</div>
+                        
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">1200+</div>
+                                <div class="text-sm text-gray-500">Universities</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">₹15-40L</div>
-                                <div class="stat-label">Annual Cost</div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">₹5-15L</div>
+                                <div class="text-sm text-gray-500">Annual Cost</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">95%</div>
-                                <div class="stat-label">Employability</div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">90%</div>
+                                <div class="text-sm text-gray-500">Employability</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="200">
-                        <h3>
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
-                            </svg>
-                            Asia
-                        </h3>
-                        <p>Rapidly growing education hubs with innovative programs and affordable living costs.</p>
-                        <div class="country-tag-list">
-                            <span class="country-tag">Japan</span>
-                            <span class="country-tag">China</span>
-                            <span class="country-tag">South Korea</span>
-                            <span class="country-tag">Singapore</span>
-                            <span class="country-tag">Malaysia</span>
+                    <div class="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
+                        <div class="absolute -top-3 -right-3 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                            MOST POPULAR
                         </div>
-                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
-                            <div class="stat-item">
-                                <div class="stat-value">2500+</div>
-                                <div class="stat-label">Universities</div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-globe text-blue-500 text-2xl mr-3"></i>
+                            <h3 class="text-2xl font-bold text-gray-900">North America</h3>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-6 leading-relaxed">Home to world-class institutions with cutting-edge research facilities and diverse programs.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">USA</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Canada</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Mexico</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">4000+</div>
+                                <div class="text-sm text-gray-500">Universities</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">₹3-10L</div>
-                                <div class="stat-label">Annual Cost</div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">₹15-40L</div>
+                                <div class="text-sm text-gray-500">Annual Cost</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">88%</div>
-                                <div class="stat-label">Employability</div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">95%</div>
+                                <div class="text-sm text-gray-500">Employability</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="continent-card card-shadow-soft animate-on-scroll" data-animation-delay="300">
-                        <h3>
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2 0V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"></path>
-                            </svg>
-                            Oceania
-                        </h3>
-                        <p>High-quality education in beautiful environments with strong post-study work opportunities.</p>
-                        <div class="country-tag-list">
-                            <span class="country-tag">Australia</span>
-                            <span class="country-tag">New Zealand</span>
+                    <div class="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-globe text-blue-500 text-2xl mr-3"></i>
+                            <h3 class="text-2xl font-bold text-gray-900">Asia</h3>
                         </div>
-                        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
-                            <div class="stat-item">
-                                <div class="stat-value">150+</div>
-                                <div class="stat-label">Universities</div>
+                        
+                        <p class="text-gray-600 mb-6 leading-relaxed">Rapidly growing education hubs with innovative programs and affordable living costs.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Japan</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">China</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">South Korea</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Singapore</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Malaysia</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">2500+</div>
+                                <div class="text-sm text-gray-500">Universities</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">₹12-25L</div>
-                                <div class="stat-label">Annual Cost</div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">₹3-10L</div>
+                                <div class="text-sm text-gray-500">Annual Cost</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">92%</div>
-                                <div class="stat-label">Employability</div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">88%</div>
+                                <div class="text-sm text-gray-500">Employability</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-globe text-blue-500 text-2xl mr-3"></i>
+                            <h3 class="text-2xl font-bold text-gray-900">Oceania</h3>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-6 leading-relaxed">High-quality education in beautiful environments with strong post-study work opportunities.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Australia</span>
+                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">New Zealand</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">150+</div>
+                                <div class="text-sm text-gray-500">Universities</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">₹12-25L</div>
+                                <div class="text-sm text-gray-500">Annual Cost</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">92%</div>
+                                <div class="text-sm text-gray-500">Employability</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <p class="text-center text-gray-600 italic text-base mt-12 animate-fade-in" data-animation-delay="400">Over 5 million international students find their perfect study destination each year</p>
-            </div>
-        </section>
-
-        <!-- Request A Call Back Section -->
-        <section class="callback-section w-full max-w-5xl mx-auto px-4 py-12 mb-16 animate-on-scroll" data-animation-delay="0">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="callback-image-container">
-                    <img src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Woman on call with laptop">
-                </div>
-                <div class="callback-form-container">
-                    <h3 class="text-blue-600">HAVE ANY QUESTIONS</h3>
-                    <h2>Request A Call Back.</h2>
-                    <form>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <input type="text" id="callbackName" placeholder="Name" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" id="callbackEmail" placeholder="E-mail" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="callbackSubject" placeholder="Subject" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" id="callbackPhone" placeholder="Phone Number" class="form-input" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="submit-btn mt-6 w-full sm:w-auto">
-                            Request Call Back
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer Section -->
-    <footer class="bg-gray-800 text-white py-12 animate-fade-in" data-animation-delay="0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- About Us -->
-            <div class="animate-on-scroll" data-animation-delay="0">
-                <h3 class="text-lg font-semibold mb-4">About Us</h3>
-                <p class="text-gray-400 text-sm">
-                    Leverage Edu is India's most trusted study abroad platform. We help students achieve their dreams of global education with expert guidance and support.
+                <p class="text-center text-gray-600 italic mt-12">
+                    Over 5 million international students find their perfect study destination each year
                 </p>
             </div>
-            <!-- Quick Links -->
-            <div class="animate-on-scroll" data-animation-delay="100">
-                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Destinations</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Universities</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Courses</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Scholarships</a></li>
-                </ul>
+        </section>
+
+        <!-- Call Back Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="p-8 lg:p-12">
+                            <div class="text-blue-600 font-semibold mb-2">HAVE ANY QUESTIONS</div>
+                            <h2 class="text-3xl font-bold text-gray-900 mb-8">Request A Call Back.</h2>
+                            
+                            <form id="callbackForm" class="space-y-6">
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Name"
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all duration-300"
+                                        required
+                                    />
+                                    <input
+                                        type="email"
+                                        placeholder="E-mail"
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all duration-300"
+                                        required
+                                    />
+                                </div>
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Subject"
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all duration-300"
+                                    />
+                                    <input
+                                        type="tel"
+                                        placeholder="Phone Number"
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all duration-300"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                                >
+                                    Request Call Back
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="relative">
+                            <img
+                                src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                alt="Woman on call with laptop"
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Contact Us -->
-            <div class="animate-on-scroll" data-animation-delay="200">
-                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
-                <p class="text-gray-400 text-sm mb-2">Email: info@leverageedu.com</p>
-                <p class="text-gray-400 text-sm mb-2">Phone: +91-12345-67890</p>
-                <div class="flex space-x-4 mt-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.007 3.792.051 1.05.044 1.749.213 2.156.368.424.153.722.384.99.664.269.28.491.577.644-.418.15-1.116.319-2.167-.363-1.009.043-1.346.051-3.792.051s-.008-2.784-.052-3.792c-.044-1.05-.213-1.749-.368-2.156-.153-.424-.384-.722-.664-.99-.28-.269-.577-.491-1.009-.644-.418-.15-1.116-.319-2.167-.363C9.557 2.007 9.894 2 12.315 2zM8.536 12a3.464 3.464 0 116.928 0 3.464 3.464 0 01-6.928 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M.057 24L0 16.547 4.717 12.045 0 7.545.057 0h23.886L24 7.545 19.283 12.045 24 16.547l-.057 7.453H.057z" />
-                        </svg>
-                    </a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid md:grid-cols-3 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">About Us</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            StudyGlobal is your trusted partner for international education. We help students achieve their dreams of global education with expert guidance and support.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Destinations</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Universities</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Courses</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Scholarships</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                        <div class="space-y-2 text-gray-400">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-envelope"></i>
+                                <span>info@studyglobal.com</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-phone"></i>
+                                <span>+91-12345-67890</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 mt-6">
+                            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center text-gray-500 pt-8 border-t border-gray-800">
+                    © 2025 StudyGlobal. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+        <!-- Glass Modal -->
+        <div id="glassModal" class="glass-modal-overlay">
+            <div class="glass-modal">
+                <button id="closeModal" class="glass-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <!-- Floating Particles -->
+                <div class="glass-particles">
+                    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+                    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+                    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+                    <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+                    <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+                    <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+                    <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+                    <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+                    <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="question-progress">
+                    <div class="progress-dot active" data-step="0"></div>
+                    <div class="progress-dot" data-step="1"></div>
+                    <div class="progress-dot" data-step="2"></div>
+                </div>
+
+                <!-- Question Container -->
+                <div id="questionContainer" class="question-container">
+                    <div class="question-box active">
+                        <div id="typingText" class="typing-text"></div>
+                    </div>
+                    <div id="answerBox" class="answer-box">
+                        <!-- Dynamic content will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="glass-nav-buttons">
+                    <button id="prevBtn" class="glass-btn glass-btn-secondary" disabled>
+                        <i class="fas fa-arrow-left mr-2"></i> Previous
+                    </button>
+                    <button id="nextBtn" class="glass-btn glass-btn-primary">
+                        Next <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="text-center text-gray-500 text-sm mt-8 animate-fade-in" data-animation-delay="300">
-            &copy; 2025 Leverage Edu. All rights reserved.
-        </div>
-    </footer>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Questions data
-            const questions = [
-                "What is your estimated budget for studying abroad? (in INR)",
-                "What is your current education level?",
-                "Do you have any preferred universities or colleges?"
-            ];
-
-            // --- Generic Intersection Observer for scroll animations ---
-            const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll, .animate-scale-in, .animate-fade-in');
-
-            const animationObserverOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const animationObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const delay = parseInt(entry.target.dataset.animationDelay || '0', 10);
-                        const animationType = entry.target.classList.contains('animate-scale-in') ? 'scale-in' :
-                                              entry.target.classList.contains('animate-fade-in') ? 'fade-in' :
-                                              'on-scroll';
-
-                        setTimeout(() => {
-                            entry.target.classList.add('in-view');
-                        }, delay);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, animationObserverOptions);
-
-            animateOnScrollElements.forEach(element => {
-                animationObserver.observe(element);
-            });
-let currentTypingInterval = null;
-            // Typing animation function
-            function typeQuestion(element, text, speed = 100) {
-                if (currentTypingInterval) {
-        clearInterval(currentTypingInterval);
-    }
-    
-    element.textContent = '';
-    element.style.animation = 'none'; // Disable CSS animation temporarily
-    
-    let i = 0;
-    currentTypingInterval = setInterval(() => {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-        } else {
-            clearInterval(currentTypingInterval);
-            currentTypingInterval = null;
-            // Add blinking cursor effect after typing completes
-            element.style.borderRight = `2px solid ${getComputedStyle(element.parentElement.parentElement).getPropertyValue('--accent-color')}`;
-            element.style.animation = 'blink-caret .75s step-end infinite';
-        }
-    }, speed);
-            }
-
-            // Initialize first question
-            typeQuestion(document.getElementById('question-0'), questions[0]);
-
-            // --- Search & Quiz Logic ---
-            const searchInput = document.getElementById('countrySearch');
-            const searchQuestions = document.getElementById('searchQuestions');
-            const questionItems = document.querySelectorAll('.question-item');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const budgetAmount = document.getElementById('budgetAmount');
-            const budgetError = document.querySelector('.error-message');
-            
-            let currentQuestionIndex = 0;
-            let typingIntervals = [];
-            
-            // Function to stop all typing animations
-            function stopAllTypingAnimations() {
-                typingIntervals.forEach(interval => clearInterval(interval));
-                typingIntervals = [];
-            }
-            
-            searchInput.addEventListener('focus', function() {
-                searchQuestions.classList.add('active');
-                showQuestion(currentQuestionIndex);
-            });
-
-            // Show questions when typing in specific terms
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const relevantTerms = ['germany', 'canada', 'usa', 'australia', 'uk', 'japan', 'france', 'india'];
-                const isRelevant = relevantTerms.some(term => searchTerm.includes(term));
-
-                if (isRelevant) {
-                    searchQuestions.classList.add('active');
-                    showQuestion(currentQuestionIndex);
-                } else if (document.activeElement !== searchInput && !searchQuestions.contains(document.activeElement)) {
-                    searchQuestions.classList.remove('active');
-                }
-            });
-
-            // Function to show a specific question
-            function showQuestion(index) {
-                if (currentTypingInterval) {
-        clearInterval(currentTypingInterval);
-        currentTypingInterval = null;
-    }
-    
-    questionItems.forEach(item => item.classList.remove('active'));
-    
-    if (questionItems[index]) {
-        questionItems[index].classList.add('active');
-        const questionElement = questionItems[index].querySelector('.typing-text');
-        questionElement.style.borderRight = 'none'; // Reset cursor
-        
-        // Start typing animation
-        typeQuestion(questionElement, questions[index]);
-        
-        // Update button colors
-        const accentColor = getComputedStyle(questionItems[index]).getPropertyValue('--accent-color');
-        const accentColorDark = getComputedStyle(questionItems[index]).getPropertyValue('--accent-color-dark');
-        const accentRgb = getComputedStyle(questionItems[index]).getPropertyValue('--accent-rgb');
-        
-        nextBtn.style.setProperty('--accent-color', accentColor);
-        nextBtn.style.setProperty('--accent-color-dark', accentColorDark);
-        nextBtn.style.setProperty('--accent-rgb', accentRgb);
-    }
-    
-    prevBtn.disabled = index === 0;
-    nextBtn.textContent = index === questionItems.length - 1 ? 'Get Recommendations' : 'Next';
-            }
-            
-            // Validate budget amount for the first question
-            function validateBudget() {
-                const budget = parseInt(budgetAmount.value);
-                if (isNaN(budget) || budget < 200000) {
-                    budgetError.style.display = 'block';
-                    return false;
-                }
-                budgetError.style.display = 'none';
-                return true;
-            }
-            
-            // Navigation for quiz
-            nextBtn.addEventListener('click', function() {
-                if (currentQuestionIndex === 0 && !validateBudget()) {
-                    return;
-                }
-                
-                if (currentQuestionIndex < questionItems.length - 1) {
-                    currentQuestionIndex++;
-                    showQuestion(currentQuestionIndex);
-                } else {
-                    alert('Thank you for your answers! We will help you find the perfect study destination.');
-                    searchQuestions.classList.remove('active');
-                    currentQuestionIndex = 0;
-                    searchInput.value = '';
-                    budgetAmount.value = '';
-                    document.getElementById('educationLevel').value = '';
-                    document.getElementById('collegeName').value = '';
-                }
-            });
-            
-            prevBtn.addEventListener('click', function() {
-                if (currentQuestionIndex > 0) {
-                    currentQuestionIndex--;
-                    showQuestion(currentQuestionIndex);
-                }
-            });
-
-            // Hide questions when clicking outside the search container
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.search-container') && !e.target.classList.contains('search-btn') && !searchQuestions.contains(e.target)) {
-                    searchQuestions.classList.remove('active');
-                }
-            });
-
-            // --- Carousel Navigation for Top Study Destinations ---
-            const destinationCarousel = document.querySelector('.destination-carousel-container');
-            if (destinationCarousel) {
-                // No explicit prev/next buttons for this one, relies on scroll-snap and user scroll
-            }
-
-            // --- Carousel Navigation for At Every Step of Your Journey ---
-            const stepCarousel = document.querySelector('.step-carousel-right');
-            if (stepCarousel) {
-                // No explicit prev/next buttons, relies on scroll-snap and user scroll
-            }
-
-            // --- Form Submission (Request A Call Back) ---
-            const callbackForm = document.querySelector('.callback-form-container form');
-            if (callbackForm) {
-                callbackForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Thank you for your request! We will call you back shortly.');
-                    callbackForm.reset();
-                });
-            }
-        });
-    </script>
+    <script src="home.js"></script>
 </body>
 </html>

@@ -624,7 +624,7 @@
                     const activeQuestion = questionItems[currentQuestionIndex];
                     if (activeQuestion) {
                         const contentHeight = activeQuestion.offsetHeight + prevBtn.parentElement.offsetHeight + 50; // Question height + nav buttons height + some padding
-                        searchQuestions.style.height = ${contentHeight}px;
+                        searchQuestions.style.height = contentHeight + 'px';
                     }
                 } else {
                     searchQuestions.style.height = '0px';
