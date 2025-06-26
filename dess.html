@@ -1,0 +1,3274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study in Germany - Your Global Education Partner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc; /* Very light blue-gray for a calm feel */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Custom Gradients and Shadows */
+        .text-gradient-blue {
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-shadow-soft {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Softer, slightly larger shadow */
+        }
+        .btn-shadow-soft {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section Wave Divider - adjusted for the new hero layout */
+        .hero-section-divider {
+            position: absolute;
+            bottom: -1px; /* Adjust to ensure it sits perfectly below */
+            left: 0;
+            width: 100%;
+            height: 100px; /* Increased height for prominence */
+            overflow: hidden;
+            z-index: 10; /* Ensure it's above other elements */
+        }
+        .hero-section-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: scaleY(-1); /* Flip to make it a top curve */
+            transform-origin: bottom;
+        }
+        .hero-section-divider .shape-fill {
+            fill: #f7f9fc; /* Match body background */
+        }
+
+        /* Cost of Living Card Unique Styling */
+        .cost-item-card {
+            background: linear-gradient(145deg, #f0f9ff, #e0f2fe); /* Subtle blue gradient */
+            border-radius: 1.5rem; /* More rounded */
+            padding: 1.75rem; /* Increased padding */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #dbeafe; /* Light blue border */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            min-height: 200px; /* Ensure cards have enough height */
+        }
+        .cost-item-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #e0f2fe, #bbdefb); /* Stronger blue gradient on hover */
+        }
+        .cost-item-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px; /* Height of the indicator */
+            background-color: #93c5fd; /* Light blue base */
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+        .cost-item-card.rent::before { background-color: #60a5fa; width: 85%; } /* Example width for visual proportion */
+        .cost-item-card.food::before { background-color: #3b82f6; width: 60%; }
+        .cost-item-card.transport::before { background-color: #2563eb; width: 35%; }
+        .cost-item-card.misc::before { background-color: #1d4ed8; width: 50%; }
+
+        .cost-item-card .icon-circle {
+            background-color: #dbeafe; /* Light blue background for icon circle */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .cost-item-card .icon-circle svg {
+            width: 32px;
+            height: 32px;
+            fill: #3b82f6; /* Blue icon color */
+        }
+
+
+        /* FAQ specific styles for accordion effect */
+        .faq-item input[type="checkbox"] {
+            display: none;
+        }
+        .faq-item label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.75rem; /* More padding */
+            background-color: #e0f7fa; /* Very light cyan for a fresh feel */
+            border-radius: 1rem; /* More rounded */
+            cursor: pointer;
+            font-weight: 600;
+            color: #00796b; /* Darker teal for contrast */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .faq-item label:hover {
+            background-color: #b2ebf2; /* Lighter cyan on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        .faq-item label::after {
+            content: '+';
+            font-size: 1.8rem; /* Larger icon */
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+        .faq-item input[type="checkbox"]:checked + label::after {
+            content: '−'; /* Unicode minus sign for better visual */
+            transform: rotate(0deg);
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth transition */
+            background-color: #ffffff;
+            padding: 0 1.75rem; /* Match label padding */
+            border-radius: 0 0 1rem 1rem; /* Rounded only at bottom */
+            margin-top: 0; /* Remove top margin from previous */
+            color: #4a5568;
+            border-top: 1px solid #e2e8f0; /* Subtle separator */
+        }
+        .faq-item input[type="checkbox"]:checked ~ .faq-content {
+            max-height: 300px; /* Increased height for longer content */
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+        }
+
+        /* Blob animation for "Why Study" section and Cost of Living */
+        @keyframes blob {
+            0% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+        }
+        .animate-blob {
+            animation: blob 7s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-1000 {
+            animation-delay: 1s;
+        }
+        .animation-delay-3000 {
+            animation-delay: 3s;
+        }
+
+        /* New Hero specific styles */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        @media (min-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 2fr 1.2fr; /* Adjusted ratio for image prominence */
+            }
+        }
+        .hero-text-content {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.9); /* Slightly opaque white for text block */
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            color: #333;
+            text-align: left;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        @media (min-width: 768px) {
+            .hero-text-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 2.5rem;
+            }
+        }
+        .hero-image-container {
+            position: relative;
+            min-height: 250px;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+            display: flex; /* Ensure flex for image layering */
+            justify-content: center;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .hero-image-container {
+                margin-bottom: 0;
+            }
+        }
+        /* Styles for hero carousel images */
+        .hero-carousel-images {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Smooth fade transition */
+            border-radius: 1.5rem; /* Match container radius */
+        }
+        .hero-carousel-image.active {
+            opacity: 1;
+        }
+
+        .hero-location-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .hero-location-tags {
+                justify-content: flex-start;
+            }
+        }
+        .hero-location-tag {
+            background-color: #e0f2fe; /* Light blue */
+            color: #2563eb; /* Darker blue */
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Statistics section specific styles */
+        .stats-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem; /* Adjusted padding */
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+
+            /* Initial state for staggered animation */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .stats-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .stats-icon-container {
+            width: 60px; /* Larger icon container */
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem; /* Space between icon and text */
+            /* Using background-image for custom icons to easily swap */
+        }
+        /* Specific icon colors, now as fills for SVGs */
+        .stats-icon-capital { fill: #4a90e2; }
+        .stats-icon-population { fill: #f5a623; }
+        .stats-icon-language { fill: #50e3c2; }
+        .stats-icon-students { fill: #bd10e0; }
+        .stats-icon-gdp { fill: #7ed321; }
+        .stats-icon-dialing { fill: #9013fe; }
+        .stats-icon-currency { fill: #4a4a4a; }
+        .stats-icon-universities { fill: #d0021b; }
+
+
+        .stats-number {
+            font-size: 1.25rem; /* Smaller, matches screenshot */
+            font-weight: 700; /* Bold */
+            color: #333; /* Darker text */
+            margin-bottom: 0.25rem; /* Reduced margin */
+        }
+        .stats-description {
+            font-size: 0.9rem; /* Slightly smaller for description */
+            color: #6b7280; /* Gray text */
+            line-height: 1.3;
+        }
+        /* Remove specific border-bottom styles as per new screenshot */
+        .stats-card.blue-border, .stats-card.green-border, .stats-card.purple-border, .stats-card.orange-border { border-color: transparent; }
+
+        /* New Step Section Styles */
+        #steps-section {
+            min-height: auto;
+            padding-bottom: 4rem;
+            background-color: #f7f9fc;
+        }
+
+        #steps-section .max-w-7xl {
+            display: flex;
+            flex-direction: column; /* Default for mobile */
+            gap: 3rem; /* Space between columns */
+            height: 100%;
+        }
+
+        @media (min-width: 768px) {
+            #steps-section .max-w-7xl {
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-start;
+            }
+        }
+
+        /* Left Column: Step Cards Container */
+        #steps-section .md\:w-1\/2:first-child {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            #steps-section .md\:w-1\/2:first-child {
+                width: 50%;
+            }
+        }
+
+        .sticky-title {
+            position: sticky;
+            top: 0;
+            background-color: #f7f9fc;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            z-index: 50;
+            width: 100%;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .sticky-title {
+                text-align: left;
+            }
+        }
+
+        /* This wrapper is no longer sticky, but just a container for the card */
+        .sticky-step-card-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            /* Removed padding-top and padding-bottom from here, spacing moved to step-card */
+        }
+        /* Removed media query for sticky-step-card-wrapper to simplify and fix spacing */
+
+
+        /* The actual card content styling */
+        .step-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out; /* Smooth animation */
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            /* Added margin-bottom to create space between cards */
+            margin-bottom: 10px; /* This creates 10px space between boxes */
+        }
+        /* Ensure the last step-card has no bottom margin */
+        .steps-stack-container .sticky-step-card-wrapper:last-child .step-card {
+            margin-bottom: 0;
+        }
+
+
+        /* Initial state for animation */
+        .step-card.opacity-0 {
+            opacity: 0;
+            transform: translateX(10%); /* Start slightly off-screen to the right */
+        }
+
+        /* End state for animation */
+        .step-card.animate-on-scroll {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6; /* Blue for step number */
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .step-description {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Right Column: Image container */
+        #steps-section .md\:w-1\/2:last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Increased min-height to ensure it spans the whole section on mobile */
+            min-height: 500px; /* Adjusted min-height for better visibility across steps on mobile */
+            position: relative;
+        }
+        @media (min-width: 768px) {
+            #steps-section .md\:w-1\/2:last-child {
+                position: sticky;
+                top: 80px; /* Sticks to the top, adjusted based on header/title height */
+                align-self: flex-start;
+                width: 50%;
+                /* Increased height to accommodate all four steps visually and make it stable */
+                height: calc(100vh - 80px); /* Adjust to fill remaining viewport height after header */
+                max-height: 750px; /* Cap maximum height for very large screens to keep image centered */
+            }
+        }
+        /* Adjust images within the sticky right column */
+        .step-image-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            height: auto;
+            max-width: 800px;
+            margin: auto;
+            position: absolute;
+            top: 50%; /* Center vertically initially */
+            left: 50%;
+            transform: translate(-50%, -50%); /* Adjust for its own size */
+        }
+       
+        /* This image is now controlled dynamically by JS to track the active step */
+        .step-image-container img {
+            width: 100%;
+            height: auto;
+            max-width: 400px;
+            display: block;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        /* Styles for when the image should be visible and animated */
+        .step-image-container img.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        /* Ensure the secondary image starts hidden */
+        #step-dynamic-image-2 {
+            opacity: 0;
+            display: none;
+            pointer-events: none;
+        }
+        
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+            margin-bottom: 0.75rem;
+        }
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .step-description {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Generic Carousel Styles (used for Trending and Post Admission) */
+        .carousel-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            margin-top: 2rem;
+            padding-bottom: 1rem; /* Space for shadow */
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .carousel-card-wrapper {
+            flex: 0 0 auto;
+            width: 85%;
+            margin-right: 1.5rem;
+            scroll-snap-align: start;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .carousel-card-wrapper {
+                width: 45%;
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-card-wrapper {
+                width: calc(33.33% - 1rem);
+            }
+        }
+        /* Ensure the last card has no right margin */
+        .carousel-container .carousel-card-wrapper:last-child {
+            margin-right: 0;
+        }
+
+
+        .trending-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+            min-height: 450px;
+        }
+
+        .trending-card-image-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .trending-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .play-button svg {
+            fill: white;
+            width: 28px;
+            height: 28px;
+        }
+
+        .trending-card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .trending-card-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .trending-card-description {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .trending-card-profile {
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #edf2f7;
+        }
+
+        .trending-card-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.75rem;
+            border: 2px solid #a7d9ff;
+        }
+
+        .trending-card-profile-text p {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .trending-card-profile-text p:first-child {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .carousel-nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* New Fancy Carousel Navigation Button Styles */
+        .fancy-carousel-nav-button {
+            width: 56px; /* Slightly larger */
+            height: 56px;
+            border-radius: 1.5rem; /* Rounded rectangle, less than full pill */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden; /* For pseudo-elements like glow */
+            transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+            border: 1px solid #dbeafe; /* Light blue border */
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2), /* Primary blue shadow */
+                        0 0 0 0 rgba(59, 130, 246, 0); /* For subtle glow effect */
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); /* Blue gradient */
+            color: white; /* White icon */
+        }
+
+        /* Hover state for all fancy buttons */
+        .fancy-carousel-nav-button:hover {
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35), /* More pronounced shadow */
+                        0 0 15px 3px rgba(59, 130, 246, 0.4); /* Outer glow */
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); /* Deeper gradient */
+        }
+
+        /* Active/Pressed state for all fancy buttons (when clicked) */
+        .fancy-carousel-nav-button:active {
+            transform: translateY(1px); /* Press down effect */
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.2), /* Reduced shadow */
+                        0 0 0 0 rgba(59, 130, 246, 0); /* Remove glow */
+        }
+
+        /* Specific styling for the inactive university carousel button */
+        /* This will override the default fancy button styles for inactive ones */
+        .university-carousel-nav-button:not(.active-nav-btn) {
+            background: #ffffff; /* White background for inactive */
+            color: #94a3b8; /* Light gray icon for inactive */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .university-carousel-nav-button:not(.active-nav-btn):hover {
+            background: #f7f9fc; /* Slight hover change for inactive */
+            color: #3b82f6; /* Blue icon on hover for inactive */
+            transform: translateY(-2px); /* Still lift on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Slightly more shadow */
+        }
+
+        /* Keep the active state for university buttons as is, as it matches the primary fancy button style */
+        .university-carousel-nav-button.active-nav-btn {
+            background-color: #3b82f6; /* Blue background for active button */
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            border: 1px solid transparent; /* No border when active and blue */
+        }
+
+        .university-carousel-nav-button.active-nav-btn:hover {
+            background-color: #2563eb; /* Darker blue on hover for active */
+        }
+
+        /* Ensure SVG inside buttons is sized correctly */
+        .fancy-carousel-nav-button svg {
+            width: 28px; /* Slightly larger icon */
+            height: 28px;
+            transition: all 0.3s ease-in-out; /* Smooth transition for icon */
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background-color: #ef4444;
+            border-radius: 9999px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+            z-index: 1010;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Styles for the "Post Admission Experience" cards (carouseled) */
+        /* Adjusted for new design - more vibrant and illustrative */
+        .admission-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 520px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        /* Unique border effect on hover for admission cards */
+        .admission-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #3b82f6;
+        }
+
+        /* Add a subtle top border/accent on each card based on its theme color */
+        .admission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+        .admission-card .admission-card-icon.text-green-600 + .admission-card-title::before { background-color: #34d399; }
+        .admission-card .admission-card-icon.text-purple-600 + .admission-card-title::before { background-color: #a78bfa; }
+        .admission-card .admission-card-icon.text-blue-600 + .admission-card-title::before { background-color: #60a5fa; }
+        .admission-card .admission-card-icon.text-indigo-600 + .admission-card-title::before { background-color: #818cf8; }
+
+        /* Ensure the pseudo-element is visually separate and inside the rounded corners */
+        .admission-card .admission-card-title::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: transparent;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .admission-card-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .admission-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .admission-card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1.75rem;
+        }
+
+        .admission-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(59, 130, 246, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        /* Specific background colors for icons */
+        .admission-card-icon.text-green-600 { background-color: rgba(52, 211, 153, 0.1); }
+        .admission-card-icon.text-purple-600 { background-color: rgba(167, 139, 250, 0.1); }
+        .admission-card-icon.text-blue-600 { background-color: rgba(96, 165, 250, 0.1); }
+        .admission-card-icon.text-indigo-600 { background-color: rgba(129, 140, 248, 0.1); }
+
+
+        .admission-card-title {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: #333;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .admission-card-description {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .admission-card .details-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+        .admission-card .details-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .admission-card .details-list li i {
+            margin-right: 0.5rem;
+            color: #3b82f6;
+        }
+        /* Color icons in details list to match card theme */
+        .admission-card .details-list li .fas.fa-euro-sign { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-tag { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-clock { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-check-circle { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-home { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-utensils { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-bus { color: var(--details-icon-color, #3b82f6); }
+        .admission-card .details-list li .fas.fa-umbrella-beach { color: var(--details-icon-color, #3b82f6); }
+
+
+        .weather-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .weather-table th, .weather-table td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0f2fe;
+        }
+        .weather-table thead th {
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #3b82f6;
+            border-bottom: 2px solid #2563eb;
+        }
+        .weather-table tbody tr {
+            background-color: #f8fbff;
+            transition: background-color 0.2s ease;
+        }
+        .weather-table tbody tr:nth-child(even) {
+            background-color: #eaf3ff;
+        }
+        .weather-table tbody tr:hover {
+            background-color: #dbeafe;
+        }
+        .weather-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .weather-table td:nth-child(2), .weather-table td:nth-child(3) {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Our Services Section Styles - TIMELINE IMPLEMENTATION */
+        @media (min-width: 768px) {
+            /* Apply padding to sections that the fixed side menu will overlap */
+            #our-services .max-w-7xl,
+            #steps-section .max-w-7xl,
+            .why-germany-section .max-w-7xl,
+            #trending-section .max-w-7xl,
+            #university-section .max-w-7xl,
+            #part-time-careers-section .max-w-7xl,
+            #cost-of-living-section .max-w-7xl,
+            #faqs-section .max-w-7xl {
+                padding-left: 180px; /* Space for the side menu on desktop (approx 150px menu width + 30px margin) */
+            }
+        }
+
+
+        #our-services {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #our-services .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .timeline-scroll-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            padding-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .timeline-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .timeline-item-wrapper {
+            flex: 0 0 auto;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2rem;
+            padding-top: 50px;
+        }
+        
+        @media (min-width: 640px) {
+            .timeline-item-wrapper {
+                width: calc(50% - 4rem);
+            }
+        }
+        @media (min-width: 1024px) {
+            .timeline-item-wrapper {
+                width: calc(33.33% - 4rem);
+            }
+        }
+
+        /* Horizontal Timeline Line */
+        .timeline-line {
+            position: absolute;
+            top: 155px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #3b82f6;
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+        
+        /* Each timeline marker (circle) */
+        .timeline-marker {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: #3b82f6;
+            border: 4px solid #f7f9fc;
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 0 2px #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        /* Vertical Line connecting marker to card */
+        .timeline-item-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 50px;
+            background-color: #3b82f6;
+            z-index: 5;
+        }
+
+        /* Service Card Styling (used within timeline-item-wrapper) */
+        .service-single-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, opacity 0.3s ease-out, z-index 0.3s ease-out;
+            transform-origin: center center;
+            z-index: 1;
+            min-height: 250px;
+        }
+
+        @media (min-width: 768px) {
+            .service-single-card {
+                flex-direction: row;
+                min-height: 200px;
+            }
+        }
+
+        .service-card-image-container {
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        @media (min-width: 768px) {
+            .service-card-image-container {
+                width: 45%;
+                height: auto;
+                min-height: 200px;
+                border-radius: 1.5rem 0 0 1.5rem;
+            }
+        }
+
+        .service-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .service-card-content-new {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .service-card-content-new {
+                width: 55%;
+            }
+        }
+
+        .service-card-title-new {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .service-card-description-new {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .service-learn-more-link {
+            display: flex;
+            align-items: center;
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            margin-top: auto;
+        }
+
+        .service-learn-more-link:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .service-learn-more-link svg {
+            margin-left: 0.5rem;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Carousel Navigation and Pagination (for Services Section) */
+        #our-services .services-carousel-nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        #our-services .services-carousel-pagination {
+            display: none;
+        }
+
+        /* New Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.8s ease-out forwards;
+        }
+
+        /* Initial hidden state for elements that will animate in */
+        .hide-on-load {
+            opacity: 0;
+        }
+        .hide-on-load.translate-y {
+            transform: translateY(20px);
+        }
+        .hide-on-load.scale {
+            transform: scale(0.95);
+        }
+
+        /* Styles for the "Top Universities in Germany" carousel cards */
+        .university-carousel-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 1.5rem;
+        }
+        .university-carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .university-card-wrapper {
+            flex: 0 0 auto;
+            width: 85%;
+            margin-right: 2rem;
+            scroll-snap-align: start;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .university-card-wrapper {
+                width: calc(50% - 1rem);
+            }
+        }
+        @media (min-width: 1024px) {
+            .university-card-wrapper {
+                width: calc(50% - 1rem);
+            }
+        }
+        /* Ensure the last card has no right margin */
+        .carousel-container .carousel-card-wrapper:last-child {
+            margin-right: 0;
+        }
+
+
+        /* The actual university card styling based on Screenshot 151959.jpg */
+        .university-card-new {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .university-card-image-container-new {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .university-card-image-container-new img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .university-card-content-new {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .university-card-title-new {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .university-card-description-new {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .university-card-link-new {
+            display: flex;
+            align-items: center;
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            margin-top: auto;
+        }
+
+        .university-card-link-new:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .university-card-link-new svg {
+            margin-left: 0.5rem;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Carousel navigation for Top Universities (matching screenshot 151959.jpg) */
+        .university-carousel-nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Pagination dots for Top Universities carousel */
+        .university-carousel-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #cbd5e1; /* Light gray for inactive dots */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination-dot.active {
+            background-color: #3b82f6; /* Blue for active dot */
+        }
+
+        /* New Styles for "Why Germany" section - Replicating Testimonial Card Layout */
+        .why-germany-section {
+            background-color: #f7f9fc;
+            position: relative;
+            z-index: 1;
+        }
+
+        .why-germany-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        @media (min-width: 768px) {
+            .why-germany-container {
+                flex-direction: row;
+                justify-content: center;
+                padding: 3rem;
+                align-items: flex-start;
+            }
+        }
+        
+        .why-germany-image-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            flex-shrink: 0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+            margin-top: -2rem;
+        }
+
+        @media (min-width: 768px) {
+            .why-germany-image-wrapper {
+                width: 45%;
+                margin-top: 0;
+                margin-right: -5rem;
+                min-height: 400px;
+            }
+        }
+
+        .why-germany-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .why-germany-text-content {
+            background-color: #e0f2fe;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            position: relative;
+            width: 100%;
+            margin-top: -5rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .why-germany-text-content {
+                width: 60%;
+                margin-top: 2rem;
+                margin-left: -2rem;
+                text-align: left;
+                padding-left: 7rem;
+            }
+        }
+        .why-germany-text-content .section-title {
+            margin-bottom: 1rem;
+            text-align: inherit;
+        }
+        .why-germany-text-content .section-title::after {
+            left: auto;
+            right: 0;
+            transform: none;
+        }
+        @media (min-width: 768px) {
+            .why-germany-text-content .section-title::after {
+                left: 7rem;
+                right: auto;
+            }
+        }
+
+        .why-germany-text-content p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Floating Side Menu Styles - Redesigned */
+        .floating-side-menu {
+            position: fixed;
+            top: 50%; /* Center vertically */
+            transform: translateY(-50%); /* Adjust for its own height */
+            left: 20px;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* 8px space between each point */
+            padding: 12px; /* Padding around the entire menu container */
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            opacity: 0; /* Initially hidden */
+            pointer-events: none; /* Not interactive when hidden */
+            transition: opacity 0.3s ease; /* Smooth fade in/out for the whole menu */
+        }
+        
+        .side-menu-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 32px; /* Width of the dot itself */
+            height: 32px; /* Height of the dot itself */
+            transition: all 0.3s ease; /* Smooth transition for item effects */
+        }
+
+        .side-menu-dot {
+            width: 12px; /* Smaller dot size */
+            height: 12px;
+            background-color: #93c5fd; /* Light blue */
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            border: 2px solid #e0f2fe; /* Light border around dot */
+        }
+
+        .side-menu-label {
+            position: absolute;
+            left: 28px; /* Position next to the dot */
+            background-color: #3b82f6; /* Blue background for label */
+            color: white;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px); /* Start slightly left for slide-in effect */
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 10; /* Ensure label is above other elements */
+        }
+
+        /* Hover effect: Show label and make dot more prominent */
+        .side-menu-item:hover .side-menu-label {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0); /* Slide to original position */
+        }
+
+        .side-menu-item:hover .side-menu-dot {
+            background-color: #2563eb; /* Darker blue on hover */
+            border-color: #3b82f6; /* Stronger border on hover */
+            transform: scale(1.2); /* Slightly enlarge dot on hover */
+        }
+
+        /* Active state for the current section */
+        .side-menu-item.active .side-menu-dot {
+            background-color: #1d4ed8; /* Even darker blue for active */
+            width: 16px; /* Larger active dot */
+            height: 16px;
+            border-color: white; /* White border for active */
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.7); /* White glow effect */
+        }
+        
+        /* Ensure label shows when active, even without hover */
+        .side-menu-item.active .side-menu-label {
+             opacity: 1;
+             visibility: visible;
+             transform: translateX(0);
+        }
+
+
+        /* Hide the floating side menu on small screens */
+        @media (max-width: 767px) {
+            .floating-side-menu {
+                display: none !important;
+            }
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm py-4 z-20 relative hide-on-load animate-fadeIn">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="https://ik.imagekit.io/acxf74gnv/logos/profile/limage-1363-345-photo.png" alt="pepeleads" class="h-8 mr-3">
+            </div>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">About Us</a>
+                <a href="#" class="text-blue-500 nav-link-active transition-colors duration-200">Destinations</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">Community</a>
+                <a href="#faqs-section" class="text-gray-600 hover:text-blue-500 transition-colors duration-200">FAQS</a>
+            </nav>
+
+            <!-- Search and Profile Icons -->
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+                <button class="text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </button>
+                <!-- Mobile Menu Button - Keeping it as a placeholder as the user requested "no need to change anything" but it was in the previous version -->
+                <button class="md:hidden text-gray-600 hover:text-blue-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Side Menu - Dot based -->
+    <div id="floating-side-menu" class="floating-side-menu md:block hidden">
+        <!-- Menu items will be generated by JavaScript -->
+    </div>
+
+    <!-- New Hero Section -->
+    <section class="relative bg-[#E0F2FE] min-h-[550px] md:min-h-[600px] flex items-center justify-center pt-20 pb-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hero-grid">
+            <!-- Text Content -->
+            <div class="hero-text-content" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    Study in Germany: Your Gateway to <span class="text-gradient-blue font-bold">World-Class Education</span> & Global Careers
+                </h1>
+                <p class="text-lg sm:text-xl text-gray-700 mb-6 font-medium">Unlock unparalleled opportunities in a hub of innovation and academic excellence.</p>
+                <div class="hero-location-tags mb-8" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <span class="hero-location-tag">Germany</span>
+                    <span class="hero-location-tag">Europe</span>
+                    <span class="hero-location-tag">Global</span>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 btn-shadow-soft" data-animate-on-scroll data-animation-delay="500" data-animation-type="fadeInUp">
+                    Connect with an Expert Today!
+                </button>
+            </div>
+
+            <!-- Image Carousel Container -->
+            <div class="hero-image-container flex justify-center items-center h-full" data-animate-on-scroll data-animation-delay="200" data-animation-type="scaleIn">
+                <div id="hero-carousel-images" class="hero-carousel-images">
+                    <img src="https://placehold.co/400x300/a7d9ff/000000?text=Hero+Image+1" alt="Student studying in Germany" class="hero-carousel-image active">
+                    <img src="https://placehold.co/400x300/c0e7ff/000000?text=Hero+Image+2" alt="German university campus" class="hero-carousel-image">
+                    <img src="https://placehold.co/400x300/d9f1ff/000000?text=Hero+Image+3" alt="Students collaborating in Germany" class="hero-carousel-image">
+                </div>
+            </div>
+        </div>
+        <!-- Abstract shape divider for a unique transition -->
+        <div class="hero-section-divider">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Our Comprehensive Services Section - TIMELINE DESIGN -->
+    <section id="our-services" class="py-16 bg-f7f9fc relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="section-header justify-center mb-10" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                <h2 class="section-title">Our Comprehensive Services</h2>
+            </div>
+
+            <!-- Horizontal timeline line -->
+            <div class="timeline-line"></div>
+
+            <div id="services-timeline-carousel" class="timeline-scroll-container">
+                <!-- Service Card 1: Career Counseling -->
+                <div class="timeline-item-wrapper" data-original-index="0">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Career Counseling">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Career Counseling</h3>
+                            <p class="service-card-description-new">
+                                Expert counselors guide you to your ideal academic and professional future.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 2: Course Selection -->
+                <div class="timeline-item-wrapper" data-original-index="1">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/4144926/pexels-photo-4144926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Course Selection">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Course Selection</h3>
+                            <p class="service-card-description-new">
+                                We match your profile with the best courses and universities in Germany.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 3: Admission Guidance -->
+                <div class="timeline-item-wrapper" data-original-index="2">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3762804/pexels-photo-3762804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Admission Guidance">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Admission Guidance</h3>
+                            <p class="service-card-description-new">
+                                End-to-end support for flawless applications to German universities.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 4: Exam & Coaching -->
+                <div class="timeline-item-wrapper" data-original-index="3">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3059749/pexels-photo-3059749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Exam Coaching">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Exam & Coaching</h3>
+                            <p class="service-card-description-new">
+                                Specialized coaching for IELTS, TOEFL, GRE, GMAT, and other entrance exams.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 5: Scholarship Guidance -->
+                <div class="timeline-item-wrapper" data-original-index="4">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3059750/pexels-photo-3059750.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Scholarship Guidance">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Scholarship Guidance</h3>
+                            <p class="service-card-description-new">
+                                Identify and apply for relevant scholarships to fund your German studies.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 6: Visa Assistance -->
+                <div class="timeline-item-wrapper" data-original-index="5">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3771077/pexels-photo-3771077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Visa Assistance">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Visa Assistance</h3>
+                            <p class="service-card-description-new">
+                                Comprehensive visa support for a high success rate in your application.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 7: Education Loan -->
+                <div class="timeline-item-wrapper" data-original-index="6">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Education Loan">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Education Loan</h3>
+                            <p class="service-card-description-new">
+                                We help you secure the necessary funds for your German education.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 8: Forex & Travel Assistance -->
+                <div class="timeline-item-wrapper" data-original-index="7">
+                    <div class="timeline-marker"></div>
+                    <div class="service-single-card">
+                        <div class="service-card-image-container">
+                            <img src="https://images.pexels.com/photos/3888151/pexels-photo-3888151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Forex & Travel">
+                        </div>
+                        <div class="service-card-content-new">
+                            <h3 class="service-card-title-new">Forex & Travel Assistance</h3>
+                            <p class="service-card-description-new">
+                                Smooth foreign exchange, travel bookings, and accommodation.
+                            </p>
+                            <a href="#" class="service-learn-more-link">
+                                Learn More
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h2.793L6.354 9.146a.5.5 0 1 0 .708.708L15 1.707V4.5a.5.5 0 0 0 1 0v-4z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Navigation Buttons for Services Section -->
+            <div class="services-carousel-nav-buttons">
+                <button id="services-carousel-prev" class="fancy-carousel-nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="services-carousel-next" class="fancy-carousel-nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New 4 Steps To Your Dream Destination Section -->
+    <section id="steps-section" class="py-16 bg-f7f9fc relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-12">
+            <!-- Left Column: Step Cards Stack -->
+            <div class="md:w-1/2 relative md:flex md:flex-col">
+                <h2 class="sticky-title text-3xl sm:text-4xl font-bold mb-4 text-gray-800 text-center md:text-left">
+                    4 Steps To Your <span class="text-gradient-blue">Dream Destination</span>
+                </h2>
+
+                <div class="steps-stack-container">
+                    <!-- Each step wrapped in a simple div for consistent styling -->
+                    <div class="sticky-step-card-wrapper z-40">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="0" data-image="https://placehold.co/400x300/a7d9ff/000000?text=Step+1+Counseling">
+                            <p class="step-number">1</p>
+                            <h3 class="step-title">Education Counseling</h3>
+                            <p class="step-description text-gray-700">One on One counseling with our country specialist. Shortlist your ideal destination, institution and program with their expert guidance.</p>
+                            <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Free Expert Consultation</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-step-card-wrapper z-30">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="200" data-image="https://placehold.co/400x300/c0e7ff/000000?text=Step+2+Applications">
+                            <p class="step-number">2</p>
+                            <h3 class="step-title">University Applications</h3>
+                            <p class="step-description text-gray-700">Apply to your dream university. Our team will guide you through the application process.</p>
+                             <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Apply Now</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-step-card-wrapper z-20">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="400" 
+                            data-image="https://placehold.co/400x300/d9f1ff/000000?text=Loans+and+Scholarships">
+                            <p class="step-number">3</p>
+                            <h3 class="step-title">Loans & Scholarships</h3>
+                            <p class="step-description text-gray-700">Explore financial options with our loan and scholarship expertise, making your dream education affordable.</p>
+                             <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Explore Options</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-step-card-wrapper z-10">
+                        <div class="step-card opacity-0 translate-x-10" data-delay="600" 
+                            data-image="https://placehold.co/400x300/f0f8ff/000000?text=Visa+Processing">
+                            <p class="step-number">4</p>
+                            <h3 class="step-title">Visa Processing</h3>
+                            <p class="step-description text-gray-700">Apply for your visa with the help of our Visa experts. Our team has a 99% visa success rate.</p>
+                             <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 self-start btn-shadow-soft text-sm">Get Visa Help</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Image container (sticky) -->
+            <div class="md:w-1/2 flex justify-center items-center relative md:sticky md:top-20 md:self-start">
+                <div class="step-image-container">
+                    <img id="step-dynamic-image-1" src="https://placehold.co/400x300/a7d9ff/000000?text=Step+1+Counseling" alt="Dynamic Step Image 1" class="visible">
+                </div>
+                <!-- Abstract lines for visual effect -->
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50 C150 20, 250 80, 300 50 S350 20, 380 50" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                    <path d="M120 350 C180 380, 280 320, 340 350 S370 380, 390 350" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                    <path d="M50 100 C20 150, 80 250, 50 300 S20 350, 50 380" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                    <path d="M350 100 C380 150, 320 250, 350 300 S380 350, 350 380" stroke="#93c5fd" stroke-width="2" stroke-dasharray="5 5" opacity="0.6"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Study in Germany Section - REDESIGNED -->
+    <section class="py-16 why-germany-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="why-germany-container" data-animate-on-scroll data-animation-delay="0" data-animation-type="scaleIn">
+                <!-- Image Wrapper - Left Side -->
+                <div class="why-germany-image-wrapper">
+                    <img src="https://i.pinimg.com/736x/44/4a/b5/444ab57836312b637c5f5a7c0acf8bcd.jpg" alt="Student Success Stories in Germany" class="w-full h-full object-cover">
+                </div>
+                
+                <!-- Text Content - Overlapping and "Behind" the Image -->
+                <div class="why-germany-text-content">
+                    <h2 class="section-title text-3xl sm:text-4xl font-bold text-gray-800">
+                        Why Germany? Your Launchpad to Global Success!
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        Dreaming of a future where your skills are globally recognized and your career soars? Germany, a powerhouse of innovation and economy, offers precisely that. With over **2 million+ job openings** and a robust economic landscape, it's not just an "education destination"; it's a career launchpad. As the **fourth largest economy worldwide**, Germany provides an incredibly stable and supportive environment for both academic excellence and professional growth.
+                    </p>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 btn-shadow-soft">
+                        Explore Opportunities
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending in Germany Section (Updated to Carousel) -->
+    <section id="trending-section" class="py-16 bg-gray-50 relative overflow-hidden">
+         <div class="absolute inset-0 w-full h-full bg-no-repeat bg-center opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSIjREREREREIi8+PC9zdmc+'); background-size: 20px 20px;"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="section-header" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                <h2 class="section-title">Germany's Dynamic Trends</h2>
+                <div class="carousel-nav-buttons">
+                    <button id="carousel-prev" class="fancy-carousel-nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="carousel-next" class="fancy-carousel-nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+                </div>
+            </div>
+
+            <div id="trending-carousel" class="carousel-container" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                <!-- Trending Card 1 -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/3762804/pexels-photo-3762804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student studying with laptop">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Pioneering Tech & Engineering Hub</h3>
+                                <p class="trending-card-description">Be at the forefront of innovation! Germany is a global leader in engineering, automotive, and renewable energy, offering unparalleled opportunities for cutting-edge research and development.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/cbd5e1/4a5568?text=SM" alt="Student Profile 1">
+                                <div class="trending-card-profile-text">
+                                    <p>Sarah Miller</p>
+                                    <p>TU Munich, Germany</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 2 -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/17696412/pexels-photo-17696412/free-photo-of-man-walking-in-berlin.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student in city">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Immerse in Germany's Rich Culture & Vibrant Student Life</h3>
+                                <p class="trending-card-description">Beyond academics, discover historic cities, diverse communities, and a lively social scene. Festivals, art, music – Germany offers a rich tapestry of experiences for every student.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/d1d5db/374151?text=JP" alt="Student Profile 2">
+                                <div class="trending-card-profile-text">
+                                    <p>Jan Pauer</p>
+                                    <p>Humboldt University Berlin</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 3 -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/4050318/pexels-photo-4050318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student in laboratory">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Unlock Your Potential: World-Class Research Opportunities</h3>
+                                <p class="trending-card-description">Collaborate with leading minds in state-of-art facilities. Germany provides an ideal environment for aspiring researchers to contribute to significant global advancements.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/e5e7eb/6b7280?text=AM" alt="Student Profile 3">
+                                <div class="trending-card-profile-text">
+                                    <p>Anna Müller</p>
+                                    <p>University of Heidelberg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 4 (Added for more content to scroll) -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/3771077/pexels-photo-3771077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Networking event">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="trending-card-title">Thriving Startup Ecosystem & Job Market</h3>
+                                <p class="trending-card-description">Germany's booming startup scene and robust economy offer ample post-graduation job prospects. Network with innovators and build a successful career.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/d1d5db/374151?text=KL" alt="Student Profile 4">
+                                <div class="trending-card-profile-text">
+                                    <p>Kim Lee</p>
+                                    <p>WHU - Otto Beisheim</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Card 5 (Added for more content to scroll) -->
+                <div class="carousel-card-wrapper">
+                    <div class="trending-card">
+                        <div class="trending-card-image-container">
+                            <img src="https://images.pexels.com/photos/4144926/pexels-photo-4144926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Student in library">
+                            <div class="play-button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="trending-card-content">
+                            <div>
+                                <h3 class="class="trending-card-title">Diverse Academic Programs & Specializations</h3>
+                                <p class="trending-card-description">From cutting-edge STEM fields to humanities and arts, German universities offer a vast array of programs, ensuring you find the perfect fit for your academic interests.</p>
+                            </div>
+                            <div class="trending-card-profile">
+                                <img src="https://placehold.co/40x40/f3e5f5/8e24aa?text=RM" alt="Student Profile 5">
+                                <div class="trending-card-profile-text">
+                                    <p>Rahul Mehta</p>
+                                    <p>University of Freiburg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Universities Section -->
+    <section id="university-section" class="py-16 bg-gradient-to-tr from-white to-blue-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-12 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Top Universities in Germany</h2>
+            
+            <div id="university-carousel-new" class="university-carousel-container" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                <!-- University Card 1: Technical University of Munich -->
+                <div class="university-card-wrapper">
+                    <div class="university-card-new">
+                        <div class="university-card-image-container-new">
+                            <img src="https://images.pexels.com/photos/10174092/pexels-photo-10174092.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Technical University of Munich Campus">
+                        </div>
+                        <div class="university-card-content-new">
+                            <div>
+                                <h3 class="university-card-title-new">Technical University of Munich (TUM)</h3>
+                                <p class="university-card-description-new">
+                                    Renowned for engineering, natural sciences, and life sciences. A hub for innovation and research.
+                                </p>
+                            </div>
+                            <a href="#" class="university-card-link-new">
+                                View Programs
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- University Card 2: Heidelberg University -->
+                <div class="university-card-wrapper">
+                    <div class="university-card-new">
+                        <div class="university-card-image-container-new">
+                            <img src="https://images.pexels.com/photos/110874/pexels-photo-110874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Heidelberg University Campus">
+                        </div>
+                        <div class="university-card-content-new">
+                            <div>
+                                <h3 class="university-card-title-new">Heidelberg University</h3>
+                                <p class="university-card-description-new">
+                                    Germany's oldest university, famous for medicine, law, and humanities.
+                                </p>
+                            </div>
+                            <a href="#" class="university-card-link-new">
+                                View Programs
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- University Card 3: Free University of Berlin (Example additional card) -->
+                <div class="university-card-wrapper">
+                    <div class="university-card-new">
+                        <div class="university-card-image-container-new">
+                            <img src="https://images.pexels.com/photos/17696412/pexels-photo-17696412/free-photo-of-man-walking-in-berlin.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Free University of Berlin Campus">
+                        </div>
+                        <div class="university-card-content-new">
+                            <div>
+                                <h3 class="university-card-title-new">Free University of Berlin</h3>
+                                <p class="university-card-description-new">
+                                    A leading research institution with strong programs in social sciences and humanities.
+                                </p>
+                            </div>
+                            <a href="#" class="university-card-link-new">
+                                View Programs
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- University Card 4: RWTH Aachen University (Example additional card) -->
+                <div class="university-card-wrapper">
+                    <div class="university-card-new">
+                        <div class="university-card-image-container-new">
+                            <img src="https://images.pexels.com/photos/3762804/pexels-photo-3762804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="RWTH Aachen University building">
+                        </div>
+                        <div class="university-card-content-new">
+                            <div>
+                                <h3 class="university-card-title-new">RWTH Aachen University</h3>
+                                <p class="university-card-description-new">
+                                    One of Germany's largest and most renowned technical universities.
+                                </p>
+                            </div>
+                            <a href="#" class="university-card-link-new">
+                                View Programs
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Carousel Navigation and Pagination -->
+            <div class="university-carousel-nav-buttons">
+                <button id="university-carousel-prev" class="fancy-carousel-nav-button university-carousel-nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="university-carousel-next" class="fancy-carousel-nav-button university-carousel-nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <div id="university-carousel-pagination" class="university-carousel-pagination">
+                <!-- Pagination dots will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- PTE/IELTS Demo Section -->
+    <section class="py-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white relative overflow-hidden" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeIn">
+        <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cG9seWdvbiBwb2ludHM9IjAgMTAgMTAgMCAyMCAxMCAxMCAyMCIgZmlsbD0iI0ZGRkZGRiIvPjwvc3ZnPjI='); background-size: 15px 15px; transform: rotate(45deg);"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-6 md:mb-0">
+                <p class="text-xl font-medium mb-2">Aiming for a Top Score?</p>
+                <p class="text-3xl font-bold">Master PTE or IELTS with Our Expert Tutors!</p>
+            </div>
+            <button class="bg-white text-teal-700 font-semibold py-3 px-8 rounded-full btn-shadow-soft transition-all duration-300 transform hover:scale-105 flex items-center justify-center hover:bg-teal-50" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeIn">
+                Book Your Free Demo Class
+                <svg class="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Part-time Careers and Work Opportunities Section -->
+    <section id="part-time-careers-section" class="py-16 bg-gray-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Build Your Career: Work Opportunities in Germany</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Part-Time Work Opportunities Card -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 card-shadow-soft border-t-4 border-yellow-400" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Earn While You Learn: Flexible Part-Time Opportunities</h3>
+                    <p class="text-gray-600 leading-relaxed text-md">
+                        International students from non-EEA countries have excellent opportunities to gain work experience. You're permitted to work for either **140 full full working days or 280 half working days per year**. This count excludes holidays and sick days, giving you ample flexibility. Alternatively, you can work up to **20 hours per week** during academic terms, allowing you to manage your studies and finances effectively.
+                    </p>
+                </div>
+                <!-- Post Study Work VISA Card -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 card-shadow-soft border-t-4 border-red-400" data-animate-on-scroll data-animation-delay="150" data-animation-type="fadeInUp">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Your Future in Germany: Post-Study Work Visa Pathways</h3>
+                    <p class="text-gray-600 leading-relaxed text-md">
+                        After successfully completing your studies, Germany welcomes you to stay and contribute! Students are eligible for an **18-month Job Seeking Visa** (often referred to as a post-study work visa). We highly recommend starting your job hunt during your final semester, as this crucial extended work period begins immediately after you receive your final exam results. Pave your way to a thriving career in Germany!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost of Living in Germany Section -->
+    <section id="cost-of-living-section" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-12 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Understanding Your Investment: <span class="text-gradient-blue">Cost of Living in Germany</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Cost of Living Card 1: Rent -->
+                <div class="cost-item-card rent card-shadow-soft" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                    <div class="icon-circle">
+                        <i class="fas fa-clock text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">Rent</h3>
+                    <p class="text-blue-700 text-xl font-bold">€240 - €300</p>
+                </div>
+
+                <!-- Cost of Living Card 2: Food -->
+                <div class="cost-item-card food card-shadow-soft" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                    <div class="icon-circle">
+                        <i class="fas fa-utensils text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">Food</h3>
+                    <p class="text-blue-700 text-xl font-bold">€140 - €170</p>
+                </div>
+
+                <!-- Cost of Living Card 3: Transport -->
+                <div class="cost-item-card transport card-shadow-soft" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <div class="icon-circle">
+                        <i class="fas fa-bus text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">Transport</h3>
+                    <p class="text-blue-700 text-xl font-bold">€50 - €60</p>
+                </div>
+
+                <!-- Cost of Living Card 4: Miscellaneous -->
+                <div class="cost-item-card misc card-shadow-soft" data-animate-on-scroll data-animation-delay="400" data-animation-type="fadeInUp">
+                    <div class="icon-circle">
+                        <i class="fas fa-file-alt text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">Miscellaneous</h3>
+                    <p class="text-blue-700 text-xl font-bold">€120 - €150</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faqs-section" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-12 text-gray-800 text-center" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">Frequently Asked Questions (FAQs)</h2>
+
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq1">
+                    <label for="faq1">
+                        Is tuition free in public universities in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            Yes, generally, public universities in Germany do not charge tuition fees for undergraduate and most master's programs for all students, including international students. Students only need to pay a semester contribution, which covers administrative costs and public transport.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq2">
+                    <label for="faq2">
+                        Do I need to learn German to study in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            While many programs, especially at the Master's level, are taught entirely in English, learning German is highly recommended. It will greatly enhance your daily life, integration, and job prospects in Germany. Many universities also offer German language courses.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq3">
+                    <label for="faq3">
+                        What is the average cost of living for a student in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            The average cost of living for students in Germany is approximately €850-€1,200 per month. This includes rent, food, transport, health insurance, and other personal expenses. Costs can vary depending on the city and individual lifestyle.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq4">
+                    <label for="faq4">
+                        Can international students work part-time in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            Yes, international students are permitted to work up to 140 full days or 280 half days per year. This allows students to gain valuable work experience and help cover their living expenses.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="faq-item card-shadow-soft" data-animate-on-scroll data-animation-delay="400" data-animation-type="fadeInUp">
+                    <input type="checkbox" id="faq5">
+                    <label for="faq5">
+                        What are the popular courses to study in Germany?
+                    </label>
+                    <div class="faq-content">
+                        <p>
+                            Germany is particularly strong in Engineering (Mechanical, Automotive, Electrical, Civil), Computer Science, Business Administration, Natural Sciences, and Social Sciences. Many universities also offer excellent programs in arts and humanities.
+                        </p>
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- About Us -->
+            <div data-animate-on-scroll data-animation-delay="0" data-animation-type="fadeInUp">
+                <h3 class="text-lg font-semibold mb-4">About Us</h3>
+                <p class="text-gray-400 text-sm">
+                    Leverage Edu is India's most trusted study abroad platform. We help students achieve their dreams of global education with expert guidance and support.
+                </p>
+            </div>
+            <!-- Quick Links -->
+            <div data-animate-on-scroll data-animation-delay="100" data-animation-type="fadeInUp">
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Destinations</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Universities</a></li>
+                    <li><a href="#" class="text-400 hover:text-white transition-colors duration-200">Courses</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Scholarships</a></li>
+                </ul>
+            </div>
+            <!-- Contact Us -->
+            <div data-animate-on-scroll data-animation-delay="200" data-animation-type="fadeInUp">
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-400 text-sm mb-2">Email: info@leverageedu.com</p>
+                <p class="text-400 text-sm mb-2">Phone: +91-12345-67890</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.007 3.792.051 1.05.044 1.749.213 2.156.368.424.153.722.384.99.664.269.28.491.577.644-.418.15-1.116.319-2.167-.363-1.009.043-1.346.051-3.792.051s-.008-2.784-.052-3.792c-.044-1.05-.213-1.749-.368-2.156-.153-.424-.384-.722-.664-.99-.28-.269-.577-.491-1.009-.644-.418-.15-1.116-.319-2.167-.363C9.557 2.007 9.894 2 12.315 2zM8.536 12a3.464 3.464 0 116.928 0 3.464 3.464 0 01-6.928 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M.057 24L0 16.547 4.717 12.045 0 7.545.057 0h23.886L24 7.545 19.283 12.045 24 16.547l-.057 7.453H.057z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-sm mt-8" data-animate-on-scroll data-animation-delay="300" data-animation-type="fadeIn">
+            &copy; 2025 Leverage Edu. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" id="closeModal">&times;</button>
+            <div class="video-container">
+                <iframe id="modalVideoFrame" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero Image Carousel Logic
+            const heroImagesContainer = document.getElementById('hero-carousel-images');
+            const heroImages = heroImagesContainer ? Array.from(heroImagesContainer.querySelectorAll('.hero-carousel-image')) : [];
+            let currentHeroImageIndex = 0;
+
+            function showNextHeroImage() {
+                if (heroImages.length === 0) return;
+
+                // Remove 'active' class from current image
+                heroImages[currentHeroImageIndex].classList.remove('active');
+
+                // Increment index, loop back to 0 if at the end
+                currentHeroImageIndex = (currentHeroImageIndex + 1) % heroImages.length;
+
+                // Add 'active' class to the next image
+                heroImages[currentHeroImageIndex].classList.add('active');
+            }
+
+            // Start hero image carousel on page load
+            if (heroImages.length > 1) {
+                setInterval(showNextHeroImage, 3500); // Change image every 3.5 seconds
+            }
+
+            // Generic Intersection Observer for all on-scroll animations
+            const animateOnScrollElements = document.querySelectorAll('[data-animate-on-scroll]');
+
+            const animationObserverOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // When 10% of the element is visible
+            };
+
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.animationDelay || '0', 10);
+                        const animationType = entry.target.dataset.animationType || 'fadeInUp'; // Default animation
+                        
+                        // Add initial hidden state classes if they are not already there
+                        if (!entry.target.classList.contains('hide-on-load')) {
+                             entry.target.classList.add('hide-on-load');
+                             if (animationType === 'fadeInUp') {
+                                entry.target.classList.add('translate-y');
+                            } else if (animationType === 'scaleIn') {
+                                entry.target.classList.add('scale');
+                            }
+                        }
+
+                        setTimeout(() => {
+                            entry.target.classList.remove('hide-on-load', 'translate-y', 'scale');
+                            if (animationType === 'fadeInUp') {
+                                entry.target.classList.add('animate-fadeInUp');
+                            } else if (animationType === 'fadeIn') {
+                                entry.target.classList.add('animate-fadeIn');
+                            } else if (animationType === 'scaleIn') {
+                                entry.target.classList.add('animate-scaleIn');
+                            }
+                        }, delay);
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, animationObserverOptions);
+
+            animateOnScrollElements.forEach(element => {
+                // Apply initial hide-on-load state for all elements managed by this observer
+                // unless it's the header, which animates immediately on page load
+                if (!element.closest('header')) {
+                    element.classList.add('hide-on-load');
+                    if (element.dataset.animationType === 'fadeInUp') {
+                        element.classList.add('translate-y');
+                    } else if (element.dataset.animationType === 'scaleIn') {
+                        element.classList.add('scale');
+                    }
+                }
+                animationObserver.observe(element);
+            });
+
+
+            // Step Cards specific animation (with auto image change)
+            const stepCards = document.querySelectorAll('.step-card');
+            const stepDynamicImage1 = document.getElementById('step-dynamic-image-1');
+            const stepImages = Array.from(stepCards).map(card => card.dataset.image);
+            let currentStepImageIndex = 0;
+            let stepImageInterval;
+
+            // Function to change the step image
+            function changeStepImage() {
+                if (stepDynamicImage1 && stepImages.length > 0) {
+                    stepDynamicImage1.classList.remove('visible'); // Start fade out
+                    setTimeout(() => {
+                        currentStepImageIndex = (currentStepImageIndex + 1) % stepImages.length;
+                        stepDynamicImage1.src = stepImages[currentStepImageIndex];
+                        stepDynamicImage1.classList.add('visible'); // Fade in
+                    }, 300); // Match CSS transition duration
+                }
+            }
+
+            // Start the automatic image change
+            function startStepImageAutoChange() {
+                // Clear any existing interval to prevent multiple intervals running
+                if (stepImageInterval) clearInterval(stepImageInterval);
+                stepImageInterval = setInterval(changeStepImage, 2500); // Change image every 2.5 seconds (2 to 3 sec range)
+            }
+
+            // Pause the automatic image change
+            function pauseStepImageAutoChange() {
+                if (stepImageInterval) clearInterval(stepImageInterval);
+            }
+
+            // Initially start the auto-change when the section is in view
+            const stepsSection = document.getElementById('steps-section');
+            const stepsSectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startStepImageAutoChange();
+                    } else {
+                        pauseStepImageAutoChange();
+                    }
+                });
+            }, { threshold: 0.1 }); // Observe when 10% of the section is visible
+
+            if (stepsSection) {
+                stepsSectionObserver.observe(stepsSection);
+            }
+
+
+            const stepCardObserverOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.5 // Trigger when 50% of the target is visible
+            };
+
+            const stepCardObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.dataset.delay;
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-on-scroll');
+                        }, delay);
+                        // Also update the dynamic image for steps on manual scroll
+                        const newImageSrc1 = entry.target.dataset.image;
+                        if (stepDynamicImage1 && newImageSrc1) {
+                            pauseStepImageAutoChange(); // Pause auto-change on manual scroll interaction
+                            stepDynamicImage1.classList.remove('visible'); // Start fade out
+                            setTimeout(() => {
+                                stepDynamicImage1.src = newImageSrc1;
+                                stepDynamicImage1.classList.add('visible'); // Fade in
+                                currentStepImageIndex = stepImages.indexOf(newImageSrc1); // Update index to match current image
+                                startStepImageAutoChange(); // Resume auto-change after manual update
+                            }, 300);
+                        }
+                    } else {
+                        // Optional: remove the animation class if you want them to animate in every time
+                        // entry.target.classList.remove('animate-on-scroll');
+                    }
+                });
+            }, stepCardObserverOptions);
+
+            stepCards.forEach(card => {
+                stepCardObserver.observe(card);
+            });
+
+
+            // Script for Trending Carousel
+            const trendingCarousel = document.getElementById('trending-carousel');
+            const trendingPrevButton = document.getElementById('carousel-prev');
+            const trendingNextButton = document.getElementById('carousel-next');
+
+            if (trendingCarousel && trendingPrevButton && trendingNextButton) {
+                const scrollAmount = 350;
+
+                trendingPrevButton.addEventListener('click', () => {
+                    trendingCarousel.scrollBy({
+                        left: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+
+                trendingNextButton.addEventListener('click', () => {
+                    trendingCarousel.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+
+                 // Optional: Add keyboard navigation (arrow keys)
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowLeft') {
+                        trendingCarousel.scrollBy({
+                            left: -scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    } else if (event.key === 'ArrowRight') {
+                        trendingCarousel.scrollBy({
+                            left: scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+
+            // Script for Video Modal
+            const videoModal = document.getElementById('videoModal');
+            const closeModalButton = document.getElementById('closeModal');
+            const modalVideoFrame = document.getElementById('modalVideoFrame');
+            const playButtons = document.querySelectorAll('.trending-card .play-button');
+
+            const defaultVideoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+
+            function openModal() {
+                videoModal.classList.add('open');
+                modalVideoFrame.src = defaultVideoUrl;
+            }
+
+            function closeModal() {
+                videoModal.classList.remove('open');
+                modalVideoFrame.src = '';
+            }
+
+            playButtons.forEach(button => {
+                button.addEventListener('click', openModal);
+            });
+
+            closeModalButton.addEventListener('click', closeModal);
+
+            videoModal.addEventListener('click', (event) => {
+                if (event.target === videoModal) {
+                    closeModal();
+                }
+            });
+
+            const discoverMoreButton = document.getElementById('discover-more-button');
+            if (discoverMoreButton) {
+                discoverMoreButton.style.display = 'none';
+            }
+
+            // Carousel for "Top Universities in Germany" (University Carousel)
+            const universityCarousel = document.getElementById('university-carousel-new');
+            const universityPrevButton = document.getElementById('university-carousel-prev');
+            const universityNextButton = document.getElementById('university-carousel-next');
+            const universityPaginationContainer = document.getElementById('university-carousel-pagination');
+            let universityCards = universityCarousel ? Array.from(universityCarousel.querySelectorAll('.university-card-wrapper')) : [];
+            let currentUniversitySlide = 0;
+            const slidesPerView = 2;
+            let universityAutoScrollInterval;
+            const universityScrollIntervalTime = 4000;
+
+            if (universityCarousel && universityCards.length > 0) {
+                const originalCount = universityCards.length;
+                for (let i = 0; i < slidesPerView + 1; i++) {
+                    universityCarousel.appendChild(universityCards[i].cloneNode(true));
+                }
+                for (let i = originalCount - (slidesPerView + 1); i < originalCount; i++) {
+                    universityCarousel.prepend(universityCards[i].cloneNode(true));
+                }
+                universityCards = Array.from(universityCarousel.querySelectorAll('.university-card-wrapper'));
+                universityCarousel.scrollLeft = universityCards[slidesPerView + 1].offsetLeft;
+            }
+
+            function updateUniversityCarousel() {
+                if (!universityCarousel || universityCards.length === 0) return;
+
+                const firstCard = universityCards[0];
+                const cardWidth = firstCard.offsetWidth;
+                const cardMarginRight = parseFloat(getComputedStyle(firstCard).marginRight);
+                
+                universityCarousel.scrollTo({
+                    left: universityCards[currentUniversitySlide + (slidesPerView + 1)].offsetLeft,
+                    behavior: 'smooth'
+                });
+                updateUniversityPagination();
+            }
+
+            function updateUniversityPagination() {
+                if (!universityPaginationContainer || universityCards.length === 0) return;
+
+                universityPaginationContainer.innerHTML = '';
+                const totalOriginalPages = originalUniversityCards.length;
+
+                for (let i = 0; i < totalOriginalPages; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('pagination-dot');
+                    if (i === (currentUniversitySlide % totalOriginalPages)) {
+                        dot.classList.add('active');
+                    }
+                    dot.addEventListener('click', () => {
+                        currentUniversitySlide = i;
+                        updateUniversityCarousel();
+                    });
+                    universityPaginationContainer.appendChild(dot);
+                }
+            }
+
+            function startUniversityAutoScroll() {
+                if (universityAutoScrollInterval) clearInterval(universityAutoScrollInterval);
+                universityAutoScrollInterval = setInterval(() => {
+                    const firstCard = universityCards[0];
+                    const cardWidth = firstCard.offsetWidth;
+                    const cardMarginRight = parseFloat(getComputedStyle(firstCard).marginRight);
+                    const scrollDistance = cardWidth + cardMarginRight;
+
+                    universityCarousel.scrollBy({
+                        left: scrollDistance,
+                        behavior: 'smooth'
+                    });
+
+                    setTimeout(() => {
+                        const originalContentWidth = originalUniversityCards.length * (cardWidth + cardMarginRight);
+                        const currentScroll = universityCarousel.scrollLeft;
+                        const resetPoint = originalUniversityCards.length * (cardWidth + cardMarginRight);
+
+                        if (currentScroll >= universityCards[originalUniversityCards.length + (slidesPerView + 1) -1].offsetLeft) {
+                             universityCarousel.scrollLeft = universityCards[slidesPerView + 1].offsetLeft;
+                        }
+                        currentUniversitySlide = (currentUniversitySlide + 1) % originalUniversityCards.length;
+                        updateUniversityPagination();
+                    }, 600);
+                }, universityScrollIntervalTime);
+            }
+
+            function pauseUniversityAutoScroll() {
+                clearInterval(universityAutoScrollInterval);
+            }
+            
+            const originalUniversityCards = universityCarousel ? Array.from(universityCarousel.querySelectorAll('.university-card-wrapper')) : [];
+
+
+            if (universityPrevButton) {
+                universityPrevButton.addEventListener('click', () => {
+                    pauseUniversityAutoScroll();
+                    const firstCard = universityCards[0];
+                    const cardWidth = firstCard.offsetWidth;
+                    const cardMarginRight = parseFloat(getComputedStyle(firstCard).marginRight);
+                    const scrollDistance = cardWidth + cardMarginRight;
+                    universityCarousel.scrollBy({
+                        left: -scrollDistance,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(() => {
+                        const currentScroll = universityCarousel.scrollLeft;
+                        if (currentScroll <= universityCards[slidesPerView + 1].offsetLeft + 10) {
+                            universityCarousel.scrollLeft = universityCards[universityCards.length - (slidesPerView + 1) * 2].offsetLeft;
+                        }
+                         currentUniversitySlide = (currentUniversitySlide - 1 + originalUniversityCards.length) % originalUniversityCards.length;
+                        updateUniversityPagination();
+                        startUniversityAutoScroll();
+                    }, 600);
+                });
+            }
+
+            if (universityNextButton) {
+                universityNextButton.addEventListener('click', () => {
+                    pauseUniversityAutoScroll();
+                    const firstCard = universityCards[0];
+                    const cardWidth = firstCard.offsetWidth;
+                    const cardMarginRight = parseFloat(getComputedStyle(firstCard).marginRight);
+                    const scrollDistance = cardWidth + cardMarginRight;
+                     universityCarousel.scrollBy({
+                        left: scrollDistance,
+                        behavior: 'smooth'
+                    });
+                     setTimeout(() => {
+                        const currentScroll = universityCarousel.scrollLeft;
+                        if (currentScroll >= universityCards[originalUniversityCards.length + (slidesPerView + 1)].offsetLeft - 10) {
+                             universityCarousel.scrollLeft = universityCards[slidesPerView + 1].offsetLeft;
+                        }
+                        currentUniversitySlide = (currentUniversitySlide + 1) % originalUniversityCards.length;
+                        updateUniversityPagination();
+                        startUniversityAutoScroll();
+                    }, 600);
+                });
+            }
+
+            if (universityCarousel) {
+                setTimeout(() => {
+                    universityCarousel.scrollLeft = universityCards[slidesPerView + 1].offsetLeft;
+                    updateUniversityPagination();
+                    startUniversityAutoScroll();
+                }, 100);
+
+
+                universityCarousel.addEventListener('scroll', () => {
+                    clearTimeout(universityCarousel._styleUpdateTimeout);
+                    universityCarousel._styleUpdateTimeout = setTimeout(() => {
+                        const firstCard = universityCards[0];
+                        const cardWidth = firstCard.offsetWidth;
+                        const cardMarginRight = parseFloat(getComputedStyle(firstCard).marginRight);
+                        const scrollPosition = universityCarousel.scrollLeft;
+                        const newSlideIndex = Math.round((scrollPosition - universityCards[slidesPerView + 1].offsetLeft) / (cardWidth + cardMarginRight));
+                        currentUniversitySlide = (newSlideIndex + originalUniversityCards.length) % originalUniversityCards.length;
+                        updateUniversityPagination();
+
+                        if (universityCarousel.scrollLeft >= universityCards[originalUniversityCards.length + (slidesPerView + 1)].offsetLeft) {
+                            universityCarousel.scrollLeft = universityCards[slidesPerView + 1].offsetLeft;
+                        } else if (universityCarousel.scrollLeft <= universityCards[slidesPerView].offsetLeft) {
+                            universityCarousel.scrollLeft = universityCards[originalUniversityCards.length + (slidesPerView)].offsetLeft;
+                        }
+
+                    }, 150);
+                });
+
+                universityCarousel.addEventListener('mouseenter', pauseUniversityAutoScroll);
+                universityCarousel.addEventListener('mouseleave', startUniversityAutoScroll);
+                window.addEventListener('resize', () => {
+                     universityCards = Array.from(universityCarousel.querySelectorAll('.university-card-wrapper'));
+                     universityCarousel.scrollLeft = universityCards[slidesPerView + 1].offsetLeft;
+                     updateUniversityPagination();
+                });
+            }
+
+
+            // START: Dynamic Animation for "Our Comprehensive Services" (Timeline Version)
+            const servicesTimelineCarousel = document.getElementById('services-timeline-carousel');
+            const servicesPrevBtn = document.getElementById('services-carousel-prev');
+            const servicesNextBtn = document.getElementById('services-carousel-next');
+
+            const originalTimelineItemWrappers = servicesTimelineCarousel ? Array.from(servicesTimelineCarousel.querySelectorAll('.timeline-item-wrapper')) : [];
+            let servicesTimelineAutoScrollInterval;
+            const scrollIntervalTime = 2500;
+            const timelineClonesToBuffer = 3;
+
+            if (servicesTimelineCarousel && originalTimelineItemWrappers.length > 0) {
+                for (let i = 0; i < timelineClonesToBuffer; i++) {
+                    const clone = originalTimelineItemWrappers[i].cloneNode(true);
+                    servicesTimelineCarousel.appendChild(clone);
+                }
+                for (let i = originalTimelineItemWrappers.length - timelineClonesToBuffer; i < originalTimelineItemWrappers.length; i++) {
+                    const clone = originalTimelineItemWrappers[i].cloneNode(true);
+                    servicesTimelineCarousel.prepend(clone);
+                }
+                
+                let allTimelineItemWrappers = Array.from(servicesTimelineCarousel.getElementsByClassName('timeline-item-wrapper'));
+
+                setTimeout(() => {
+                    const firstOriginalItemElement = allTimelineItemWrappers[timelineClonesToBuffer];
+                    if (firstOriginalItemElement) {
+                        servicesTimelineCarousel.scrollLeft = firstOriginalItemElement.offsetLeft;
+                        updateServiceTimelineStyles();
+                    }
+                }, 100);
+            }
+
+            function updateServiceTimelineStyles() {
+                if (!servicesTimelineCarousel || originalTimelineItemWrappers.length === 0) return;
+
+                const carouselRect = servicesTimelineCarousel.getBoundingClientRect();
+                const visibleCenter = servicesTimelineCarousel.scrollLeft + (carouselRect.width / 2);
+
+                const currentAllTimelineItems = Array.from(servicesTimelineCarousel.getElementsByClassName('timeline-item-wrapper'));
+
+                currentAllTimelineItems.forEach(itemWrapper => {
+                    const card = itemWrapper.querySelector('.service-single-card');
+                    const marker = itemWrapper.querySelector('.timeline-marker');
+                    if (!card || !marker) return;
+
+                    const itemRect = itemWrapper.getBoundingClientRect();
+                    const itemCenterScrollPosition = itemWrapper.offsetLeft + (itemRect.width / 2);
+                    
+                    const distanceFromVisibleCenter = Math.abs(itemCenterScrollPosition - visibleCenter);
+
+                    const maxInfluenceDistance = carouselRect.width * 0.4;
+
+                    let scale = 1;
+                    let opacity = 1;
+                    let shadowIntensity = 0.08;
+                    let zIndex = 1;
+                    let markerBorderWidth = 4;
+                    let markerBgColor = '#3b82f6';
+
+                    if (distanceFromVisibleCenter < maxInfluenceDistance) {
+                        const normalizedDistance = distanceFromVisibleCenter / maxInfluenceDistance;
+                        const maxCardScale = 1.08;
+                        const minCardScale = 0.85;
+
+                        const influenceFactor = 1 - Math.pow(normalizedDistance, 2);
+                        
+                        scale = minCardScale + (maxCardScale - minCardScale) * influenceFactor;
+                        opacity = 0.5 + (0.5 * influenceFactor);
+                        shadowIntensity = 0.05 + (0.15 - 0.05) * influenceFactor;
+                        zIndex = Math.round(100 - (90 * normalizedDistance));
+
+                        markerBorderWidth = 6 + (2 * influenceFactor);
+                        markerBgColor = `hsl(215, 80%, ${50 + (20 * influenceFactor)}%)`;
+                    } else {
+                        scale = 0.85;
+                        opacity = 0.5;
+                        shadowIntensity = 0.05;
+                        zIndex = 1;
+                        markerBorderWidth = 4;
+                        markerBgColor = '#3b82f6';
+                    }
+
+                    card.style.transform = `scale(${scale})`;
+                    card.style.boxShadow = `0 ${Math.round(10 * scale)}px ${Math.round(25 * scale)}px rgba(0, 0, 0, ${shadowIntensity})`;
+                    card.style.opacity = opacity;
+                    card.style.zIndex = zIndex;
+
+                    marker.style.borderColor = `rgba(247, 249, 252, ${opacity})`;
+                    marker.style.backgroundColor = markerBgColor;
+                    marker.style.boxShadow = `0 0 0 ${markerBorderWidth}px ${markerBgColor}`;
+                });
+            }
+
+            let isServicesSmoothScrolling = false;
+
+            function scrollToNextServiceItem() {
+                if (isServicesSmoothScrolling || !servicesTimelineCarousel || originalTimelineItemWrappers.length === 0) return;
+
+                const currentAllTimelineItems = Array.from(servicesTimelineCarousel.getElementsByClassName('timeline-item-wrapper'));
+                const firstOriginalItemElement = currentAllTimelineItems[timelineClonesToBuffer];
+                
+                if (!firstOriginalItemElement) return;
+
+                const itemWidthWithMargin = firstOriginalItemElement.offsetWidth + parseFloat(getComputedStyle(firstOriginalItemElement).marginRight) * 2;
+                let targetScrollLeft = servicesTimelineCarousel.scrollLeft + itemWidthWithMargin;
+
+                isServicesSmoothScrolling = true;
+                
+                servicesTimelineCarousel.scrollTo({
+                    left: targetScrollLeft,
+                    behavior: 'smooth'
+                });
+
+                setTimeout(() => {
+                    const carouselScrollWidth = servicesTimelineCarousel.scrollWidth;
+                    const carouselClientWidth = servicesTimelineCarousel.clientWidth;
+
+                    const totalOriginalWidth = originalTimelineItemWrappers.length * itemWidthWithMargin;
+                    const currentScrollPosition = servicesTimelineCarousel.scrollLeft;
+
+                    if (currentScrollPosition >= (firstOriginalItemElement.offsetLeft + originalTimelineItemWrappers.length * itemWidthWithMargin - carouselClientWidth / 2)) {
+                        servicesTimelineCarousel.scrollLeft = allTimelineItemWrappers[timelineClonesToBuffer].offsetLeft;
+                    }
+                    
+                    updateServiceTimelineStyles();
+                    isServicesSmoothScrolling = false;
+                }, 300);
+            }
+
+            function scrollToPrevServiceItem() {
+                if (isServicesSmoothScrolling || !servicesTimelineCarousel || originalTimelineItemWrappers.length === 0) return;
+
+                const currentAllTimelineItems = Array.from(servicesTimelineCarousel.getElementsByClassName('timeline-item-wrapper'));
+                const firstOriginalItemElement = currentAllTimelineItems[timelineClonesToBuffer];
+                if (!firstOriginalItemElement) return;
+
+                const itemWidthWithMargin = firstOriginalItemElement.offsetWidth + parseFloat(getComputedStyle(firstOriginalItemElement).marginRight) * 2;
+                let targetScrollLeft = servicesTimelineCarousel.scrollLeft - itemWidthWithMargin;
+
+                isServicesSmoothScrolling = true;
+
+                servicesTimelineCarousel.scrollTo({
+                    left: targetScrollLeft,
+                    behavior: 'smooth'
+                });
+
+                setTimeout(() => {
+                    const currentScrollPosition = servicesTimelineCarousel.scrollLeft;
+                    const offsetOfFirstOriginal = allTimelineItemWrappers[timelineClonesToBuffer].offsetLeft;
+                    const offsetOfLastOriginal = allTimelineItemWrappers[allTimelineItemWrappers.length - timelineClonesToBuffer -1].offsetLeft;
+
+                    if (currentScrollPosition <= (offsetOfFirstOriginal - itemWidthWithMargin + 10)) {
+                        servicesTimelineCarousel.scrollLeft = offsetOfLastOriginal;
+                    }
+                    updateServiceTimelineStyles();
+                    isServicesSmoothScrolling = false;
+                }, 300);
+            }
+            
+            function startServicesTimelineAutoScroll() {
+                if (servicesTimelineAutoScrollInterval) clearInterval(servicesTimelineAutoScrollInterval);
+                servicesTimelineAutoScrollInterval = setInterval(scrollToNextServiceItem, scrollIntervalTime);
+            }
+
+            function pauseServicesTimelineAutoScroll() {
+                clearInterval(servicesTimelineAutoScrollInterval);
+            }
+
+            if (servicesTimelineCarousel) {
+                if (servicesPrevBtn) {
+                    servicesPrevBtn.addEventListener('click', () => {
+                        pauseServicesTimelineAutoScroll();
+                        scrollToPrevServiceItem();
+                        startServicesTimelineAutoScroll();
+                    });
+                }
+                if (servicesNextBtn) {
+                    servicesNextBtn.addEventListener('click', () => {
+                        pauseServicesTimelineAutoScroll();
+                        scrollToNextServiceItem();
+                        startServicesTimelineAutoScroll();
+                    });
+                }
+
+                servicesTimelineCarousel.addEventListener('scroll', () => {
+                    clearTimeout(servicesTimelineCarousel._styleUpdateTimeout);
+                    servicesTimelineCarousel._styleUpdateTimeout = setTimeout(updateServiceTimelineStyles, 50);
+                });
+
+                servicesTimelineCarousel.addEventListener('mouseenter', pauseServicesTimelineAutoScroll);
+                servicesTimelineCarousel.addEventListener('mouseleave', startServicesTimelineAutoScroll);
+                
+                startServicesTimelineAutoScroll();
+            }
+
+            // Floating Side Menu Logic (DOTS VERSION)
+            const floatingSideMenu = document.getElementById('floating-side-menu');
+            let scrollTimeout;
+            const autoHideDelay = 5000; // 5 seconds
+
+            const sections = [
+                { id: 'our-services', title: 'Our Services' },
+                { id: 'steps-section', title: '4 Steps To Dream' },
+                { id: 'why-germany-section', title: 'Why Germany?' },
+                { id: 'trending-section', title: 'Dynamic Trends' },
+                { id: 'university-section', title: 'Top Universities' },
+                { id: 'part-time-careers-section', title: 'Build Your Career' },
+                { id: 'cost-of-living-section', title: 'Cost of Living' },
+                { id: 'faqs-section', title: 'FAQs' }
+            ];
+
+            // Ensure all sections have an ID for targeting
+            document.getElementById('our-services').id = 'our-services';
+            document.getElementById('steps-section').id = 'steps-section';
+            document.querySelector('.why-germany-section').id = 'why-germany-section';
+            document.getElementById('trending-section').id = 'trending-section';
+            document.querySelector('.py-16.bg-gradient-to-tr.from-white.to-blue-50').id = 'university-section';
+            document.getElementById('part-time-careers-section').id = 'part-time-careers-section';
+            document.getElementById('cost-of-living-section').id = 'cost-of-living-section';
+            document.getElementById('faqs-section').id = 'faqs-section';
+
+
+            function generateSideMenuBubbles() {
+                if (!floatingSideMenu) return;
+
+                floatingSideMenu.innerHTML = ''; // Clear existing items
+                sections.forEach((section) => {
+                    const menuItem = document.createElement('div');
+                    menuItem.classList.add('side-menu-item');
+                    menuItem.dataset.sectionId = section.id;
+
+                    const dot = document.createElement('div');
+                    dot.classList.add('side-menu-dot');
+                    menuItem.appendChild(dot);
+
+                    const label = document.createElement('span');
+                    label.classList.add('side-menu-label');
+                    label.textContent = section.title;
+                    menuItem.appendChild(label);
+
+                    // Click event to scroll
+                    menuItem.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetSection = document.getElementById(section.id);
+                        if (targetSection) {
+                            const headerOffset = document.querySelector('header').offsetHeight;
+                            const elementPosition = targetSection.getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({
+                                top: elementPosition - headerOffset - 20, // Offset for header and extra padding
+                                behavior: 'smooth'
+                            });
+                            showSideMenu(); // Ensure menu is visible after clicking
+                            resetHideTimer(); // Reset timer after interaction
+                        }
+                    });
+
+                    floatingSideMenu.appendChild(menuItem);
+                });
+            }
+
+            function showSideMenu() {
+                floatingSideMenu.style.opacity = '1';
+                floatingSideMenu.style.pointerEvents = 'auto';
+            }
+
+            function hideSideMenu() {
+                floatingSideMenu.style.opacity = '0';
+                floatingSideMenu.style.pointerEvents = 'none';
+            }
+
+            function resetHideTimer() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(hideSideMenu, autoHideDelay);
+            }
+
+            function updateActiveBubbleAndMenuVisibility() {
+                const ourServicesSection = document.getElementById('our-services');
+                const faqsSection = document.getElementById('faqs-section');
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const currentScrollY = window.scrollY;
+
+                if (!ourServicesSection || !faqsSection) {
+                    hideSideMenu();
+                    return;
+                }
+
+                const servicesTop = ourServicesSection.offsetTop;
+                const faqsBottom = faqsSection.offsetTop + faqsSection.offsetHeight;
+
+                // Define the scroll range where the menu should be visible
+                // Menu appears when the top of "Our Services" section is 150px below the header,
+                // and hides when the bottom of "FAQs" section is 100px from the bottom of the viewport
+                const menuStartScroll = servicesTop - headerHeight - 150;
+                const menuEndScroll = faqsBottom - window.innerHeight + 100;
+
+                const isWithinVisibilityRange = currentScrollY >= menuStartScroll && currentScrollY <= menuEndScroll;
+
+                if (isWithinVisibilityRange) {
+                    showSideMenu();
+                    // Reset timer only if we are actively scrolling or just entered the range
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(hideSideMenu, autoHideDelay);
+                } else {
+                    hideSideMenu(); // Immediately hide if outside range
+                    clearTimeout(scrollTimeout); // Clear any pending hide timer
+                }
+
+                // Update active bubble logic
+                let closestSectionId = null;
+                let minDistance = Infinity;
+                
+                // Determine a viewport reference point, e.g., 25% down the viewport
+                const viewportCenter = currentScrollY + (window.innerHeight * 0.25); 
+
+                sections.forEach(section => {
+                    const el = document.getElementById(section.id);
+                    if (el) {
+                        const sectionTop = el.offsetTop;
+                        const sectionBottom = el.offsetTop + el.offsetHeight;
+
+                        // Check if the viewport reference point is within the section boundaries
+                        if (viewportCenter >= sectionTop && viewportCenter < sectionBottom) {
+                            closestSectionId = section.id;
+                        }
+                    }
+                });
+
+                document.querySelectorAll('.side-menu-item').forEach(item => {
+                    if (item.dataset.sectionId === closestSectionId) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+
+            // Event Listeners for Floating Side Menu
+            window.addEventListener('scroll', () => {
+                updateActiveBubbleAndMenuVisibility();
+            });
+
+            // Initial setup on page load
+            generateSideMenuBubbles();
+            updateActiveBubbleAndMenuVisibility(); // Set initial visibility and active bubble
+            resetHideTimer(); // Start initial hide timer for immediate hide on no scroll
+
+            // Also trigger update on resize to recalculate offsets
+            window.addEventListener('resize', () => {
+                updateActiveBubbleAndMenuVisibility();
+            });
+        });
+    </script>
+</body>
+</html>
